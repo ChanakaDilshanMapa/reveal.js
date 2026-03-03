@@ -1,0 +1,1436 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Efficient Approximations to Local Coupled Cluster Methods</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/res4841et.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+    
+	<style>
+		:root {
+			--rpi-burgundy: #8b0000;
+			--light-bg: #f5f5f5;
+			--dark-text: #333;
+			--math-font-size: 0.6em;
+		}
+		
+		.reveal {
+			font-family: 'STIX Two Text', serif;
+			background-color: var(--light-bg);
+			color: var(--dark-text);
+		}
+		
+		/* Title slide */
+		.reveal .title-slide {
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			padding: 8rem;
+			box-sizing: border-box;
+		}
+		
+		.reveal .title-slide .title {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+			line-height: 1.0;
+			max-width: 900px;
+			color: var(--dark-text);
+		}        
+		
+		.reveal .title-slide .authors {
+			font-size: 1.3rem;
+			margin-bottom: 4.5rem;
+			color: var(--dark-text);			  
+		}
+		
+		.reveal .title-slide .presenter {
+			font-size: 1.8rem;
+			margin-bottom: 0.5rem;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .advisor {
+			font-size: 1.1rem;
+			margin-bottom: 0.5rem;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .affiliation {
+			font-size: 1.1rem;
+			margin-bottom: 1rem;
+			font-style: italic;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .date {
+			font-size: 1rem;
+			margin-top: 2rem;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .logo {
+			max-height: 100px;
+			margin-top: 2rem;
+		}
+		
+		/* Content slides */
+		.reveal .slide {
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			text-align: left;
+			padding: 2rem;
+			box-sizing: border-box;
+		}
+		
+		.reveal .slide .title {
+			text-align: left;
+			font-weight: 100;
+			margin-bottom: 0.5em;
+			border-bottom: 1px solid #221e1e;
+			padding-bottom: 0.0em;
+		}
+
+		.reveal .slide .subtitle {
+			text-align: left;
+			font-weight: 60;
+			margin-bottom: 1.2em;			
+		}
+		
+		.reveal .slide .outline {
+			font-size: 1.4rem;
+			line-height: 1.6;
+		}
+		
+		.reveal .outline li {
+			margin-bottom: 1.0rem;
+		}
+	
+		.reveal .slide .suboutline {
+			font-size: 1.2rem;
+			line-height: 1.6;
+		}
+	
+		.reveal .slide .suboutline li {
+			margin-bottom: 0.5rem;
+		}
+		
+		
+		/* Math content styles */
+		.reveal .math-content {
+			width: 100%;
+			margin: 0 auto;
+		}
+
+		.reveal .math-content .math-block {
+        margin-bottom: 1.5rem;
+        }
+
+		.reveal .math-content .math-title {
+        margin-bottom: 0.0rem;
+		font-size: 1.0rem;    
+    	}
+								
+		.reveal .math-content .math-equation {
+			text-align: left;
+			margin: 1rem 0;
+			font-family: 'STIX Two Math';
+			font-size: var(--math-font-size);
+		}
+
+		.reveal .math-content .math-equation-small {
+			text-align: left;
+			margin: 1rem 0;
+			font-family: 'STIX Two Math';
+			font-size: 0.4em;
+		}
+		
+		.reveal .math-content .math-explanation {
+			margin-left: 2rem;
+			margin-bottom: 1rem;
+			font-size: 1.0rem;
+		}
+		
+		.reveal .footer {
+			position: absolute;
+			bottom: 25px;
+			width: calc(100% - 40px);
+			display: flex;
+			justify-content: space-between;
+			font-size: 0.8rem;
+			color: #555;
+		}
+		
+		.reveal .footer .logo {
+			height: 60px;
+		}
+		
+		.reveal .slide-number {
+		}
+
+		/* Style for the references footer */
+		.references-footer {
+			position: absolute;
+			bottom: 25px;
+			width: calc(100% - 40px);
+			margin-top: 15px;
+			font-size: 0.4em !important;  /* Smaller than current 0.5em */
+			line-height: 1.3;
+			border-top: 1px solid #221e1e;
+			padding-top: 0px;
+		}
+
+		/* Superscript style for citation numbers */
+		.superscript-citation {
+			font-size: 0.7em;    /* Slightly smaller than surrounding text */
+			vertical-align: super;
+			line-height: 0;      /* Prevents line spacing issues */
+			margin-left: 2px;    /* Small space before citation */
+		}
+
+		/* Make the "References:" label smaller */
+		.references-label {
+			font-size: 0.9em;    /* Relative to the 0.4em parent */
+		}
+
+		/* Optional: Make the reference text more compact */
+		.reference-entry {
+			margin-bottom: 8px !important;
+		}
+		
+	</style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section class="title-slide" data-background="rgb(209, 225, 214)">
+                <div class="title">An Efficient and Near Linear Scaling Pair Natural Based Local Coupled Cluster Methods</div>
+                <div class="authors">Christoph Riplinger, Frank Neese</div>
+                <div class="presenter">Chanaka Mapa Mudiyanselage</div>
+                <div class="advisor">Advisor: Prof. Fabian Maximilian Faulstich</div>
+                <div class="affiliation">Department of Mathematics, RPI</div>
+                <div class="date">April 16, 2025</div>
+                <img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+            </section>
+
+            <!-- Outline Slide -->
+            <section class="slide" data-background="rgb(209, 225, 214)">
+                <div class="title">Presentation Outline</div>
+                <ol class="outline">
+                    <li>Correlation</li>                  											
+                    <li>CC theory and scaling</li>
+					<li>Internal space and Virtual space</li>
+					<li>Localization in internal space</li>
+					<ol class="suboutline">
+						<li>Unitary transformation</li>						
+						<li>Foster-Boys</li>												
+					</ol>
+					<li>Localization in virtual space</li>
+					<ol class="suboutline">
+						<li>Challenges</li>					
+						<li>PNOs, LPNOs and DL-PNOs</li>						
+					</ol>
+					<li>Christoph's and Frank's work</li>
+					<!--<li>N-particle system</li>-->
+				</ol>
+                <div class="footer">
+                    <div>April 16, 2025</div>
+                    <img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+                    <div>Department of Mathematics</div>
+                </div>
+            </section>
+			
+			<section>
+				<!-- Correlation -->
+				<section class="slide" data-background="rgb(209, 225, 214)">									 				
+					<div class="title">Correlation</div>	
+						<ol class="outline">
+						<li>Correlation effects</li>
+							<ol class="suboutline">
+								<li>Arises from "instantaneous" electron-electron interactions<sup class="superscript-citation">[1]</sup>.</li>
+								<li>This is in the post HF-methods (i.e to improve the HF-solution).</li>
+								<li>The energetic correction to the HF-energy referred to the correlation energy.</li>							
+							</ol>					
+						<li>What is HF is missing?</li>
+							<div class="math-content">
+								<div class="math-explanation">The HF is a mean field approximation, where we assume each electron moves in an average potential created by the  other electrons. However, in reality, </div>
+							</div>
+							<ol class="suboutline">
+								<li>Electrons avoid each other dynamically. This is called the dynamical correlation.</li>
+								<li>When electrons occupy near de-generate orbitals there is a static correlation.</li>							
+							</ol>	
+						</ol>
+						
+					<!-- References section - Modified version -->
+					<div class="references-footer">    
+						<p class="reference-entry">[1] F. Neese, "Local Correlation Methods: From Theory to Implementation", <em>ESQC Lecture</em> (2022). <span style="color: #555; font-size: 0.9em;">https://www.esqc.org/lectures/ESQC22-Neese-Local-Correlation.pdf</span></p>
+					</div>
+
+						
+				</section>
+				
+				<!-- Analogy about correlation -->
+				<section class="slide" data-background="rgb(209, 225, 214)">									 				
+					<div class="title">Analogy about correlation</div>							
+						<div class="math-content">
+							<div class="math-explanation">Imagine taking a photo of a crowded room where people avoid standing too close,</div>
+						</div>
+						<ol class="suboutline">
+							<li><strong>HF photo:</strong> Shows people evenly spaced (average view), but some appear unnaturally close</li>
+							<li><strong>Correction (Correlation effect) photo:</strong> Add photos where some people step aside (excitations) to subtract the unrealistic crowding.</li>
+							<li><strong>Final (ground state or exact state) photo:</strong> The combination of these photos gives the true arrangement </li>							
+						</ol>
+						
+						<div style="margin-top: 1.0em;"></div>
+    
+						<div class="math-content">
+							<div class="math-title">Mathematically,</div>
+							<div class="math-equation">
+								\[
+								E_{\text{exact}} = E_{\text{HF}} + E_{\text{Corr}} 
+								\]
+							</div>
+							<div class="math-explanation">Note that, $E_{\text{HF}}$ is always negative. It is an overestimation.</div>					
+						<div class="footer">
+							<div>April 16, 2025</div>
+							<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+							<div>Department of Mathematics</div>
+						</div>
+				</section>	
+				
+				<!-- Why we need to take the correlation in to the account? -->
+				<section class="slide" data-background="rgb(209, 225, 214)">									 				
+					<div class="title">Why correlation is important?</div>	
+						<ol class="outline">
+						<li>HF wave function</li>
+						<div class="math-content">
+							<div class="math-explanation">In HF, we assume the wave function is well described by single slater determinant.</div>
+							<div class="math-equation" style="font-size: 1.2em;">
+								\[
+								| \Psi_{\text{HF}} \rangle = | \phi_1 \phi_2 \cdots \phi_N \rangle 
+								\]							
+							</div>
+							<div class="math-explanation">where $\phi_i$ are the occupied molecular orbitals. This is single configuration of electrons in orbitals.</div>	
+						</div>												
+						<li>Correlated wave function</li>
+						<div class="math-content">
+							<div class="math-explanation">In reality, the wave function is of the form,</div>
+							<div class="math-equation" style="font-size: 1.2em;">
+								\[
+								| \Psi_{\text{Corr}} \rangle = C_0 | \phi_1 \phi_2 \cdots \phi_N \rangle + C_1 | \phi'_1 \phi'_2 \cdots \phi'_N \rangle + \cdots
+								\]							
+							</div>
+							<div class="math-explanation">where $\phi'_i$ is an alternative configuration. HF ignores these terms and cause <strong>errors. This is the reason why we need to take correlation into the account.</strong></div>	
+						</div>						
+						<div class="footer">
+							<div>April 16, 2025</div>
+							<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+							<div>Department of Mathematics</div>
+						</div>
+				</section>
+
+				<!-- Suitable candidate methods -->			
+			<section class="slide" data-background="rgb(209, 225, 214)">
+				<div class="title">Suitable candidate methods</div>
+				<ol class="outline">
+					<li>If other coefficients corresponding to correlations are "fast decaying" (Weakly correlated systems), HF is the best candidate</li>
+					<li>If other coefficients corresponding to correlations are "not decaying but small" (strongly dynamically correlated systems)</li>
+						<ol class="suboutline">
+							<li>MP2</li>
+							<li>MP4</li>
+							<li>CISD-methods</li>
+							<li><strong>CC-methods</strong></li>															
+						</ol>					
+					<li>If there's dominant contributions other than the the HF coefficient (strongly statically correlated systems, i.e HOMO -LUMO gap approaches zero)</li>
+						<ol class="suboutline">
+							<li>DMRG</li>
+							<li>HF (anealing + otter tricks)</li>																
+						</ol>
+				</ol>
+				<div class="footer">
+					<div>April 16, 2025</div>
+					<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+					<div>Department of Mathematics</div>
+				</div>
+			</section>
+			</section>							
+
+			<section>
+				<!-- Couple Cluster theory -->
+				<section class="slide" data-background="rgb(209, 225, 214)">
+					<!-- CC ansatz -->
+					<div class="title">Coupled Cluster Theory</div>
+					<div class="math-content">
+						<!-- CC Ansatz -->
+						<div class="math-title">Coupled Cluster Ansatz</div>
+						<div class="math-equation">
+							\[
+							| \Psi_{\text{CC}} \rangle = e^T | \Psi_0 \rangle
+							\]
+						</div>
+						<div class="math-explanation">
+							where the cluster operator \(T = T_1 + T_2 + \cdots\) and
+						</div>
+						<div class="math-equation">
+							\[
+							T_1 = \sum_{i = 1}^{N_{\text{occ}}} \sum_{a = 1}^{N_{\text{vir}}} t_i^a a_a^\dagger a_i \quad , \quad T_2 = \frac{1}{4} \sum_{i, j = 1}^{N_{\text{occ}}} \sum_{a, b = 1}^{N_{\text{vir}}} t_{ij}^{ab} a_a^\dagger a_b^\dagger a_j a_i 
+							\]							
+						</div>
+						<div class="math-explanation">
+							where $i,j,k,...$ represents occupied orbitals and $a,b,c,...$ virtual orbitals.
+						</div>
+						
+						<!-- CC Energy -->
+						<div class="math-title">CC Energy Equation</div>
+						<div class="math-equation">
+							\[ E_{\text{CC}} = \langle \Psi_0 |e^{-T} H e^T | \Psi_0 \rangle \]
+						</div>												
+						
+						<!-- Residual Equations -->
+						<div class="math-title">Residual/amplitude Equations</div>
+						<div class="math-equation">
+							\[ R_{\mu} = \langle \Psi_{\mu} | e^{-T} H e^T | \Psi_0 \rangle = 0 \]
+						</div>					
+					</div>
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>						
+				</section>
+				
+				<!-- CCSD energy equations -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">CCSD energy equations</div>
+					<div class="math-content">
+						<!-- CC Ansatz -->
+						<div class="math-equation">
+							\[ E_{\text{CCSD}} = \langle \Psi_0 |e^{-T_{SD}} H e^{T_{SD}} | \Psi_0 \rangle \]
+						</div>
+						<div class="math-explanation">where the two body Hamiltonian given as</div>	
+						<div class="math-equation">								
+							\[								
+							H = \sum_{pq} h_{p}^{q} \, a_{p}^{\dagger} a_{q} 
+							+ \frac{1}{4} \sum_{pqrs} \langle pq || rs \rangle \, a_{p}^{\dagger} a_{q}^{\dagger} a_{s} a_{r}
+							\]		
+						</div>
+						<div class="math-explanation">Then we can have the expanded energy equation as as,</div>	
+						<div class="math-equation">
+							\[
+							\begin{aligned} 							
+							E_{\text{corr}} = \sum_{ia} h_i^a \, t_i^a 
+							+ \frac{1}{4} \sum_{ijab} \langle ij || ab \rangle \, t_{ij}^{ab} 
+							+ \frac{1}{2} \sum_{ijab} \langle ij || ab \rangle \, t_i^a \, t_j^b
+							
+							\end{aligned}
+							\]
+						</div>									
+					</div>
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+
+				<!-- CCSD singles amp equations -->
+				<section class="slide" data-background="rgb(209, 225, 214)">					
+						<div class="title">CCSD singles amplitude equations</div>
+						<div class="math-content">							
+							<div class="math-equation">
+								\[ R_i^a = \langle \Psi_i^a | e^{-T_{SD}} H e^{T_{SD}} | \Psi_0 \rangle = 0 \]								
+							</div>
+							<div class="math-explanation">With the two body Hamiltonian above we can have the expanded singles amplitude equation as as,</div>								
+							<div class="math-equation-small">
+								\[
+								\begin{aligned}
+								0 = & \; h_a^i \nonumber \\
+								& + \sum_b h_a^b \, t_i^b - \sum_j h_j^i \, t_j^a \nonumber \\
+								& + \sum_{jb} \langle aj || ib \rangle \, t_j^b \nonumber \\
+								& + \sum_{jbc} \langle aj || bc \rangle \, t_{ij}^{bc} - \sum_{jkb} \langle jk || ib \rangle \, t_{jk}^{ab} \nonumber \\
+								& + \frac{1}{2} \sum_{jkbc} \langle jk || bc \rangle \, t_i^b \, t_{jk}^{ac} - \sum_{jkbc} \langle jk || bc \rangle \, t_j^a \, t_{ik}^{bc} \nonumber \\
+								& + \sum_{jbc} \langle aj || bc \rangle \, t_j^b \, t_i^c - \sum_{jkb} \langle jk || ib \rangle \, t_j^a \, t_k^b
+								\end{aligned}
+								\]
+							</div>									
+						</div>
+						
+						<div class="footer">
+							<div>April 16, 2025</div>
+							<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+							<div>Department of Mathematics</div>
+						</div>
+					</section>
+
+					<!-- CCSD doubles amp equations -->
+					<section class="slide" data-background="rgb(209, 225, 214)">						
+						<div class="title">CCSD doubles amplitude equations</div>
+						<div class="math-content">								
+							<div class="math-equation">								
+								\[ R_{ij}^{ab} = \langle \Psi_{ij}^{ab} | e^{-T_{SD}} H e^{T_{SD}}| \Psi_0 \rangle = 0 \]
+							</div>
+							<div class="math-explanation">With the two body Hamiltonian above we can have the expanded singles amplitude equation as as,</div>	
+							<div class="math-equation-small">
+								\[
+								\begin{aligned}
+								0 = & \; \langle ab || ij \rangle \nonumber \\
+								& + \sum_c \Big( h_a^c \, t_{ij}^{cb} - h_c^i \, t_{ij}^{ab} \Big) 
+								+ \sum_c \Big( h_b^c \, t_{ij}^{ac} - h_c^j \, t_{ij}^{ab} \Big) \nonumber \\
+								& + \frac{1}{2} \sum_{kl} \langle kl || ij \rangle \, t_{kl}^{ab} 
+								+ \frac{1}{2} \sum_{cd} \langle ab || cd \rangle \, t_{ij}^{cd} \nonumber \\
+								& + \mathcal{P}(ab) \sum_{kc} \langle ak || ic \rangle \, t_{jk}^{bc} 
+								- \mathcal{P}(ij) \sum_{kc} \langle kb || ij \rangle \, t_{ik}^{ac} \nonumber \\
+								& + \mathcal{P}(ij)\mathcal{P}(ab) \sum_{kc} \langle ak || ic \rangle \, t_j^b \, t_k^c \nonumber \\
+								& + \frac{1}{2} \sum_{klcd} \langle kl || cd \rangle \, t_{ij}^{cd} \, t_{kl}^{ab} \nonumber \\
+								& + \mathcal{P}(ab) \sum_{klcd} \langle kl || cd \rangle \, t_{ik}^{ac} \, t_{jl}^{bd} \nonumber \\
+								& - \mathcal{P}(ij) \sum_{klcd} \langle kl || cd \rangle \, t_{ik}^{ab} \, t_{jl}^{cd}
+								\end{aligned}
+								\]
+							</div>									
+						</div>
+						
+						<div class="footer">
+							<div>April 16, 2025</div>
+							<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+							<div>Department of Mathematics</div>
+						</div>
+					</section>				
+			</section>
+			
+			<section>
+				<!-- scaling of CCSD -->
+				<section class="slide" data-background="rgb(209, 225, 214)">
+					<div class="title">Scaling</div>
+						<div class="math-content">						
+							<div class="math-title">We understand that CC methods are very accurate. However, they are very expensive. Let's get some idea about scaling of CC methods</div>												
+							<table class="math-equation" style="margin: 0 auto">
+							<thead>
+								<tr>
+								<td>Method</td>
+								<td>Scaling</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+								<td>CCSD</td>
+								<td>\(\mathcal{O}(N^6)\)</td>
+								</tr>
+								<tr>
+								<td>CCSD(T)</td>
+								<td>\(\mathcal{O}(N^7)\)</td>
+								</tr>
+								<tr>
+								<td>CCSDT</td>
+								<td>\(\mathcal{O}(N^8)\)</td>
+								</tr>
+							</tbody>
+							</table>
+							<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px; text-align: center;">Table 1: Scaling of CC methods</p>
+							<div class="math-explanation">Where $N$ represents the number of basis functions. If we are using canonical CCSD $N$ represents the number of molecular orbitals.</div>
+							
+							<div class="math-title">Now let's understand this by picking a bad  guy in the CCSD equations. We see particle particle ladder term is the most expensive one in CCSD equations</div>
+							<div class="math-equation">
+								\[
+								\frac{1}{2} \sum_{cd} \langle ab || cd \rangle \, t_{ij}^{cd} 
+								\]							
+							</div>
+							<div class="math-explanation">This term scales $\mathcal{O}(N^6)$. Let's try to understand how this term scales $\mathcal{O}(N^6)$.</div>						
+						
+						<div class="footer">
+							<div>April 16, 2025</div>
+							<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+							<div>Department of Mathematics</div>
+						</div>
+				</section>	
+
+				<!-- Reducing the scale -->
+				<section class="slide" data-background="rgb(209, 225, 214)">
+					<div class="title">Reducing the scale</div>
+						<div class="math-content">							
+							<div class="math-title">Now we understand the CC-methods are very expensive and infeasible to solve for even averaged size molecule.
+							Therefore we must come up with a way to reduce the scaling.</div>
+							
+							<div style="margin-top: 1.0em;"></div>
+							
+							<div class="math-title">We can reduce the scaling by using the following methods,</div>
+							<ol class="suboutline">
+								<li><strong>Use limited number of excitations</strong></li>
+								<li><strong> Reduce the number of basis functions</strong></li>								
+								<ol class="suboutline">
+									<li>In internal space</li>
+									<li>In virtual space</li>									
+								</ol>
+								<div class="math-explanation"><strong>***These approaches are pretty much under the local correlation techniques***</strong></div>
+								<li>Use compressed integrals</li>
+								<li>Embedding theories</li>									
+							</ol>										
+						</div>	
+						<div class="footer">
+							<div>April 16, 2025</div>
+							<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+							<div>Department of Mathematics</div>
+						</div>
+				</section>		
+			</section>
+
+			<section>
+				<!-- Local Correlation -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Local Correlation</div>
+					<div class="math-content">
+						<div class="math-title">Idea: Both dynamic and static electron correlation effects are short range. 
+							Therefore, the consideration of localization is not a surprise.</div>
+							
+						<div style="margin-top: 1.0em;"></div>
+
+						<div class="math-title">The simple answer to the question "what is local correlation?" is decomposing the system (molecule) 
+							into localized regions and treating correlation dominantly within these regions and neglecting weak long range correlations.</div>
+						<div class="math-explanation">For a example: atoms, atomic orbitals, bonds, fragments, etc. (Frank calls them as chunks)</div>
+						<div class="math-title">We can see this mathematically as<sup class="superscript-citation">[1]</sup>,</div>
+						<div class="math-equation">
+							\[
+							E_{\text{corr}} = \sum_{\text{Chunks} \, K=1}^{N_K} \delta E_K \approx \sum_{\text{Chunks} 
+							\, K'=1}^{N'_K (\text{aprox. 1}) < (N_K)} \delta E_K' (\text{aprox. 2})
+							\]
+						</div>
+						<div class="math-explanation">where the chunks are above examples</div>															
+					</div>
+					
+					<!-- References section - Modified version -->
+					<div class="references-footer">    
+						<p class="reference-entry">[1] F. Neese, "Local Correlation Methods: From Theory to Implementation", <em>ESQC Lecture</em> (2022). <span style="color: #555; font-size: 0.9em;">https://www.esqc.org/lectures/ESQC22-Neese-Local-Correlation.pdf</span></p>
+					</div>
+				</section>
+
+				<!-- Picture of localized and de-localized orbitals -->
+				<section class="slide" data-background="rgb(209, 225, 214)">												
+					<div class="title">Pictorial idea about localization</div>
+					<div class="math-content">
+						<div class="math-title">Localized and de-localized molecular orbitals of the water molecule,</div> 
+					<div style="display: flex; justify-content: space-around; align-items: flex-start; margin-top: 20px;">
+						<!-- Image 1 with Caption -->
+						<div style="text-align: center; width: 40%;">
+							<img src="images/localized.png" alt="Localized orbital" style="width: 100%; border: 5px solid #9cc09b; border-radius: 20px;">
+							<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px;">Figure 1: De-localized molecular orbital<span class="superscript-citation">[2]</span></p>
+						</div>
+				
+						<!-- Image 2 with Caption -->
+						<div style="text-align: center; width: 50%;">
+							<img src="images/de-localized.png" alt="Delocalized orbital" style="width: 100%; border: 5px solid #9cc09b; border-radius: 20px;">
+							<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px;">Figure 2: Localized molecular orbital<span class="superscript-citation">[2]</span></p>
+						</div>
+					</div>
+						
+						<!-- References section - Modified version -->
+					<div class="references-footer">   
+						<p class="reference-entry">[2] [Video] "Localizing orbitals to understand chemical wavefunctions", <em>YouTube</em> (2021). <span style="color: #555; font-size: 0.9em;">https://www.youtube.com/watch?v=FC-EoWppGOo</span></p>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<!-- Internal and virtual spaces -->
+				<section class="slide" data-background="rgb(209, 225, 214)">
+					<div class="title">Internal and virtual spaces</div>
+					<ol class="outline">
+						<li>Internal space  (Occupied Space)</li>													
+						<ol class="suboutline">
+							<li>Set of occupied molecular orbitals (MOs) that are 
+								filled with electrons in the HF ground state of the system.</li>
+							<li>These orbitals are obtained from a mean-field method (like HF or DFT) and represent the 
+								"filled" states where electrons reside in the ground state.</li>									
+						</ol>
+						<li>Virtual space (Unoccupied Space)</li>
+						<ol class="suboutline">
+							<li>Set of unoccupied MOs that are not filled with electrons in the HF ground state.</li>
+							<li>These orbitals are typically higher in energy than the occupied orbitals and can be accessed through excitations.</li>															
+					</ol>						
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+
+				<!-- AOs and MOs -->
+				<section class="slide" data-background="rgb(209, 225, 214)">												
+					<div class="title">AOs and MOs</div>
+					<div class="math-content">						
+					<div style="display: flex; justify-content: space-around; align-items: flex-start; margin-top: 20px;">
+						<!-- Image 1 with Caption -->
+						<div style="text-align: center; width: 40%;">
+							<img src="images/Interfirence.jpg" alt="Localized orbital" style="width: 100%; border: 5px solid #9cc09b; border-radius: 20px;">
+							<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px;">Figure 3: Interfirence of waves functions (Atomic orbitals)<span class="superscript-citation">[3]</p>
+						</div>
+				
+						<!-- Image 2 with Caption -->
+						<div style="text-align: center; width: 50%;">
+							<img src="images/Bonding_Antibonding.jpg" alt="Delocalized orbital" style="width: 100%; border: 5px solid #9cc09b; border-radius: 20px;">
+							<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px;">Figure 4: Boding and anit-bonding MOs<span class="superscript-citation">[3]</p>
+						</div>
+					</div>
+
+					<div class="math-content">	
+						<div class="math-title">LCAO mathematically,</div>
+						<div class="math-equation">
+							\[
+							\Psi_i = \sum_{\mu=1}^{N} C_{\mu i} \Phi_\mu
+							\]
+						</div>
+						<div class="math-explanation">The molecular orbitals $\Psi_i$ are formed by combining atomic orbitals $\Phi_\mu$ 
+							where $C_{\mu i}$ are the molecular orbital coefficients.</div>
+					</div>
+						<!-- References section - Modified version -->
+						<div class="references-footer">    
+							<p class="reference-entry">[3] "Molecular Orbitals of the π-Bond", <em>Master Organic Chemistry</em> (2017). <span style="color: #555; font-size: 0.9em;">https://www.masterorganicchemistry.com/2017/02/14/molecular-orbital-pi-bond/</span></p>
+						</div>
+				</section>				
+
+				<!-- Example - Beryllium Hydride -->
+				<section class="slide" data-background="rgb(209, 225, 214)">												
+					<div class="title">Example - Beryllium Hydride</div>
+					<div class="math-content">
+					<div class="math-title">Consider,</div>
+					<div style="display: flex; justify-content: space-around; align-items: flex-start; margin-top: 20px;">
+						<!-- Image 1 with Caption -->
+						<div style="text-align: center; width: 40%;">
+							<img src="images/BeH2.jpg" alt="Localized orbital" style="width: 100%; border: 5px solid #9cc09b; border-radius: 20px;">
+							<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px;">
+								Figure 5: BeH2 Molecule<span class="superscript-citation">[3]</span>
+							</p>
+						</div>
+
+						<!-- Image 1 with Caption -->
+						<div style="text-align: center; width: 50%;">
+							<img src="images/BeH2-MO-diagram.png" alt="Localized orbital" style="width: 100%; border: 5px solid #9cc09b; border-radius: 20px;">
+							<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px;">Diagram 1: Molecular orbitals diagram for BeH2<span class="superscript-citation">[3]</span></p>
+						</div>						
+					</div>
+					<!-- References section - Modified version -->
+					<div class="references-footer">    
+						<p class="reference-entry">[3] "Molecular Orbitals of the π-Bond", <em>Master Organic Chemistry</em> (2017). <span style="color: #555; font-size: 0.9em;">https://www.masterorganicchemistry.com/2017/02/14/molecular-orbital-pi-bond/</span></p>
+					</div>
+						
+						
+				</section>
+
+			</section>
+			
+			<section>				
+				<!-- Localization in internal space -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Localization in internal space</div>
+					<div class="math-content">
+						<div class="math-title">Canonical molecular orbitals (MOs) are eigenfunctions of the Fock space and are typically delocalized over the entire molecule.
+							Localized orbitals, however, describe chemically intuitive features like,</div>
+						<ol class="suboutline">
+							<li>Core electrons (localized near nuclei).</li>
+							<li>Lone pairs (localized on specific atoms).</li>
+							<li>Bonds (localized between pairs of atoms).</li>									
+						</ol>	
+						<div style="margin-top: 1.0em;"></div>
+
+						<div class="math-title">Mathematical Framework is,</div>
+						<div class="math-explanation">First, given a set of occupied canonical molecular orbitals (MOs) \(\{ \Psi_i \}_{i=1}^{N_{\text{occ}}}\), 
+							we seek a unitary transformation \(U\) that produces localized orbitals \(\{ \psi_i \}_{i=1}^{N_{\text{occ}}}\):</div>						
+						<div class="math-equation">
+							\[
+							\psi_i = \sum_{j=1}^N U_{ji} \Psi_j
+							\]
+						</div>																			
+					</div>
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+
+				<!-- Unitary transformation -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Unitary transformation</div>
+					<div class="math-content">
+						<div class="math-title">The key idea is that a unitary transformation rotates the delocalized canonical orbitals into a new set of orbitals 
+							that are spatially localized, while preserving their orthonormality and total electron density. Here’s the intuition,</div>
+						<div class="math-explanation">Norm preservation: \(\langle \psi_i | \psi_i \rangle = 1\) (orbitals stay normalized).</div>
+						<div class="math-explanation">Orthogonality preservation: \(\langle \psi_i | \psi_j \rangle = 0\) (orbitals remain orthogonal).</div>
+						<div class="math-explanation">Total electron density unchanged: \(\sum_i |\psi_i|^2 = \sum_i |\Psi_i|^2\).</div>
+														
+						<div style="margin-top: 1.0em;"></div>
+
+						<div class="math-title">The unitary transformation optimizes a localization criterion, effectively "focusing" each orbital into a 
+							smaller spatial region. Here’re some methods,</div>
+							<ol class="suboutline">
+								<li>Foster-Boys (FB) localization.</li>
+								<li>Pipek-Mezey (PM) localization.</li>												
+							</ol>																									
+					</div>
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+
+				<!-- FB localization-->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">FB localization</div>
+					<div class="math-content">
+						<div class="math-title">Different localization methods optimize different criteria. Here we will discuss particulary about FB,</div>
+						<div class="math-explanation">Key idea is we <strong>minimize the sum of orbital variances and this leads to localized spatial spread.</strong> </div>
+						<div class="math-equation">
+							\[
+							\Omega = \sum_{i=1}^N \left( \langle \psi_i | r^2 | \psi_i \rangle - \langle \psi_i | \mathbf{r} | \psi_i \rangle^2 \right)
+							\]
+						</div>
+						<div class="math-explanation">The spread ($\Omega_i$) of an orbital $\psi_i$ measures how much its electron density is "smeared out" in space. 
+							Mathematically, it's the variance of the position operator $\mathbf{r}$ for the orbital.</div>
+						<div class="math-equation-small">
+							\[
+							\Omega_i = \langle \psi_i | r^2 | \psi_i \rangle - \langle \psi_i | \mathbf{r} | \psi_i \rangle^2
+							\]
+						</div>						
+						<div class="math-explanation">Smaller $\Omega_i$ means the orbital is more localized (electron density concentrated near its center).</div>	
+						<div class="math-title">Foster-Boys aims to minimize the sum of spreads for all occupied orbitals,</div>	
+						<div class="math-equation-small">
+							\[
+							\Omega = \sum_{i=1}^N \Omega_i
+							\]
+						</div>
+						<div class="math-explanation">This forces each orbital to, shrinks toward a point (like squeezing a balloon to reduce its volume) and 							
+							avoid overlapping tails (delocalized "fringes" of orbitals are suppressed).</div>																											
+					</div>
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+
+				<!-- FB intuiation -->
+				<section class="slide" data-background="rgb(209, 225, 214)">
+					<div class="title">FB intuiation</div>
+					<ol class="outline">						
+						<li>Chemical Interpretation</li>
+						<ol class="suboutline">
+							<li>Core electrons: Naturally localized near nuclei (tiny spread).</li>						
+							<li>Bonds: Concentrated between two atoms (small spread along the bond axis).</li>
+							<li>Lone pairs: Localized on one atom (compact, like a "lump" of density).</li>						
+						</ol>
+						<div class="math-content">							
+							<div class="math-explanation">By minimizing $\Omega$, FB transforms delocalized MOs into these chemically intuitive objects.</div>																															
+						</div>
+						<li>Analogy to Classical Physics</li>
+						<div class="math-content">							
+							<div class="math-explanation">Imagine each orbital as a probability cloud (like a blob of charge),</div>																															
+						</div>
+						<ol class="suboutline">
+							<li>Delocalized orbital: A diffuse cloud (high variance).</li>						
+							<li>Localized orbital: A tight, dense cloud (low variance).</li>													
+						</ol>
+						<div class="math-content">							
+							<div class="math-explanation">FB is like pulling the cloud’s edges inward to make it as compact as possible..</div>																															
+						</div>
+					</ol>
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+
+				<!-- Localization procedure via (FB) localization-->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Localization procedure via (FB) localization</div>
+					<div class="math-content">
+						<div class="math-title">Goal,</div>
+						<div class="math-explanation">Minimize the functional $\left(\Omega = \sum_{i=1}^N \left( \langle \psi_i | r^2 | \psi_i \rangle - \langle \psi_i | \mathbf{r} | \psi_i \rangle^2 \right)\right)$
+							This corresponds to minimizing the spread (variance) of each orbitals's position and key steps in minimization are,</div>						
+						<ol class="suboutline">
+							<li>Start with the occupied MOs (typically start with canonical HF orbitals).</li>						
+							<li>Construct the Boys functional, for each pair of localized orbitals, evaluate the orbital centers.</li>
+							<div class="math-content">							
+								<div class="math-explanation">\[\mathbf{r}_i = \langle \psi_i | \mathbf{r} | \psi_i \rangle\]</div>																															
+							</div>
+							<li>The algorithm performs pairwise Jacobi rotations among the orbitals.</li>
+							<ol class="suboutline">
+								<li>Choose a pair (i, j)</li>
+								<li>Optimize a unitary rotation matrix to reduce the spread</li>
+								<div class="math-content">							
+									<div class="math-explanation">Here, rotation matrix is $U(\theta)$</div>																																								
+								</div>
+								<li>Rotate the orbitals</li>
+								<div class="math-content">							
+									<div class="math-explanation">$\psi_i{\prime}, \psi_j{\prime} = U(\theta) (\psi_i, \psi_j)$</div>																																								
+								</div>
+								<li>Repeat until convergence (Convergence Criteria: Stop when the change in the Boys functional is below a threshold (e.g., 10^{-8}))</li>
+								<div class="math-content">							
+									<div class="math-explanation"></div>																																								
+								</div>
+							</ol>						
+						</ol>																																						
+					</div>
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<!-- Localization in virtual space - challenges -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Localization in virtual space - challenges</div>
+					<div class="math-content">
+						<div class="math-title">Frank and many other reputed chemists say "localization in the virtual space is challenging". 
+							Let's start our discussion with some challenges,</div>
+						<ol class="suboutline">
+							<li>Virtual orbitals are diffuse and lack a clear spatial center.</li>
+							<div class="math-explanation">Higher Energy & Weaker Nuclear Attraction.</div>						
+							<div class="math-explanation">Nodal Structure & Lack of Electron Occupation.</div>													
+							<li>They are nearly degenerate in energy, making standard localization criteria less effective.</li>
+							<div class="math-explanation">Virtual orbitals often lie close in energy, making them prone to mixing under small perturbations.</div>
+							<div class="math-explanation">Unlike occupied orbitals (which are well-separated due to exchange interactions), 
+								virtual orbitals can easily hybridize, further increasing their delocalization.</div>																	
+						</ol>
+						<div class="math-title">Here’re some methods,</div>
+							<ol class="suboutline">
+								<li>PAOs approaches<span class="superscript-citation">[4]</span>.</li>
+								<li>PNOs approaches.</li>
+								<li>DL-PNOs approaches.</li>												
+							</ol>																										
+					</div>
+					
+					<!-- References section - Modified version -->
+					<div class="references-footer">						
+						<p class="reference-entry">[4] Dr. K. Li, "Gauge Theory", <em>Class Notes for MATH 6890: Mathematical Foundations of Modern Quantum Many-Body Theory</em>, Rensselaer Polytechnic Institute (2025).</p>
+					</div>
+				</section>
+
+				<!-- Pair Natural Orbitals (PNOs) -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Pair Natural Orbitals (PNOs)</div>
+					<div class="math-content">
+						<div class="math-title">Best way to understand "what are PNOs?" is learn the derivation. Here's a high-level idea how do get PNOs<span class="superscript-citation">[5]</span>,</div>
+						<ol class="suboutline">
+							<li>For a large molecule, get the optimized HF-SCF MOs.</li>					
+							<li>Obtain MP2 guess for the cluster amplitudes using the canonical HF occupied and virtual orbitals.</li>
+							<li>Define "pair density" for each pair of localized occupied orbitals (i,j). These pair densities are defined solely in terms of virtual orbitals.</li>
+							<li>Diagonalize the pair density matrix. This gives the "pair-natural orbital" occupation numbers and the PNO coefficient vectors.</li>
+							<div class="math-explanation">(Note: The term "natural orbitals" in general is used for designating a set of orbitals that diagonalizes 
+								the one-particle density matrix, e.g., MCSCF natural orbitals. The name "pair-natural orbitals" also derives from the same concept. 
+								The PNOs diagonalize the pair density matrix for every pair of localized occupied orbitals.)</div>																							
+						</ol>																										
+					</div>
+					
+					<div class="references-footer">						
+						<p class="reference-entry">[5] "What are pair natural orbitals?", <em>Matter Modeling Stack Exchange</em> (2020). <span style="color: #555; font-size: 0.9em;">https://mattermodeling.stackexchange.com/questions/3953/what-are-pair-natural-orbitals</span></p>
+					</div>
+				</section>
+
+				<!-- PNOs in depth - Part 1 -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">PNOs in depth - Part 1</div>
+					<div class="math-content">
+						<div class="math-title">Start with constructing the "Pair-Specific Density Matrix" (Assumption we already have MP2 cluster amplitudes for the virtual space),</div>
+						<div class="math-explanation">For each occupied electron pair $(ij)$, we define the "pair density matrix" in the virtual orbital space.</div>
+						<div class="math-equation">
+							\[
+							PD(\text{for pair}-ij) =  \sum_{a,b =1}^{N_{\text{vir}}} t_{ij}^{ab} t_{ij}^{ba^*} \in \mathbb{C}^{N_{\text{vir}} \times N_{\text{vir}}}
+							\]
+						</div>						
+						<div class="math-explanation">where, MP2 amplitudes are, 
+							\( t_{ij}^{ab} = \dfrac{\langle ij \vert \vert ab \rangle}{\epsilon_i + \epsilon_j - \epsilon_a - \epsilon_b}\)  for $a,b \in N_{\text{vir}}$</div>	
+						
+						<div class="math-title">Next we diagonalize the "Pair Density Matrix",</div>
+						<div class="math-explanation">We diagonalize $PD$ to obtain its eigenvalues (occupations) and eigenvectors (transformation matrix).</div>
+						<div class="math-equation">
+							\[
+							PD = \sum_{k=1}^{N_{\text{vir}}} n_k V_k V^*_k
+							\]
+						</div>						
+						<div class="math-explanation">$n_k$ - occupation numbers (sorted in descending order)</div>	
+						<div class="math-explanation">$U = V V^*$ - unitary transformation matrix</div>																									
+					</div>
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+
+				<!-- PNOs in depth - Part 2 -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">PNOs in depth - Part 2</div>
+					<div class="math-content">
+						<div class="math-title">Continue,</div>												
+						<div class="math-title">Then we transform the canonical virtual MOs to PNOs using contructed unitary matrix (reduced),</div>						
+						<div class="math-equation">
+							\[
+							\chi^{ab}_k(ij) = U \Psi^{ab}_{ij} \quad\forall k \in N_{\text{vir}} 
+							\]
+						</div>
+						<div class="math-explanation">We understand that the eigen-values $n_k$ represents the contribution significace of the virtual orbitals to the choosen electron pair.
+							Thus we take the advantage here by introducing a threshold (<strong>called $T_{\text{CutPair}}$</strong>) to select the most significant virtual orbitals contributions.
+						This reduces the number of PNOs which we are gojng to contruct significantly without loosing accuracy.</div>
+						<div class="math-title">i.e, we retain only PNOs with significant occupations</div>	
+						<div class="math-explanation">Keep $\chi^{ab}_k(ij)$ if $n_k > \tau \quad (\tau \approx 10^{-6})$.</div>
+
+						<div style="margin-top: 1.0em;"></div>
+
+						<div class="math-explanation">Roughly speaking the compression is about "98%" as the orbital remainder = $\frac{\text{No. of PNOs kept}}{\text{No. of canonical virtuals}} \approx \frac{20}{1000} = 2\%$</div>											
+					</div>
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+
+				<!-- LPNOs and DL-PNOs -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title"> LPNOs and DL-PNOs</div>
+					<div class="math-content">
+						<div class="math-title">LPNOs,</div>
+						<div class="math-title">LPNOs (Local Pair Natural Orbitals) are an extension of PNOs that further improve computational efficiency 
+							by incorporating spatial locality into the electron pair correlation treatment.</div>												
+						<div class="math-title">If we carefully recall the steps to derrive the PNOs<span class="superscript-citation">[5]</span>,</div>	
+						<ol class="suboutline">					
+							<li>Here, we use localize the occupied orbitals using Pipek-Mezey or the Foster-Boys scheme.</li>
+							<li>And obtain MP2 guess for the cluster amplitudes using localized occupied orbitals and the canonical HF virtual orbitals.</li>
+						</ol>
+						<div class="math-explanation">Since we used the localized occupied orbitals the deriived PNOs are defined as "Local Pair Natural Orbitals" (LPNOs).</div>		
+						
+						<div class="math-title">DL-PNOs,</div>
+						<div class="math-title">DL-PNOs (Domain-Based Local Pair Natural Orbitals) are an extension of LPNOs that further improve computational efficiency 
+							by incorporating using PAOs as the domain of the virtual MOs instead of canonical virtual MOs<span class="superscript-citation">[5]</span>.</div>												
+						<div class="math-explanation">Let PAOs defined as, $\xi_l l \in N'_{\text{vir}}$ then new unitary transormation is,</div>
+						<div class="math-equation">
+							\[
+							\chi^{ab}_l(ij) = U \xi^{ab}_{ij} \quad\forall l \in N'_{\text{vir}}
+							\]
+						</div>						
+					</div>
+					
+					<div class="references-footer">						
+						<p class="reference-entry">[5] "What are pair natural orbitals?", <em>Matter Modeling Stack Exchange</em> (2020). <span style="color: #555; font-size: 0.9em;">https://mattermodeling.stackexchange.com/questions/3953/what-are-pair-natural-orbitals</span></p>
+					</div>
+				</section>			
+			</section>
+
+			<section>
+				<!-- Christoph's and Frank's work -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title"> Christoph's and Frank's work</div>
+					<div class="math-content">
+						<div class="math-title">Authors used<span class="superscript-citation">[6]</span>,</div>					
+						<ol class="suboutline">					
+							<li>Localized occupied orbitals for the internal space</li>
+							<div class="math-explanation">Used existing localization techniques to this. As a result their, internal space is localized and PNOs will be LPNOs.</div>
+							<li>DL-PNOs for the virtual space space</li>
+							<div class="math-explanation">First they used PAOs on virtual space which leads to DL-PNO approach when combine with LPNOs.</div>
+						</ol>
+
+						<div class="math-title">Back to bad guy in CCSD,</div>				
+						<div class="math-equation">
+							\[
+							\frac{1}{2} \sum_{cd} \langle ab || cd \rangle \, t_{ij}^{cd} 
+							\]							
+						</div>
+						<div class="math-explanation">$i,j$ - compressed by localized occupied orbiltals</div>
+						<div class="math-explanation">$a,b,c,d$ - compressed by DL-PNOs</div>						
+					</div>
+					
+					<div class="references-footer">						
+						<p class="reference-entry">[6] C. Riplinger, F. Neese, "An efficient and near linear scaling pair natural orbital based local coupled cluster method", <em>J. Chem. Phys.</em> 138, 034106 (2013).</p>						
+					</div>
+				</section>	
+
+				<!-- Christoph's and Frank's work - results - Part 1 -->
+				<section class="slide" data-background="rgb(209, 225, 214)">												
+					<div class="title">Christoph's and Frank's work - results - Part 1</div>
+					<div class="math-content">
+					<div class="math-title">Error analysis of DLPNO-CCSD for the absolute energies of a series of medium sized reference molecules with the def2-TZVP basis set. All
+						molecules have an average pair domain size  less than 90% of the whole system size,</div>
+					<div style="display: flex; justify-content: space-around; align-items: flex-start; margin-top: 20px;">
+						<!-- Image 1 with Caption -->
+						<div style="text-align: center; width: 75%;">
+							<img src="images/Erroranalysis.jpg" alt="Localized orbital" style="width: 100%; border: 5px solid #9cc09b; border-radius: 20px;">
+							<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px;">Table 2: Error analysis of DLPNO-CCSD<span class="superscript-citation">[6]</span></p>
+						</div>						
+					</div>
+						
+					<div class="references-footer">						
+						<p class="reference-entry">[6] C. Riplinger, F. Neese, "An efficient and near linear scaling pair natural orbital based local coupled cluster method", <em>J. Chem. Phys.</em> 138, 034106 (2013).</p>						
+					</div>
+				</section>
+
+				<!-- Christoph's and Frank's work - results - Part 2 -->
+				<section class="slide" data-background="rgb(209, 225, 214)">												
+					<div class="title">Christoph's and Frank's work - results - Part 2</div>
+					<div class="math-content">
+					<div class="math-title">The calculations were carried out on linear hydrocarbon chains H3C–(CH2)n−2–CH3 (in standardized geometries with all angles with 109.4712◦, RCH = 109 pm and RCC = 155 pm) and default thresholds.
+						The insets show magnifications of the calculated curve. Default thresholds
+						were used ($T_{\text{CutPairs}}$ = 10−4 Eh),</div>
+					<div style="display: flex; justify-content: space-around; align-items: flex-start; margin-top: 20px;">
+						<!-- Image 1 with Caption -->
+						<div style="text-align: center; width: 40%;">
+							<img src="images/Tcutpairs.jpg" alt="Localized orbital" style="width: 100%; border: 5px solid #9cc09b; border-radius: 20px;">
+							<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px;">
+								Figure 6: The convergence of the DL-PNO-CCSD<span class="superscript-citation">[6]</span>
+							</p>
+						</div>
+
+						<!-- Image 1 with Caption -->
+						<div style="text-align: center; width: 42%;">
+							<img src="images/Scaling.jpg" alt="Localized orbital" style="width: 100%; border: 5px solid #9cc09b; border-radius: 20px;">
+							<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px;">Figure 7: Scaling of DL-PNO-CCSD<span class="superscript-citation">[6]</span></p>
+						</div>						
+					</div>
+					<div class="references-footer">						
+						<p class="reference-entry">[6] C. Riplinger, F. Neese, "An efficient and near linear scaling pair natural orbital based local coupled cluster method", <em>J. Chem. Phys.</em> 138, 034106 (2013).</p>						
+					</div>
+						
+						
+				</section>
+			</section>
+
+			<!-- Summary -->
+            <section class="slide" data-background="rgb(209, 225, 214)">
+                <div class="title">Summary</div>
+                <ol class="outline">
+                    <li>Correlation</li>                   											
+                    <li>CC theory</li>
+					<li>Internal space and Virtual space</li>
+					<li>Localization in internal space</li>
+					<ol class="suboutline">
+						<li>Localization in the internal space.</li>						
+						<li>Localization in the virtual space.</li>												
+					</ol>					
+					<li>Results of Christoph's and Frank's work</li>
+				</ol>
+                <div class="footer">
+                    <div>April 16, 2025</div>
+                    <img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+                    <div>Department of Mathematics</div>
+                </div>
+            </section>
+
+			<!-- References Slide -->
+			<section class="slide" data-background="rgb(209, 225, 214)">
+				<div class="title">That's for today</div>
+				<div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 40%;">
+					<!-- Adjustable font size - change the '2.5em' value as needed -->
+					<div style="font-size: 2.0em; ; color: #2c3e50; margin-bottom: 1em; text-align: center;">
+						Any Questions?
+					</div>
+				<div class="math-content">
+					<div class="references-footer">
+						<p><strong class="references-label">References:</strong></p>
+						<p class="reference-entry">[1] F. Neese, "Local Correlation Methods: From Theory to Implementation", <em>ESQC Lecture</em> (2022). <span class="url">https://www.esqc.org/lectures/ESQC22-Neese-Local-Correlation.pdf</span></p>						
+						<p class="reference-entry">[2] [Video] "Localizing orbitals to understand chemical wavefunctions", <em>YouTube</em> (2021). <span class="url">https://www.youtube.com/watch?v=FC-EoWppGOo</span></p>
+						<p class="reference-entry">[3] "Molecular Orbitals of the π-Bond", <em>Master Organic Chemistry</em> (2017). <span style="color: #555; font-size: 0.9em;">https://www.masterorganicchemistry.com/2017/02/14/molecular-orbital-pi-bond/</span></p>						
+						<p class="reference-entry">[4] K. Li, "Gauge Theory", <em>Class Notes for MATH 6890: Mathematical Foundations of Modern Quantum Many-Body Theory</em>, Rensselaer Polytechnic Institute (2023).</p>
+						<p class="reference-entry">[5] "What are pair natural orbitals?", <em>Matter Modeling Stack Exchange</em> (2020). <span class="url">https://mattermodeling.stackexchange.com/questions/3953/what-are-pair-natural-orbitals</span></p>
+						<p class="reference-entry">[6] C. Riplinger, F. Neese, "An efficient and near linear scaling pair natural orbital based local coupled cluster method", <em>J. Chem. Phys.</em> 138, 034106 (2013).</p>
+					</div>
+				</div>				
+			</section>
+
+			<!-- backup Slides -->	
+
+			<!-- Internal and external spaces of water molecule -->
+			<section class="slide" data-background="rgb(209, 225, 214)">												
+				<div class="title">Internal and external spaces of water molecule</div>
+				<div class="math-content">	
+				<div class="math-title">Take the water molecule,</div>					
+				<div class="math-explanation">It has 10 electrons (8 from O, 1 from each H).</div>
+				<div class="math-explanation">In HF, the 5 lowest-energy MOs are occupied (hold 2 electrons each in a closed-shell system).</div>
+				
+				<div class="math-title">Occupied Orbitals (Internal Space),</div>	
+				<div class="math-explanation">Core Orbital (1a$_1$) – Deeply bound O(1s) orbital.</div>
+				<div class="math-explanation">Bonding $\sigma$ (2a$_1$) – O-H bonding + O lone pair.</div>
+				<div class="math-explanation">Bonding $\sigma$ (1b$_2$) – O-H bonding.</div>
+				<div class="math-explanation">Lone Pair (3a$_1$) – Mostly O lone pair.</div>
+				<div class="math-explanation">Lone Pair (1b$_1$) – Pure O(p) lone pair (perpendicular to the plane).</div>
+
+				<div class="math-title">Virtual (Unoccupied) Space,</div>	
+				<div class="math-explanation">Anti-Bonding $\sigma^*$ (4a$_1$) – O-H anti-bonding (LUMO).</div>
+				<div class="math-explanation">Anti-Bonding $\sigma^*$ (2b$_2$)} – O-H anti-bonding (LUMO+1).</div>
+				<div class="math-explanation">Rydberg-type Orbitals} – Diffuse, higher-energy orbitals.</div>					
+				</div>
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+			</section>
+
+			<!-- Pictoral idea about internal and virtual spaces-->
+			<section class="slide" data-background="rgb(209, 225, 214)">												
+				<div class="title">Pictoral idea about internal and virtual spaces</div>
+				<div class="math-content">
+				<div class="math-title">The above idea as a diagram,</div>
+				<div style="display: flex; justify-content: space-around; align-items: flex-start; margin-top: 20px;">
+					<!-- Image 1 with Caption -->
+					<div style="text-align: center; width: 80%;">
+						<img src="images/Internal_and_external.jpg" alt="Localized orbital" style="width: 100%; border: 5px solid #9cc09b; border-radius: 20px;">
+						<p style="font-size: 0.6em; color: #170202; margin-top: 0.1px;">Figure 5: Water molecule internal and virtual spaces</p>
+					</div>						
+				</div>
+					
+					<div class="footer">
+						<div>April 16, 2025</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+			</section>
+			
+			<section>
+				<!-- Construction of the N-Particle Space -->
+				<section class="slide" data-background="rgb(209, 225, 214)">									 				
+					<div class="title">Construction of the N-Particle Space</div>						
+					<div class="math-content">
+						<div class="math-title">We can construct a complete N-electron expansion<sup class="superscript-citation">[1]</sup> set from the solutions of the HF equations by replacing 1,2,...,N electrons in the HF Slater-determinant by virtual orbitals (so called excitations - not to be confused with actual excited STATES)!</div>
+						<div class="math-equation">
+							\[
+							\Psi = C_0 \Phi_{\text{HF}} + 
+							\underbrace{
+							\sum_{ia} C_i^a \Phi_i^a
+							}_{\text{Singles}} + 
+							\underbrace{
+							\sum_{ijab} C_{ij}^{ab} \Phi_{ij}^{ab}
+							}_{\text{Doubles}} + 
+							\underbrace{
+							\sum_{ijkabc} C_{ijk}^{abc} \Phi_{ijk}^{abc}
+							}_{\text{Triples}} + 
+							\dots + 
+							\underbrace{
+							\vphantom{\sum_{ijkabc}} \text{exc.}
+							}_{\text{(n-fold)}}
+							\]
+						</div>
+						<div class="math-title">Conventions,</div>	
+						<div class="math-explanation">$i,j,k,l \rightarrow$ internal (occupied) orbitals (occupied in the HF determinant)</div>	
+						<div class="math-explanation">$a,b,c,d \rightarrow$ external (virtual) orbitals (unoccupied in the HF determinant)</div>	
+						<div class="math-explanation">$p,q,r,s \rightarrow$ general orbitals (occupied or unoccupied)</div>	
+												
+					<!-- References section - Modified version -->
+					<div class="references-footer">    
+						<p class="reference-entry">[1] F. Neese, "Local Correlation Methods: From Theory to Implementation", <em>ESQC Lecture</em> (2022). <span style="color: #555; font-size: 0.9em;">https://www.esqc.org/lectures/ESQC22-Neese-Local-Correlation.pdf</span></p>
+					</div>
+				</section>
+
+				<!-- Nesbet's and Brillouin's Theorems - Part 1 -->
+				<section class="slide" data-background="rgb(209, 225, 214)">									 				
+					<div class="title">Nesbet's and Brillouin's Theorems - Part 1</div>						
+					<div class="math-content">
+						<div class="math-title">Starting with S.E,</div>
+						<div class="math-equation">
+							\[ H \Psi = E \Psi \]
+						</div>
+						<div class="math-explanation">by inserting the above expansion<sup class="superscript-citation">[1]</sup>,</div>	
+						<div class="math-equation-small">								
+							\[							
+							\hat{H}_{BO}\left(C_0 \Phi_{HF} + \sum_{ia} C_i^a \Phi_i^a + \left(\frac{1}{2!}\right)^2 \sum_{ijab} C_{ij}^{ab} \Phi_{ij}^{ab} + \dots\right)
+							= E\left(C_0 \Phi_{HF} + \sum_{ia} C_i^a \Phi_i^a + \left(\frac{1}{2!}\right)^2 \sum_{ijab} C_{ij}^{ab} \Phi_{ij}^{ab} + \dots\right)							
+							\]		
+						</div>
+						<div class="math-explanation">Multiplying with the HF function from the left,</div>	
+						<div class="math-equation-small">
+							\[
+							C_0 
+							\underbrace{
+								\left\langle \Phi_{HF} \middle| \hat{H}_{BO} \middle| \Phi_{HF} \right\rangle
+							}_{E_{HF}} 
+							+ \sum_{ia} C_i^a 
+							\underbrace{
+								\left\langle \Phi_{HF} \middle| \hat{H}_{BO} \middle| \Phi_i^a \right\rangle
+							}_{F_{ia}} 
+							+ \frac{1}{4} \sum_{ijab} C_{ij}^{ab} 
+							\underbrace{
+								\left\langle \Phi_{HF} \middle| \hat{H}_{BO} \middle| \Phi_{ij}^{ab} \right\rangle 
+							}_{\left\langle ij \middle\| ab \right\rangle}
+							\]
+							\[
+							= E (\text{Corr}) \left( C_0 
+							\underbrace{
+								\left\langle \Phi_{HF} | \Phi_{HF} \right\rangle 
+							}_1
+							+ \sum_{ia} C_i^a 
+							\underbrace{
+								\left\langle \Phi_{HF} | \Phi_i^a \right\rangle 
+							}_0
+							+ \frac{1}{4} \sum_{ijab} C_{ij}^{ab} 
+							\underbrace{
+								\left\langle \Phi_{HF} | \Phi_{ij}^{ab} \right\rangle
+							}_0
+							\right)
+							\]
+						</div>									
+					</div>
+					
+					<!-- References section - Modified version -->
+					<div class="references-footer">    
+						<p class="reference-entry">[1] F. Neese, "Local Correlation Methods: From Theory to Implementation", <em>ESQC Lecture</em> (2022). <span style="color: #555; font-size: 0.9em;">https://www.esqc.org/lectures/ESQC22-Neese-Local-Correlation.pdf</span></p>
+					</div>
+				</section>
+
+				<!-- Nesbet's and Brillouin's Theorems - Part 2 -->
+				<section class="slide" data-background="rgb(209, 225, 214)">									 				
+					<div class="title">Nesbet's and Brillouin's Theorems - Part 2</div>						
+					<div class="math-content">
+						<div class="math-title">Continue,</div>						
+						<div class="math-explanation">$F_{ia} = h_{}ia + \sum_j \langle ij || aj \rangle \rightarrow$ Matrix element of the HF operator </div>
+						<div class="math-explanation">$\epsilon_{ij} = \frac{1}{2} \sum_{ab} C_{ij}^{ab} \langle ij || aj \rangle \rightarrow$ Pair correlation energy </div>
+						<div class="math-explanation">where, $\langle ij || ab \rangle = \langle ij | ab \rangle \langle ij | ba \rangle\rightarrow$ Anti-symmetrized ERIs </div>											
+						
+						<div style="margin-top: 1.0em;"></div>
+
+						<div class="math-explanation">We get<sup class="superscript-citation">[1]</sup>,</div>
+						<div class="math-equation">								
+							\[							
+							\sum_{ia} C_a^i F_{ia} + \frac{1}{2} \sum_{ij} \varepsilon_{ij} = C_0 E_{\text{corr}}							
+							\]		
+						</div>						
+						<div class="math-explanation">However, if the orbitals really do satisfy the canonical HF equations<sup class="superscript-citation">[1]</sup>,</div>
+						<div class="math-equation">								
+							\[							
+							F\psi_i = \varepsilon_i \psi_i							
+							\]		
+						</div>
+					</div>
+					
+					
+					<!-- References section - Modified version -->
+					<div class="references-footer">    
+						<p class="reference-entry">[1] F. Neese, "Local Correlation Methods: From Theory to Implementation", <em>ESQC Lecture</em> (2022). <span style="color: #555; font-size: 0.9em;">https://www.esqc.org/lectures/ESQC22-Neese-Local-Correlation.pdf</span></p>
+					</div>
+				</section>
+				
+				<!-- Nesbet's and Brillouin's Theorems - Part 3 -->
+				<section class="slide" data-background="rgb(209, 225, 214)">									 				
+					<div class="title">Nesbet's and Brillouin's Theorems - Part 3</div>						
+					<div class="math-content">
+						<div class="math-title">Continue,</div>						
+						<div class="math-explanation">Then we see immediately by multiplying from the left with $\psi_a$ and integrating<sup class="superscript-citation">[1]</sup>,</div>						
+						<div class="math-equation">								
+							\[							
+							\sum_{ia} C_a^i F_{ia} + \frac{1}{2} \sum_{ij} \varepsilon_{ij} = C_0 E_{\text{corr}}							
+							\]		
+						</div>						
+						<div class="math-explanation">However, if the orbitals really do satisfy the canonical HF equations<sup class="superscript-citation">[1]</sup>,</div>
+						<div class="math-equation">								
+							\[							
+							\langle \psi_a \mid F \mid \psi_i \rangle = \varepsilon_i \langle\psi_a \mid \psi_i \rangle = 0						
+							\]		
+						</div>
+						<div class="math-explanation">Note: this does not imply that the coefficients on the single excitations in the exact wavefunction are zero! They are not zero for
+							HF orbitals. (there is a set of orbitals for which the singles coefficients are zero, the so called Brueckner orbitals).</div>
+							<div class="math-explanation">Thus, for HF orbitals the matrix elements of the BO Hamiltonian with single excited
+								determinants is zero! (Brillouin‘s theorem). Finally<sup class="superscript-citation">[1]</sup>,</div>
+						<div class="math-equation-small">								
+							\[							
+							\frac{1}{4} \sum_{ijab} C_{ab}^{ij} \Braket{ij \| ab} = \frac{1}{2} \sum_{ij} \varepsilon_{ij} = C_0 E_{corr} (\text{Nesbets's theorem})					
+							\]		
+						</div>
+						<div class="math-explanation"><strong>If we would know the precise values of the double excitation coefficients we would know the "EXACT" correlation energy!</strong></div>
+					</div>
+					
+					
+					<!-- References section - Modified version -->
+					<div class="references-footer">    
+						<p class="reference-entry">[1] F. Neese, "Local Correlation Methods: From Theory to Implementation", <em>ESQC Lecture</em> (2022). <span style="color: #555; font-size: 0.9em;">https://www.esqc.org/lectures/ESQC22-Neese-Local-Correlation.pdf</span></p>
+					</div>
+				</section>
+			</section>
+				
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+    <script src="plugin/math/math.js"></script>
+
+    <script>
+        Reveal.initialize({
+            // Display controls in the bottom right corner
+            controls: true,
+            
+            // Display a presentation progress bar
+            progress: true,
+            
+            // Display the page number of the current slide
+            slideNumber: true,
+            
+            // Push each slide change to the browser history
+            history: true,
+            
+            // Enable keyboard shortcuts for navigation
+            keyboard: true,
+            
+            // Enable the slide overview mode
+            overview: true,
+            
+            // Vertical centering of slides
+            center: true,
+            
+            // Enables touch navigation on devices with touch input
+            touch: true,
+            
+            // Transition style
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            
+            // Transition speed
+            transitionSpeed: 'default', // default/fast/slow
+            
+            // Transition style for full page slide backgrounds
+            backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+            
+            // The "normal" size of the presentation, aspect ratio will be preserved
+            width: 960,
+            height: 700,
+            
+            // Factor of the display size that should remain empty around the content
+            margin: 0.1,
+            
+            // Bounds for smallest/largest possible scale to apply to content
+            minScale: 0.2,
+            maxScale: 1.5,
+            
+            // PDF export options
+            pdfSeparateFragments: false,
+            
+            // Plugins with reveal.js
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX]
+        });
+    </script>
+</body>
+</html>

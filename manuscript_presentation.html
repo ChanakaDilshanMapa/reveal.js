@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Investigating Fixed-Point Robustness in Local-Correlation CC</title>
+
+  <!-- Reveal core styles via CDN (stable) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reset.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
+  <!-- Code highlight theme from local plugin assets -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+  <style>
+    :root {
+      --light-bg: #f5f5f5;
+      --dark-text: #333;
+      --math-font-size: 0.9em;
+    }
+
+    .reveal {
+      font-family: 'STIX Two Text', serif;
+      background-color: var(--light-bg);
+      color: var(--dark-text);
+    }
+
+    /* Force uniform background across all slides */
+    .reveal .backgrounds .slide-background {
+      background-color: rgb(209, 225, 214) !important;
+    }
+
+    /* Title slide layout */
+    .reveal .title-slide {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 6rem;
+      box-sizing: border-box;
+    }
+    .reveal .title-slide .title { font-size: 2.4rem; line-height: 1.2; max-width: 1000px; }
+    .reveal .title-slide .authors { font-size: 1.2rem; margin-top: 1.2rem; }
+    .reveal .title-slide .affiliation { font-size: 1.0rem; margin-top: 0.6rem; }
+    .reveal .title-slide .date { font-size: 0.95rem; margin-top: 1.0rem; }
+    .reveal .title-slide .logo { max-height: 90px; margin-top: 1.2rem; }
+
+    /* Generic content slide */
+    .reveal .slide {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      text-align: left;
+      padding: 2rem 2.5rem;
+      box-sizing: border-box;
+    }
+    .reveal .slide .title { font-weight: 600; margin-bottom: 0.6rem; border-bottom: 1px solid #221e1e; padding-bottom: 0.1rem; }
+    .reveal .slide .subtitle { font-weight: 400; margin-bottom: 1.0rem; }
+    .reveal .slide .outline { font-size: 1.2rem; line-height: 1.5; }
+    .reveal .slide .outline li { margin-bottom: 0.6rem; }
+
+    /* Math blocks */
+    .math-content { width: 100%; margin: 0.2rem auto; }
+    .math-title { margin-bottom: 0.2rem; font-size: 1.0rem; }
+    .math-equation { text-align: left; margin: 0.4rem 0; font-size: var(--math-font-size); }
+    .math-explanation { margin-left: 0.2rem; margin-bottom: 0.4rem; font-size: 1.0rem; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; }
+    th { background: #e9efe9; }
+
+    /* Footer */
+    .footer {
+      position: absolute;
+      bottom: 22px;
+      width: calc(100% - 40px);
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #555;
+    }
+    .footer .logo { height: 52px; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- Title -->
+      <section class="title-slide">
+        <div class="title">Investigating the Robustness of the Fixed-Point Iteration in Local-Correlation Coupled-Cluster Algorithms</div>
+        <div class="authors">Chanaka D. M. Mudiyanselage, Kangbo Li, Fabian M. Faulstich</div>
+        <div class="affiliation">Department of Mathematical Sciences, Rensselaer Polytechnic Institute</div>
+        <div class="date">January 31, 2026</div>
+        <img src="images/presentation_chanaka_SP25-2/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+      </section>
+
+      <!-- Outline -->
+      <section class="slide">
+        <div class="title">Outline</div>
+        <ol class="outline">
+          <li>Motivation and Abstract</li>
+          <li>Introduction: CC theory and solver context</li>
+          <li>Theory: CC in an arbitrary gauge</li>
+          <li>Fixed-point map and convergence</li>
+          <li>Numerical results and discussion</li>
+          <li>Perturbation-theory perspective</li>
+          <li>Newton–Krylov solver</li>
+          <li>Conclusion</li>
+        </ol>
+        <div class="footer">
+          <div>January 31, 2026</div>
+          <img src="images/presentation_chanaka_SP25-2/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+          <div>Department of Mathematics</div>
+        </div>
+      </section>
+
+      <!-- Abstract & Keywords -->
+      <section class="slide">
+        <div class="title">Abstract</div>
+        <p>Coupled-cluster (CC) theory is accurate but expensive. Local-correlation methods use unitary orbital transformations to exploit locality. The canonical fixed-point solver—based on diagonal energy denominators—can lose contractivity in noncanonical gauges (AO or localized MOs) and diverge. We analyze why this happens and demonstrate that a Newton–Krylov (NK) solver restores convergence across gauges without relying on representation-specific denominators.</p>
+        <div class="subtitle">Keywords</div>
+        <p>Coupled-cluster theory; Fixed-point iteration; Orbital gauge; Local correlation; Newton–Krylov</p>
+      </section>
+
+      <!-- Introduction -->
+      <section class="slide">
+        <div class="title">Introduction</div>
+        <ol class="outline">
+          <li>CC is size-extensive and systematically improvable; CCD is a core model.</li>
+          <li>Local approaches (AO, localized MOs, PNOs) reformulate CC via unitary transforms.</li>
+          <li>Canonical MO basis: diagonal Fock; denominators well motivated by perturbation theory.</li>
+          <li>Noncanonical gauges: Fock non-diagonal; canonical fixed-point map may not be contractive.</li>
+          <li>Goal: analyze gauge dependence and provide a robust solver.</li>
+        </ol>
+      </section>
+
+      <!-- Theory: CC in arbitrary gauge -->
+      <section>
+        <section class="slide">
+          <div class="title">CC in an Arbitrary Gauge</div>
+          <div class="math-content">
+            <div class="math-title">CCD correlation energy (MO basis)</div>
+            <div class="math-equation">\[ E_{\text{corr}} = \sum_{ij}^{\mathcal{N}_{\text{occ}}} \sum_{ab}^{\mathcal{N}_{\text{vir}}} w_{ij}^{ab} t_{ij}^{ab} \]</div>
+            <div class="math-explanation">with antisymmetrized integrals \( w_{ij}^{ab} = 2 v_{ij}^{ab} - v_{ij}^{ba} \).</div>
+          </div>
+          <div class="math-content">
+            <div class="math-title">Unitary gauge transform of amplitudes</div>
+            <div class="math-equation">\[ \theta_{\mu\nu}^{\lambda\sigma} = \bar{T}_{\mu i} \bar{T}_{\nu j} \bar{T}_{\lambda a} \bar{T}_{\sigma b} \, t_{ij}^{ab} \]</div>
+          </div>
+          <div class="math-content">
+            <div class="math-title">Energy in AR basis</div>
+            <div class="math-equation">\[ E_{\text{corr}} = \Pi^{\mu\nu}_{\lambda\sigma} \, \theta_{\mu\nu}^{\lambda\sigma} \quad \text{with} \quad \Pi=2\pi-\pi^{\sigma\lambda} \]</div>
+          </div>
+        </section>
+        <section class="slide">
+          <div class="title">Residual Equations (AR)</div>
+          <p>Residual tensors transform with the orbital rotations from MO to AR. Schematically:</p>
+          <div class="math-content">
+            <div class="math-equation">\[ Z_{\mu\nu}^{\lambda\sigma}(\theta) = d + a\,\theta + \theta\,b + \theta\,\pi\,\theta + \Omega(\cdot) = 0. \]</div>
+            <div class="math-explanation">Intermediates \( {}^{v}G, {}^{o}G, j, k, a, b, c, d \) follow projector-based transforms ensuring occ/vir separation.</div>
+          </div>
+        </section>
+      </section>
+
+      <!-- Fixed-point map -->
+      <section class="slide">
+        <div class="title">Fixed-Point Map and Convergence</div>
+        <div class="math-content">
+          <div class="math-title">Canonical MO update</div>
+          <div class="math-equation">\[ t^{ab}_{ij} = \frac{ v^{ab}_{ij} + \Delta f^{ab}_{ij}(t) + \bar{R}^{ab}_{ij}(t) }{ f^{i}_{i} + f^{j}_{j} - f^{a}_{a} - f^{b}_{b} } \]</div>
+        </div>
+        <div class="math-content">
+          <div class="math-title">AR-basis naive update</div>
+          <div class="math-equation">\[ \theta^{\lambda\sigma}_{\mu\nu} = \frac{ d + \Delta F(\theta) + R(\theta) }{ {}^{o}F^{\mu}_{\mu} + {}^{o}F^{\nu}_{\nu} - {}^{v}F^{\lambda}_{\lambda} - {}^{v}F^{\sigma}_{\sigma} } \]</div>
+        </div>
+        <ol class="outline">
+          <li>Local convergence needs Jacobian spectral radius \(\rho(J) < 1\).</li>
+          <li>In noncanonical gauges, denominators lose perturbative meaning; contractivity can fail.</li>
+        </ol>
+      </section>
+
+      <!-- Numerical results & discussion -->
+      <section class="slide">
+        <div class="title">Numerical Results and Discussion</div>
+        <ol class="outline">
+          <li>MO vs AO gauges for small molecules: MO converges; AO diverges.</li>
+          <li>Pattern consistent across basis sets; divergence tied to artificial denominators.</li>
+          <li>Interpretation: AR denominators do not reflect eigenvalue gaps of \(H_0\).</li>
+        </ol>
+        <div class="subtitle">Fixed-Point Convergence (MO vs AO)</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Mol.</th><th>Basis</th>
+              <th>MO Conv.</th><th>MO Iter.</th><th>MO \(\rho\)</th>
+              <th>AO Conv.</th><th>AO \(\rho\)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>H₂</td><td>CC-PVTZ</td><td>✓</td><td>39</td><td>0.529</td><td>✗</td><td>1.816</td></tr>
+            <tr><td>H₂O</td><td>CC-PVTZ</td><td>✓</td><td>43</td><td>0.703</td><td>✗</td><td>3.605</td></tr>
+            <tr><td>NH₃</td><td>CC-PVTZ</td><td>✓</td><td>45</td><td>0.670</td><td>✗</td><td>3.608</td></tr>
+            <tr><td>CH₃</td><td>CC-PVTZ</td><td>✓</td><td>45</td><td>0.661</td><td>✗</td><td>3.134</td></tr>
+            <tr><td>BeH₂</td><td>CC-PVTZ</td><td>✓</td><td>56</td><td>0.725</td><td>✗</td><td>2.930</td></tr>
+            <tr><td>BH₃</td><td>CC-PVTZ</td><td>✓</td><td>55</td><td>0.676</td><td>✗</td><td>2.678</td></tr>
+            <tr><td>C₂H₆</td><td>6-31G</td><td>✓</td><td>52</td><td>0.482</td><td>✗</td><td>2.360</td></tr>
+            <tr><td>C₃H₈</td><td>4-31G</td><td>✓</td><td>52</td><td>0.336</td><td>✗</td><td>2.406</td></tr>
+            <tr><td>C₄H₁₀</td><td>4-31G</td><td>✓</td><td>53</td><td>0.364</td><td>✗</td><td>2.349</td></tr>
+            <tr><td>C₅H₁₂</td><td>3-21G</td><td>✓</td><td>53</td><td>0.214</td><td>✗</td><td>2.276</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Perturbation-theory perspective -->
+      <section class="slide">
+        <div class="title">Perturbation-Theory Perspective</div>
+        <div class="math-content">
+          <div class="math-title">Partition</div>
+          <div class="math-equation">\[ H = H_0 + V, \quad H_0 = \sum_{p,q} F_{pq} a_p^\dagger a_q, \quad V = H - F. \]</div>
+        </div>
+        <div class="math-content">
+          <div class="math-title">MO denominators</div>
+          <div class="math-equation">\[ \Delta_{ij}^{ab} = \varepsilon_i + \varepsilon_j - \varepsilon_a - \varepsilon_b \]</div>
+          <div class="math-explanation">Diagonal Fock (MO) ties denominators to eigenvalue gaps of \(H_0\).</div>
+        </div>
+        <ol class="outline">
+          <li>AO Fock diagonals are not eigenvalues; they can mimic small gaps.</li>
+          <li>Artificially small \(\Delta\) yields non-contractive updates and divergence.</li>
+        </ol>
+      </section>
+
+      <!-- Newton–Krylov solver -->
+      <section class="slide">
+        <div class="title">Newton–Krylov Solver</div>
+        <div class="math-content">
+          <div class="math-title">Newton update</div>
+          <div class="math-equation">\[ \theta^{(k+1)} = \theta^{(k)} - J^{-1}[Z(\theta^{(k)})] \, Z(\theta^{(k)}) \]</div>
+          <div class="math-explanation">Approximate Jacobian action via finite differences; solve with restarted GMRES.</div>
+        </div>
+        <ol class="outline">
+          <li>Treats CC residuals as a general nonlinear system.</li>
+          <li>Avoids representation-dependent denominators; robust across gauges.</li>
+        </ol>
+        <div class="subtitle">Convergence (MOCC and AOCC)</div>
+        <p>Empirically converges for both MO and AO gauges across tested molecules; iteration counts decrease as GMRES restart \(m\) increases moderately.</p>
+      </section>
+
+      <!-- Optional NK tables (compact) -->
+      <section class="slide">
+        <div class="title">Newton–Krylov Iteration Counts (MOCC)</div>
+        <table>
+          <thead>
+            <tr><th>Mol.</th><th>Basis</th><th>Conv.</th><th>m=10 (New/GM)</th><th>m=15</th><th>m=20</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>H₂</td><td>CC-PVTZ</td><td>✓</td><td>4/40</td><td>3/45</td><td>3/60</td></tr>
+            <tr><td>H₂O</td><td>CC-PVTZ</td><td>✓</td><td>10/100</td><td>6/90</td><td>5/100</td></tr>
+            <tr><td>NH₃</td><td>CC-PVTZ</td><td>✓</td><td>10/100</td><td>6/90</td><td>5/100</td></tr>
+            <tr><td>CH₂</td><td>CC-PVTZ</td><td>✓</td><td>20/200</td><td>12/180</td><td>8/160</td></tr>
+            <tr><td>BeH₂</td><td>CC-PVTZ</td><td>✓</td><td>20/200</td><td>12/180</td><td>8/160</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="slide">
+        <div class="title">Newton–Krylov Iteration Counts (AOCC)</div>
+        <table>
+          <thead>
+            <tr><th>Mol.</th><th>Basis</th><th>Conv.</th><th>m=10 (New/GM)</th><th>m=15</th><th>m=20</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>H₂</td><td>CC-PVTZ</td><td>✓</td><td>4/40</td><td>3/45</td><td>3/60</td></tr>
+            <tr><td>H₂O</td><td>CC-PVTZ</td><td>✓</td><td>10/100</td><td>6/90</td><td>5/100</td></tr>
+            <tr><td>NH₃</td><td>CC-PVTZ</td><td>✓</td><td>10/100</td><td>6/90</td><td>5/100</td></tr>
+            <tr><td>CH₂</td><td>CC-PVTZ</td><td>✓</td><td>20/200</td><td>12/180</td><td>8/160</td></tr>
+            <tr><td>BeH₂</td><td>CC-PVTZ</td><td>✓</td><td>20/200</td><td>12/180</td><td>8/160</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Conclusion -->
+      <section class="slide">
+        <div class="title">Conclusion</div>
+        <ol class="outline">
+          <li>Canonical fixed-point solver is not gauge invariant; stability relies on diagonal Fock.</li>
+          <li>Noncanonical gauges break perturbative denominators; divergence observed empirically.</li>
+          <li>Newton–Krylov treats CC as a general nonlinear system; converges across gauges.</li>
+          <li>Recommendation: use NK (with level-shifting as needed) in localized CC workflows.</li>
+        </ol>
+      </section>
+
+      <!-- References (selected) -->
+      <section class="slide">
+        <div class="title">References (Selected)</div>
+        <ul class="outline">
+          <li>Shavitt & Bartlett, Many-Body Methods, 2009.</li>
+          <li>Scuseria & Ayala, Linear-scaling CC in AO basis, 1999.</li>
+          <li>Riplinger & Neese, PNO-based local CC, JCP 2013.</li>
+          <li>Knoll & Keyes, Jacobian-free Newton–Krylov, 2004.</li>
+          <li>Yang et al., NK in QC, 2020.</li>
+        </ul>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal core (local) + plugins -->
+  <script src="js/reveal.js"></script>
+  <!-- Math (KaTeX) plugin -->
+  <script src="plugin/math/katex.js"></script>
+  <script src="plugin/math/plugin.js"></script>
+  <!-- Highlight + search + notes + zoom -->
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/highlight/plugin.js"></script>
+  <script src="plugin/search/search.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/zoom/zoom.js"></script>
+
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: 'c/t',
+      plugins: [ RevealMath.KaTeX, RevealHighlight, RevealSearch, RevealNotes, RevealZoom ],
+      math: {
+        // KaTeX config can be customized here if needed
+      }
+    });
+  </script>
+</body>
+</html>

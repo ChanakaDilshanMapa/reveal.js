@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Academic Poster</title>
+
+  <!-- Reveal.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/theme/white.css">
+
+  <!-- STIX Two Font -->
+  <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "STIX Two Text", serif;
+    }
+
+    .reveal {
+      font-family: "STIX Two Text", serif;
+    }
+
+    .poster-title {
+      font-size: 2.5em;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.5em;
+    }
+
+    .poster-authors {
+      font-size: 1.2em;
+      text-align: center;
+      margin-bottom: 1em;
+    }
+
+    .poster-section {
+      padding: 20px;
+      text-align: left;
+    }
+
+    .poster-section h2 {
+      font-weight: 700;
+      border-bottom: 2px solid #000;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+
+    .columns {
+      display: flex;
+      gap: 40px;
+    }
+
+    .column {
+      flex: 1;
+    }
+
+    .equation {
+      text-align: center;
+      font-size: 1.2em;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section data-background="#ffffff">
+
+  <div class="poster-title">
+    Investigating the Robustness of Fixed-Point Iterations in Coupled-Cluster Algorithms
+  </div>
+
+  <div class="poster-authors">
+    Your Name<sup>1</sup>, Collaborator Name<sup>2</sup><br>
+    <small><sup>1</sup>Your Institution | <sup>2</sup>Collaborator Institution</small>
+  </div>
+
+  <div class="columns">
+
+    <!-- Column 1 -->
+    <div class="column poster-section">
+      <h2>Introduction</h2>
+      <p>
+        Coupled-Cluster (CC) theory is a cornerstone of high-accuracy
+        electronic structure methods. Convergence of fixed-point iterations
+        remains a critical numerical challenge.
+      </p>
+
+      <h2>Methodology</h2>
+      <p>
+        We analyze the fixed-point map in both MO and AO representations.
+      </p>
+
+      <div class="equation">
+        $$ t^{(k+1)} = \frac{R(t^{(k)})}{D} $$
+      </div>
+
+      <p>
+        Spectral radius of the Jacobian is used as a stability metric.
+      </p>
+    </div>
+
+    <!-- Column 2 -->
+    <div class="column poster-section">
+      <h2>Results</h2>
+      <ul>
+        <li>Convergence strongly depends on denominator shifts.</li>
+        <li>AO formulation shows improved robustness.</li>
+        <li>Spectral radius correlates with iteration count.</li>
+      </ul>
+
+      <h2>Discussion</h2>
+      <p>
+        Shifting the denominator stabilizes near-singular updates and
+        improves convergence domains.
+      </p>
+    </div>
+
+    <!-- Column 3 -->
+    <div class="column poster-section">
+      <h2>Conclusions</h2>
+      <ul>
+        <li>Fixed-point robustness is basis dependent.</li>
+        <li>Denominator regularization is essential.</li>
+        <li>Future work: adaptive shift strategies.</li>
+      </ul>
+
+      <h2>References</h2>
+      <small>
+        [1] Bartlett & Musiał, Rev. Mod. Phys. (2007)<br>
+        [2] Your recent APS abstract (2026)
+      </small>
+    </div>
+
+  </div>
+
+</section>
+</div>
+</div>
+
+<!-- Reveal.js JS -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4/dist/reveal.js"></script>
+
+<!-- MathJax for equations -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4/plugin/math/math.js"></script>
+
+<script>
+  Reveal.initialize({
+    width: 1920,
+    height: 1080,
+    margin: 0.05,
+    plugins: [ RevealMath.MathJax3 ]
+  });
+</script>
+
+</body>
+</html>

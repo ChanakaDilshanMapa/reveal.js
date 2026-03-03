@@ -1,0 +1,1471 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>ARCC_Chanaka_Mapa</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/res4841et.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+    
+	<style>
+		:root {
+			--rpi-burgundy: #8b0000;
+			--light-bg: #f5f5f5;
+			--dark-text: #333;
+			--math-font-size: 0.6em;
+		}
+		
+		.reveal {
+			font-family: 'STIX Two Text', serif;
+			background-color: var(--light-bg);
+			color: var(--dark-text);
+		}
+		
+		/* Title slide */
+		.reveal .title-slide {
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			padding: 8rem;
+			box-sizing: border-box;
+		}
+		
+		.reveal .title-slide .title {
+			font-size: 2.5rem;
+			margin-bottom: 4.5rem;
+			line-height: 1.0;
+			max-width: 900px;
+			color: var(--dark-text);
+		}        
+		
+		.reveal .title-slide .presenter {
+			font-size: 1.8rem;
+			margin-bottom: 0.5rem;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .co-authors {
+			font-size: 1.1rem;
+			margin-bottom: 0.5rem;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .affiliation {
+			font-size: 1.1rem;
+			margin-bottom: 1rem;
+			font-style: italic;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .date {
+			font-size: 1rem;
+			margin-top: 2rem;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .logo {
+			max-height: 100px;
+			margin-top: 2rem;
+		}
+		
+		/* Content slides */
+		.reveal .slide {
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			text-align: left;
+			padding: 2rem;
+			box-sizing: border-box;
+		}
+		
+		.reveal .slide .title {
+			text-align: left;
+			font-weight: 100;
+			margin-bottom: 0.5em;
+			border-bottom: 1px solid #221e1e;
+			padding-bottom: 0.0em;
+		}
+
+		.reveal .slide .subtitle {
+			text-align: left;
+			font-weight: 60;
+			margin-bottom: 1.2em;			
+		}
+		
+		.reveal .slide .outline {
+			font-size: 1.4rem;
+			line-height: 1.6;
+		}
+		
+		.reveal .outline li {
+			margin-bottom: 1.0rem;
+		}
+	
+		.reveal .slide .suboutline {
+			font-size: 1.2rem;
+			line-height: 1.6;
+		}
+	
+		.reveal .slide .suboutline li {
+			margin-bottom: 0.5rem;
+		}
+		
+		
+		/* Math content styles */
+		.reveal .math-content {
+			width: 100%;
+			margin: 0 auto;
+		}
+
+		.reveal .math-content .math-block {
+        margin-bottom: 1.5rem;
+        }
+
+		.reveal .math-content .math-title {
+        margin-bottom: 0.0rem;
+		font-size: 1.0rem;    
+    	}
+								
+		.reveal .math-content .math-equation {
+			text-align: left;
+			margin: 1rem 0;
+			font-family: 'STIX Two Math';
+			font-size: var(--math-font-size);
+		}
+
+		.reveal .math-content .math-equation-small {
+			text-align: left;
+			margin: 1rem 0;
+			font-family: 'STIX Two Math';
+			font-size: 0.4em;
+		}
+		
+		.reveal .math-content .math-explanation {
+			margin-left: 2rem;
+			margin-bottom: 1rem;
+			font-size: 1.0rem;
+		}
+		
+		.reveal .slide-number {
+		}
+		
+		.reveal .footer {
+			position: fixed;
+			left: 20px;
+			right: 20px;
+			bottom: -12px !important;
+			display: grid;
+			grid-template-columns: 1fr auto 1fr;
+			align-items: start;
+			row-gap: 0;
+			font-size: 0.8rem;
+			color: #555;
+			border-top: 1px solid #221e1e;
+			padding-top: 0px;
+			z-index: 1000;
+		}
+
+		.reveal .footer > :first-child { justify-self: start; }
+		.reveal .footer > :nth-child(2) { justify-self: center; align-self: end; transform: translateY(0px); }
+		.reveal .footer > :last-child { justify-self: end; }
+		
+		.reveal .footer .logo {
+			height: 60px;
+			display: block;
+			margin-bottom: 0;
+		}
+		
+		/* Remove top margins to reduce gap under separator */
+		.reveal .footer > * { margin-top: 0 !important;}
+
+		/* Style for the references footer */
+		.references-footer {
+			position: fixed;
+			left: 20px;
+			right: 20px;
+			bottom: -6px;
+			font-size: 0.35em !important;  /* Smaller than current 0.5em */
+			line-height: 1.3;
+			border-top: 1px solid #221e1e;
+			padding-top: 0px;
+			z-index: 1000;
+		}
+
+		/* Tighten spacing between separator and first reference line */
+		.references-footer .reference-entry { margin-top: 0 !important; }
+
+		/* Superscript style for citation numbers */
+		.superscript-citation {
+			font-size: 0.7em;    /* Slightly smaller than surrounding text */
+			vertical-align: super;
+			line-height: 0;      /* Prevents line spacing issues */
+			margin-left: 2px;    /* Small space before citation */
+		}
+
+		/* Make the "References:" label smaller */
+		.references-label {
+			font-size: 0.9em;    /* Relative to the 0.4em parent */
+		}
+
+		/* Optional: Make the reference text more compact */
+		.reference-entry {
+			margin-bottom: 8px !important;
+		}
+		
+	</style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+			<!-- Slide 1 -->
+            <!-- Title Slide -->
+            <section class="title-slide" data-background="rgb(209, 225, 214)">
+                <div class="title">Robustness of the fixed-point map in local-correlation CC algorithms</div>                
+                <div class="presenter">Chanaka Mapa Mudiyanselage</div>
+                <div class="co-authors">Kangbo Li and Fabian M. Faulstich</div>
+                <div class="affiliation">Department of Mathematics, RPI</div>
+                <div class="date">February 04, 2026</div>
+                <img src="images/presentation_chanaka_SP25-2/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+            </section>
+
+			<!-- Slide 2 -->
+            <!-- Outline Slide -->
+            <section class="slide" data-background="rgb(209, 225, 214)">
+                <div class="title">Presentation Outline</div>
+                <ol class="outline">
+					<li>CC theory
+					<ol class="suboutline">
+						<li>A brief introduction</li>						
+						<li>Scaling</li>												
+					</ol>
+					</li>
+                    <li>CC theory in an arbitrary guage
+					<ol class="suboutline">
+						<li>How it works?</li>						
+						<li>Projectors and transformed quantities</li>									
+					</ol>
+					</li>	
+					<li>Fixed-point map to update amplitudes
+					<ol class="suboutline">
+						<li>Fixed point map transformation</li>	
+						<li>Numerical results</li>														
+					</ol>
+					</li>
+					<li>Orbital energies and unperturbed Hamiltonian
+					<ol class="suboutline">
+						<li>MPPT</li>	
+						<li>Spectrum of the many-body Fock operator</li>																		
+					</ol>
+					</li>
+					<li>Alternative solver  
+					<ol class="suboutline">
+						<li>Newton-Krylov solver</li>	
+						<li>Results</li>																		
+					</ol>
+					</li>		
+                </ol>
+ 				<div class="footer">
+					<div>Feb 04, 2026</div>
+					<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+					<div>Department of Mathematics</div>
+				</div>	
+            </section>		
+							
+			<!-- Slide 3.1 -->
+			<section>
+				<!-- CC theory - Intro -->
+				<section class="slide" data-background="rgb(209, 225, 214)">
+					<!-- CC ansatz -->
+					<div class="title">CC theory - Intro</div>
+					<div class="math-content">
+						<!-- CC Ansatz -->
+						<div class="math-title">Coupled Cluster ansatz,</div>
+						<div class="math-equation">
+							\[
+							\boxed{
+							| \Psi_{\text{CC}} \rangle = e^T | \Psi_0 \rangle
+							}
+							\]
+						</div>
+						<div class="math-explanation">
+							where the cluster operator \(T = T_1 + T_2 + \cdots\) and
+						</div>
+						<div class="math-equation">
+							\[
+							T_1 = \sum_{i = 1}^{\mathcal{N}_{\text{occ}}} \sum_{a = 1}^{\mathcal{N}_{\text{vir}}} 
+							t_i^a a_a^\dagger a_i \quad , \quad T_2 = \frac{1}{4} \sum_{i, j = 1}^{\mathcal{N}_{\text{occ}}} 
+							\sum_{a, b = 1}^{\mathcal{N}_{\text{vir}}} t_{ij}^{ab} a_a^\dagger a_b^\dagger a_j a_i \quad, ...
+							\]							
+						</div>
+						<div class="math-explanation">
+							where $i,j,k,...$ denotes occupied orbitals and $a,b,c,...$ virtual orbitals
+							and $\mathcal{N}_{\text{occ}}, \mathcal{N}_{\text{vir}}$ denotes no. of occupied and virtual
+							orbitals respectively. Here, $t$ denotes the CC amplitudes and $a^\dagger,a$ denotes creation
+							and annihilation operators respectively.
+						</div>						
+
+						<div class="math-equation">
+						\[
+						\boxed{
+						\begin{aligned}
+						E_{\text{CC}} 
+						&= \langle \Psi_0 | e^{-T} H e^T | \Psi_0 \rangle
+						&& \text{(CC energy equation)} \\[6pt]
+						R_x 
+						&= \langle \Psi_x | e^{-T} H e^T | \Psi_0 \rangle = 0
+						&& \text{(Residual / amplitude equations)}
+						\end{aligned}
+						}
+						\]
+						</div>						
+					</div>
+					
+					<div class="footer">
+						<div>Feb 04, 2026</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>						
+				</section>
+				
+				<!-- Slide 3.2 -->
+				<!-- CCSD energy equations -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">CCSD energy equations</div>
+					<div class="math-content">
+						<!-- CC Ansatz -->
+						<div class="math-equation">
+							\[ E_{\text{CCSD}} = \langle \Psi_0 |e^{-T_{SD}} H e^{T_{SD}} | \Psi_0 \rangle \]
+						</div>
+						<div class="math-explanation">where the two body Hamiltonian given as</div>	
+						<div class="math-equation">								
+							\[								
+							H = \sum_{pq} h_{p}^{q} \, a_{p}^{\dagger} a_{q} 
+							+ \frac{1}{4} \sum_{pqrs} \langle pq || rs \rangle \, a_{p}^{\dagger} a_{q}^{\dagger} a_{s} a_{r}
+							\]		
+						</div>
+						<div class="math-explanation">Then we can have the expanded energy equation as as,</div>	
+						<div class="math-equation">
+							\[
+							\begin{aligned} 							
+							E_{\text{corr}} = \sum_{ia} h_i^a \, t_i^a 
+							+ \frac{1}{4} \sum_{ijab} \langle ij || ab \rangle \, t_{ij}^{ab} 
+							+ \frac{1}{2} \sum_{ijab} \langle ij || ab \rangle \, t_i^a \, t_j^b
+							
+							\end{aligned}
+							\]
+						</div>									
+					</div>
+					
+					<div class="footer">
+						<div>Feb 04, 2026</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+
+				<!-- Slide 3.3 -->
+				<!-- CCSD singles amp equations -->
+				<section class="slide" data-background="rgb(209, 225, 214)">					
+						<div class="title">CCSD singles amplitude equations</div>
+						<div class="math-content">							
+							<div class="math-equation">
+								\[ R_i^a = \langle \Psi_i^a | e^{-T_{SD}} H e^{T_{SD}} | \Psi_0 \rangle = 0 \]								
+							</div>
+							<div class="math-explanation">With the two body Hamiltonian above we can have the expanded singles amplitude equation as as,</div>								
+							<div class="math-equation-small">
+								\[
+								\begin{aligned}
+								0 = & \; h_a^i \nonumber \\
+								& + \sum_b h_a^b \, t_i^b - \sum_j h_j^i \, t_j^a \nonumber \\
+								& + \sum_{jb} \langle aj || ib \rangle \, t_j^b \nonumber \\
+								& + \sum_{jbc} \langle aj || bc \rangle \, t_{ij}^{bc} - \sum_{jkb} \langle jk || ib \rangle \, t_{jk}^{ab} \nonumber \\
+								& + \frac{1}{2} \sum_{jkbc} \langle jk || bc \rangle \, t_i^b \, t_{jk}^{ac} - \sum_{jkbc} \langle jk || bc \rangle \, t_j^a \, t_{ik}^{bc} \nonumber \\
+								& + \sum_{jbc} \langle aj || bc \rangle \, t_j^b \, t_i^c - \sum_{jkb} \langle jk || ib \rangle \, t_j^a \, t_k^b
+								\end{aligned}
+								\]
+							</div>									
+						</div>
+						
+						<div class="footer">
+							<div>Feb 04, 2026</div>
+							<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+							<div>Department of Mathematics</div>
+						</div>
+					</section>
+
+					<!-- Slide 3.4 -->
+					<!-- CCSD doubles amp equations -->
+					<section class="slide" data-background="rgb(209, 225, 214)">						
+						<div class="title">CCSD doubles amplitude equations</div>
+						<div class="math-content">								
+							<div class="math-equation">								
+								\[ R_{ij}^{ab} = \langle \Psi_{ij}^{ab} | e^{-T_{SD}} H e^{T_{SD}}| \Psi_0 \rangle = 0 \]
+							</div>
+							<div class="math-explanation">With the two body Hamiltonian above we can have the expanded singles amplitude equation as as,</div>	
+							<div class="math-equation-small">
+								\[
+								\begin{aligned}
+								0 = & \; \langle ab || ij \rangle \nonumber \\
+								& + \sum_c \Big( h_a^c \, t_{ij}^{cb} - h_c^i \, t_{ij}^{ab} \Big) 
+								+ \sum_c \Big( h_b^c \, t_{ij}^{ac} - h_c^j \, t_{ij}^{ab} \Big) \nonumber \\
+								& + \frac{1}{2} \sum_{kl} \langle kl || ij \rangle \, t_{kl}^{ab} 
+								+ \frac{1}{2} \sum_{cd} \langle ab || cd \rangle \, t_{ij}^{cd} \nonumber \\
+								& + \mathcal{P}(ab) \sum_{kc} \langle ak || ic \rangle \, t_{jk}^{bc} 
+								- \mathcal{P}(ij) \sum_{kc} \langle kb || ij \rangle \, t_{ik}^{ac} \nonumber \\
+								& + \mathcal{P}(ij)\mathcal{P}(ab) \sum_{kc} \langle ak || ic \rangle \, t_j^b \, t_k^c \nonumber \\
+								& + \frac{1}{2} \sum_{klcd} \langle kl || cd \rangle \, t_{ij}^{cd} \, t_{kl}^{ab} \nonumber \\
+								& + \mathcal{P}(ab) \sum_{klcd} \langle kl || cd \rangle \, t_{ik}^{ac} \, t_{jl}^{bd} \nonumber \\
+								& - \mathcal{P}(ij) \sum_{klcd} \langle kl || cd \rangle \, t_{ik}^{ab} \, t_{jl}^{cd}
+								\end{aligned}
+								\]
+							</div>									
+						</div>
+						
+						<div class="footer">
+							<div>Feb 04, 2026</div>
+							<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+							<div>Department of Mathematics</div>
+						</div>
+					</section>				
+			</section>
+			
+			<!-- Slide 4 -->
+			<section>
+				<!-- CC theory - Scaling -->
+				<section class="slide" data-background="rgb(209, 225, 214)">
+					<div class="title">CC theory - Scaling</div>
+						<div class="math-content">						
+							<div class="math-title">We understand that CC methods are very accurate. However, 
+								they are very expensive. Let's get some idea about scaling of CC methods.</div>												
+							<table class="math-equation" style="margin: 0 auto">
+							<thead>
+								<tr>
+								<td>Method</td>
+								<td>Scaling</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+								<td>CCSD</td>
+								<td>\(\mathcal{O}(\mathcal{N}^6)\)</td>
+								</tr>
+								<tr>
+								<td>CCSD(T)</td>
+								<td>\(\mathcal{O}(\mathcal{N}^7)\)</td>
+								</tr>
+								<tr>
+								<td>CCSDT</td>
+								<td>\(\mathcal{O}(\mathcal{N}^8)\)</td>
+								</tr>
+							</tbody>
+							</table>
+							<p style="font-size: 0.35em; color: #170202; margin-top: 0.1px; text-align: center;">Table 1: Scaling of CC methods</p>
+							<div class="math-explanation">Where $\mathcal{N}$ is a short hand notation to represent no. of basis functions. 
+								If we are using canonical CCSD $\mathcal{N}$ represents the number of molecular 
+								orbitals.</div>
+							
+							<div class="math-title">Now let's understand this by picking a bad term in the CCSD 
+								equations. We see particle particle ladder term is the most expensive one in 
+								CCSD equations.</div>
+							<div class="math-equation">
+								\[
+								\boxed{
+								\frac{1}{2} \sum_{cd} \langle ab || cd \rangle \, t_{ij}^{cd}  
+								} \rightarrow \text{This term scales to} \, \mathcal{O}(\mathcal{N}^6)
+								\]							
+							</div>													
+						
+						<div class="footer">
+							<div>Feb 04, 2026</div>
+							<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+							<div>Department of Mathematics</div>
+						</div>
+				</section>		
+			</section>			
+
+			<section>
+				<!-- Slide 5.1 -->
+				<!-- CC theory in arbitrary gauge -->
+				<section class="slide" data-background="rgb(209, 225, 214)">
+					<div class="title">CC theory in an arbitrary gauge</div>
+					<div class="math-content">
+						<div class="math-title">Idea: We use a unitary matrix for the basis transformation.</div>
+							
+						<div style="margin-top: 1.0em;"></div>
+
+						<div class="math-equation">
+						\[
+						\boxed{
+						\begin{array}{c}
+						\text{CC theory} \\
+						\text{(canonical basis)}
+						\end{array}
+						}
+						\;\xrightarrow{\;\text{Basis transformation } (U)\;}\;
+						\boxed{
+						\begin{array}{c}
+						\text{CC theory} \\
+						\text{(arbitrary basis)}
+						\end{array}
+						}
+						\]
+						</div>
+
+						<div class="math-title">AR basis is not, in general, orthogonal. To ensure orthogonality, we define,</div>
+
+						<div class="math-equation">
+							\[
+							\bar{U}_{\mu i} = S_{\mu}^{\alpha} U_{\alpha i},
+							\]
+						</div>
+
+						<div class="math-explanation">where "$\mu$" is an AO index and "$S$" denotes the overlap matrix in the AO basis which has the property,</div>
+						
+						<div class="math-equation">
+							\[
+							U_{\mu p} \bar{U}_{\mu q} = U_{\mu p} S_{\mu}^{\alpha} U_{\alpha q} = \delta_{pq}.
+							\]
+						</div>
+
+						
+					<div class="footer">
+						<div>Feb 04, 2026</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+				</section>
+
+				<!-- Slide 5.2 -->
+				<!-- Projectors -->
+				<section class="slide" data-background="rgb(209, 225, 214)">												
+					<div class="title">Projectors</div>
+					<div class="math-content">	
+						
+						<div class="math-title">The integral transformation procedure contains 2 steps:</div>
+
+						<div class="math-equation">
+						\[
+						\boxed{
+						\begin{array}{c}
+						\text{AO} \\
+						\text{Integrals}
+						\end{array}
+						}
+						\;\xrightarrow{\;C\;}\;
+						\boxed{
+						\begin{array}{c}
+						\text{MO} \\
+						\text{Integrals}
+						\end{array}
+						}
+						\;\xrightarrow{\;U\;}\;
+						\boxed{
+						\begin{array}{c}
+						\text{AR} \\
+						\text{Integrals}
+						\end{array}
+						}
+						\]
+						</div>
+
+						<div class="math-explanation">where "$C$" denotes the molecular coefficient matrix. Also during the process, 
+							we must avoid mixing between occupied and virtual spaces, the explicit projection onto the individual spaces 
+							will be required.</div>
+
+						<div class="math-title">The projectors onto the occupied and virtual subspace take 
+							the form<span class="superscript-citation">[1]</span>,</div>			
+
+						<div class="math-equation">
+							\[
+							P_{\mu}^{\nu} = C_{\mu i} U_{\nu i}, \quad \quad \quad Q_{\mu}^{\nu} = U_{\mu a} C_{\nu a}.
+							\]
+						</div>
+
+						<div class="math-explanation">together with their overlap-weighted counterparts
+							<span class="superscript-citation">[1]</span>,</div>
+
+						<div class="math-equation">
+							\[
+							\bar{P}_{\mu}^{\nu} = \bar{U}_{\mu i} C_{\nu i}, \quad \quad \quad \bar{Q}_{\lambda}^{\sigma} = \bar{U}_{\lambda a} C_{\sigma a}.
+							\]
+						</div>
+
+						<div class="math-explanation">with the following properties,</div>
+
+						<div class="math-equation">
+							\[
+							PSP = P, \quad QSQ = Q, \quad PSQ = 0, \quad P+Q = S^{-1}.
+							\]
+						</div>					
+			
+						<div class="references-footer">
+						<p class="reference-entry">
+							[1] G. E. Scuseria and P. Y. Ayala,
+							<em>Linear scaling coupled cluster and perturbation theories in the atomic orbital basis</em>,
+							<span class="journal">J. Chem. Phys.</span> <strong>111</strong>, 8330–8343 (1999).
+						</p>
+						</div>
+				</section>	
+
+				<!-- Slide 5.3 -->
+				<!-- Elements in AR basis -->
+				<section class="slide" data-background="rgb(209, 225, 214)">												
+					<div class="title">Elements in AR basis</div>
+					<div class="math-content">	
+						
+						<div class="math-title">We now derive the transformed electron repulsion integrals,<span class="superscript-citation">[1]</span> as</div>
+
+						<div class="math-equation">
+						\[
+						\pi_{\mu\nu}^{\lambda\sigma}
+						= P_{\mu\alpha} P_{\nu\beta}
+						\nu_{\alpha\beta}^{\gamma\delta}
+						Q_{\gamma\lambda} Q_{\delta\sigma}.
+						\]
+						</div>
+
+						<div class="math-explanation">where "$\nu,\lambda,\sigma$" are also AO indices.</div>
+
+						<div class="math-title">The corresponding transformed amplitudes<span class="superscript-citation">[1]</span> as,</div>
+
+						<div class="math-equation">
+						\[
+						\theta_{\mu\nu}^{\lambda\sigma}
+						= \bar{U}_{\mu i} \bar{U}_{\nu j}
+						\bar{U}_{\lambda a} \bar{U}_{\sigma b}
+						t_{ij}^{ab}.
+						\]
+						</div>
+
+						<div class="math-explanation">Note that the amplitudes in the MO basis obey the symmetry $t_{ij}^{ab} = t_{ji}^{ba}$, 
+							which is directly inherited by the transformed amplitudes in the AR representation, 
+							i.e., $\theta_{\mu\nu}^{\lambda\sigma} = \theta_{\nu\mu}^{\sigma\lambda}$.</div>
+
+						<div class="math-title">With these we can transform CC equation<span class="superscript-citation">[1]</span> from MO basis to AR basis as,</div>
+
+						<div class="math-equation">
+							\[
+							Z_{\mu\nu}^{\lambda\sigma} (\theta)
+							= \bar{U}_{\mu i} \bar{U}_{\nu j}
+							\bar{U}_{\lambda a} \bar{U}_{\sigma b} \,
+							Z_{ij}^{ab} (t) = 0.
+							\]
+						</div>						
+					
+						<div class="references-footer">
+						<p class="reference-entry">
+							[1] G. E. Scuseria and P. Y. Ayala,
+							<em>Linear scaling coupled cluster and perturbation theories in the atomic orbital basis</em>,
+							<span class="journal">J. Chem. Phys.</span> <strong>111</strong>, 8330–8343 (1999).
+						</p>
+						</div>
+				</section>	
+				
+				<!-- Slide 5.4 -->
+				<!-- Correlation energy in AR basis -->
+				<section class="slide" data-background="rgb(209, 225, 214)">												
+					<div class="title">Correlation energy in AR basis</div>
+					<div class="math-content">	
+						
+						<div class="math-title">The correlation energy in the AR basis<span class="superscript-citation">[1]</span>,</div>
+
+						<div class="math-equation">
+							\[
+							E_{\text{corr}}
+							= \Pi^{\mu\nu}_{\lambda\sigma} \, \theta_{\mu\nu}^{\lambda\sigma}
+							= \pi^{\mu\nu}_{\lambda\sigma} \, \Theta_{\mu\nu}^{\lambda\sigma},
+							\]
+						</div>
+
+						<div class="math-explanation">where,</div>
+
+						<div class="math-equation">
+						\[
+						\begin{aligned}
+						\Pi^{\mu\nu}_{\lambda\sigma}
+						&= 2\pi^{\mu\nu}_{\lambda\sigma}
+						- \pi^{\mu\nu}_{\sigma\lambda}, \\
+						\Theta_{\mu\nu}^{\lambda\sigma}
+						&= 2\theta_{\mu\nu}^{\lambda\sigma}
+						- \theta_{\mu\nu}^{\sigma\lambda}.
+						\end{aligned}
+						\]
+						</div>
+
+						<div class="math-title">Note: One can compute the correlation energy and check across bases as a sanity check as the correlation energy is gauge invariant.</div>
+					
+						<div class="references-footer">
+						<p class="reference-entry">
+							[1] G. E. Scuseria and P. Y. Ayala,
+							<em>Linear scaling coupled cluster and perturbation theories in the atomic orbital basis</em>,
+							<span class="journal">J. Chem. Phys.</span> <strong>111</strong>, 8330–8343 (1999).
+						</p>
+						</div>
+				</section>	
+			</section>
+			
+			<section>
+				<!-- Slide 6.1 -->				
+				<!-- Fixed point map transformation -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Fixed point map transformation</div>
+					<div class="math-content">	
+						
+						<div class="math-title">In the MO basis, a widely adopted fixed-point map for the doubles amplitudes is given 
+							by<span class="superscript-citation">[2]</span>,</div>
+
+						<div class="math-equation">
+							\[
+							\boxed{
+							t^{ab}_{ij} = \frac{v^{ab}_{ij} + \Delta f^{ab}_{ij}(t) + \bar{R}^{ab}_{ij}(t)}{f^{i}_{i} + f^{j}_{j} - f^{a}_{a} - f^{b}_{b}}
+							}
+							\]
+						</div>
+
+						<div class="math-title">Replacing each tensor in the fixed point map with their transformed 
+							counterpart leads to<span class="superscript-citation">[1]</span>,</div>
+
+						<div class="math-equation">
+						\[
+						\boxed{
+						\theta^{\lambda\sigma}_{\mu\nu} = \frac{d^{\lambda\sigma}_{\mu\nu} + \Delta F^{\lambda\sigma}_{\mu\nu}(\theta) 
+						+ R^{\lambda\sigma}_{\mu\nu}(\theta)}{{}^{o}F^{\mu}_\mu + {}^{o}F^{\nu}_\nu - {}^{v}F^{\lambda}_\lambda - {}^{v}F^{\sigma}_\sigma}
+						}
+						\]
+						</div>
+					
+						<div class="references-footer">
+						<p class="reference-entry">
+							[1] G. E. Scuseria and P. Y. Ayala,
+							<em>Linear scaling coupled cluster and perturbation theories in the atomic orbital basis</em>,
+							<span class="journal">J. Chem. Phys.</span> <strong>111</strong>, 8330–8343 (1999).
+						</p>
+						<p class="reference-entry">
+							[2] I. Shavitt and R. J. Bartlett,
+							<em>Many-Body Methods in Chemistry and Physics: MBPT and Coupled-Cluster Theory</em>,
+							Cambridge Molecular Science,
+							Cambridge University Press (2009).
+						</p>
+						</div>
+				</section>
+
+				<!-- Slide 6.2 -->
+				<!-- Numerical results -->
+				<section class="slide" data-background="rgb(209, 225, 214)">
+					<div class="fragment fade-out" data-fragment-index="1"></div>				
+						<div class="title">Numerical results</div>
+						<div class="math-content">
+							<div class="math-title">When we use $U=C$ we recover the AO basis. Here, we present the 
+								convergence behavior of the fixed-point (FP) iteration in both MO and AO bases.</div>
+
+						<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 20px;">
+
+							<!-- LEFT: Image -->
+							<div style="width: 40%; text-align: center;">
+								<img src="images/Sanible/fixed_point_convergence.png"
+									alt="Fixed-point convergence"
+									style="width: 100%; border: 1px solid #9cc09b; border-radius: 10px;">
+								<p style="font-size: 0.35em; color: #170202; margin-top: 0px;">
+									Figure 1: Convergence analysis of the FP iteration				
+								</p>
+							</div>
+
+							<!-- RIGHT: Smaller Table -->
+							<div style="width: 48%;">
+
+								<table class="math-equation"
+									style="margin: 0 auto; font-size: 0.35em; line-height: 1.15;">
+									<caption style="caption-side: bottom; text-align: center; margin-top: 0.4em;">
+										Table 2: Convergence results of FP iteration in MO and AO bases. 
+										 <span style="white-space: nowrap;">\(\checkmark\)</span> denotes convergence 
+										 and <span style="white-space: nowrap;">\(\times\)</span> denotes divergence
+									</caption>
+									<thead>
+										<tr>
+											<td><strong>Mol.</strong></td>
+											<td><strong>Basis</strong></td>
+											<td colspan="3"><strong>MOCC</strong></td>
+											<td colspan="2"><strong>AOCC</strong></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td>Conv.</td>
+											<td>Iter.</td>
+											<td>\(\rho\)</td>
+											<td>Conv.</td>
+											<td>\(\rho\)</td>
+										</tr>
+									</thead>
+
+									<tbody>
+										<tr>
+											<td>H\(_2\)</td>
+											<td>cc-pVTZ</td>
+											<td>\(\checkmark\)</td>
+											<td>39</td>
+											<td>0.5287</td>
+											<td>\(\times\)</td>
+											<td>1.8156</td>
+										</tr>
+										<tr>
+											<td>H\(_2\)O</td>
+											<td>cc-pVTZ</td>
+											<td>\(\checkmark\)</td>
+											<td>43</td>
+											<td>0.7026</td>
+											<td>\(\times\)</td>
+											<td>3.6046</td>
+										</tr>
+										<tr>
+											<td>NH\(_3\)</td>
+											<td>cc-pVTZ</td>
+											<td>\(\checkmark\)</td>
+											<td>45</td>
+											<td>0.6697</td>
+											<td>\(\times\)</td>
+											<td>3.6078</td>
+										</tr>
+										<tr>
+											<td>CH\(_3\)</td>
+											<td>cc-pVTZ</td>
+											<td>\(\checkmark\)</td>
+											<td>45</td>
+											<td>0.6612</td>
+											<td>\(\times\)</td>
+											<td>3.1336</td>
+										</tr>
+										<tr>
+											<td>BeH\(_2\)</td>
+											<td>cc-pVTZ</td>
+											<td>\(\checkmark\)</td>
+											<td>56</td>
+											<td>0.7252</td>
+											<td>\(\times\)</td>
+											<td>2.9296</td>
+										</tr>
+										<tr>
+											<td>BH\(_3\)</td>
+											<td>cc-pVTZ</td>
+											<td>\(\checkmark\)</td>
+											<td>55</td>
+											<td>0.6758</td>
+											<td>\(\times\)</td>
+											<td>2.6781</td>
+										</tr>
+										<tr>
+											<td>C\(_2\)H\(_6\)</td>
+											<td>6-31G</td>
+											<td>\(\checkmark\)</td>
+											<td>52</td>
+											<td>0.4822</td>
+											<td>\(\times\)</td>
+											<td>2.3602</td>
+										</tr>
+										<tr>
+											<td>C\(_3\)H\(_8\)</td>
+											<td>4-31G</td>
+											<td>\(\checkmark\)</td>
+											<td>52</td>
+											<td>0.3355</td>
+											<td>\(\times\)</td>
+											<td>2.4060</td>
+										</tr>
+										<tr>
+											<td>C\(_4\)H\(_{10}\)</td>
+											<td>4-31G</td>
+											<td>\(\checkmark\)</td>
+											<td>53</td>
+											<td>0.3636</td>
+											<td>\(\times\)</td>
+											<td>2.3487</td>
+										</tr>
+										<tr>
+											<td>C\(_5\)H\(_{12}\)</td>
+											<td>3-21G</td>
+											<td>\(\checkmark\)</td>
+											<td>53</td>
+											<td>0.2136</td>
+											<td>\(\times\)</td>
+											<td>2.2764</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>							
+						</div>
+						<div class="math-title" style="margin-top: 0.6em;">In fixed-point iteration analysis, 
+							a spectral radius less than unity indicates an attractor and thus convergence, 
+							while a spectral radius of the Jacobian (non-linear case) than unity 
+							indicates a repeller and thus divergence.</div>					
+					</div>
+					
+					
+					<div class="footer">
+						<div>Feb 04, 2026</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>
+
+					<!-- BIG WHY -->
+					<div class="fragment" data-fragment-index="2"
+						style="
+							position: absolute;
+							top: 50%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+							font-size: 4em;
+							font-weight: 800;
+							letter-spacing: 0.15em;
+						">
+						Why?
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<!-- Slide 7.1 -->											
+				<!-- Orbital energies and unperturbed Hamiltonian -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Orbital energies and unperturbed Hamiltonian</div>
+					<div class="math-content">	
+						
+						<div class="math-title">The electronic Hamiltonian in second quantization can be written 
+							as<span class="superscript-citation">[2],</div>
+
+						<div class="math-equation">
+							\[
+							H = H_0 + V,
+							\]
+						</div>
+
+						<div class="math-explanation">where $H_0$ is the unperturbed Hamiltonian, and $V$ consists of the remaining terms as the 
+							perturbation.</div>
+
+						<div class="math-title">In Møller-Plesset perturbation 
+							theory<span class="superscript-citation">[2],</div> 
+
+						<div class="math-equation">
+						\[
+						H = F + V,
+						\]
+						</div>
+
+						<div class="math-explanation">where $F$ is the many-body Fock-Operator (the diagonal structure of the Fock operator in the  
+							MO basis motivates the definition of the zeroth-order Hamiltonian) and define as,</div>
+
+						<div class="math-equation">
+						\[
+						H_0 = F = \sum_{p,q = 1}^{\mathcal{N}_{\text{basis}}} F_{pq} a_p^\dagger a_q,
+						\]
+						</div>
+
+						<div class="math-explanation">where $\mathcal{N}_{\text{basis}}$ is the no. of basis functions. 
+							$F_{pq}$ is the Fock matrix in MO basis.</div>
+
+						<div class="references-footer">
+						<p class="reference-entry">
+							[2] I. Shavitt and R. J. Bartlett,
+							<em>Many-Body Methods in Chemistry and Physics: MBPT and Coupled-Cluster Theory</em>,
+							Cambridge Molecular Science,
+							Cambridge University Press (2009).
+						</p>
+						</div>				
+				</section>
+
+				<!-- Slide 7.2 -->	
+				<!-- Orbital energies and unperturbed Hamiltonian -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Orbital energies and unperturbed Hamiltonian</div>
+					<div class="math-content">						
+						<div class="math-explanation">And $V$ is the fluctuation potential and define as,</div>
+					
+						<div class="math-equation">
+						\[
+						V = H - H_0 = H - F
+  						= \frac{1}{4} \sum_{p,q,r,s = 1}^{\mathcal{N}_{\text{basis}}} v_{pq}^{rs} \, a_p^\dagger a_q^\dagger a_s a_r
+       					- \sum_{p,q = 1}^{\mathcal{N}_{\text{basis}}} F_{pq} a_p^\dagger a_q,
+						\]
+						</div>				
+
+						<div class="math-explanation">where $a_p^\dagger$ and $a_q$ the usual creation and annihilation operators.
+						 Within coupled-cluster theory, the CCD doubles amplitudes are updated via the canonical fixed-point iteration.</div>
+
+						<div class="math-title">The denominator,</div>
+
+						<div class="math-equation">
+						\[
+						\Delta_{ij}^{ab} = \varepsilon_i + \varepsilon_j - \varepsilon_a - \varepsilon_b,
+						\]
+						</div>
+					
+						<div class="math-explanation">is the energy difference between the excited eigenstate  $\lvert \Phi_{ij}^{ab} \rangle$ and 
+							the unperturbed ground state of $H_0$. In the MO basis, simplifies to,</div>
+
+						<div class="math-equation">
+						\[
+						\boxed{
+						H_0
+						= \sum_{p = 1}^{\mathcal{N}_{\text{basis}}} \varepsilon_p \, a_p^\dagger a_p.
+						}
+						\]
+						</div>
+					</div>
+
+					<div class="footer">
+						<div>Feb 04, 2026</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>				
+				</section>	
+
+				<!-- Slide 7.3 -->	
+				<!-- Spectrum of the many-body Fock operator -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Spectrum of the many-body Fock operator</div>
+					<div class="math-content">						
+						<div class="math-explanation">And the eigenvectors of the many-body Fock operator are all possible Slater determinants 
+							constructed from the MOs,</div>
+					
+						<div class="math-equation">
+						\[
+						\boxed{
+						\begin{aligned}
+						V_{\mathcal{I}} &= \frac{1}{\sqrt{\mathcal{N}_{\text{e}}!}} \bigwedge_{i = 1}^{\mathcal{N}_{\text{e}}} \phi_{k_i} \, \forall \,\mathcal{I}, \\
+						\mathcal{I} &= \{ k_1 < k_2 < \cdots < k_{\mathcal{N}_{\text{e}}} \} \subset \{1, 2, \dots, \mathcal{N}_{\text{basis}} \}, 
+						\quad \mathcal{N}_{\text{e}} = |\mathcal{I}|.
+						\end{aligned}
+						}
+						\]
+						</div>				
+
+						<div class="math-explanation">where $\phi$'s are the MOs and $\mathcal{N}_{\text{e}}$ is the number of electron in the system. 
+							Given the corresponding eigenvalue is simply the sum of the orbital energies of the occupied MOs,</div>	
+
+						<div class="math-equation">
+						\[
+						\boxed{
+						\lambda_{\mathcal{I}} = \sum_{i=1}^{\mathcal{N}_{\text{e}}} \varepsilon_{k_i}
+						}
+						\]
+						</div>
+					
+						<div class="math-explanation">Thus, the energy denominators in the fixed-point map are directly related to the eigenvalues 
+							f $H_0$ through perturbation theory. Using the diagonal elements of the AO Fock matrix as approximate orbital 
+							energies breaks this correspondence.</div>	
+
+						<div class="math-explanation"></div>						
+					</div>
+
+					<div class="footer">
+						<div>Feb 04, 2026</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>				
+				</section>
+				
+				<!-- Slide 7.4 -->	
+				<!-- MO Fock matrix and Unperturbed Hamiltonian -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">MO Fock matrix and Unperturbed Hamiltonian</div>
+					<div class="math-content">						
+						<div class="math-title">In the AO basis, the diagonal elements of the Fock matrix does not correspond to $H_0$. 
+							In particular, they may produce artificially small HOMO-LUMO gaps and $\Delta$ become sufficiently small and diverge, 
+							even for molecules whose true orbital gaps are well behaved.</div>
+
+						<div class="math-title">To illustrate this, consider the simple symmetric matrix,</div>
+					
+						<div class="math-equation">
+						\[
+						\begin{pmatrix}
+						1.000 & 10 \\
+						10 & 1.001
+						\end{pmatrix}
+						\]
+						</div>				
+
+						<div class="math-explanation">Its eigenvalues are evaluated to</div>	
+
+						<div class="math-equation">
+						\[
+						\lambda_{+} \approx 11.0005,
+						\qquad
+						\lambda_{-} \approx -8.9995.
+						\]
+						</div>
+					
+						<div class="math-explanation">Although $\lvert a-d \rvert = 0.001$ is extremely small, the true eigenvalue gap</div>
+						
+						<div class="math-equation">
+						\[
+						\lvert \lambda_{+} - \lambda_{-} \rvert \approx 2.001
+						\]
+						</div>	
+						
+						<div class="math-explanation">is sufficiently large. Thus, using the diagonal entries $a$ and $d$ as if they were orbital 
+							energies would artificially closes the gap. The same phenomenon arises when using AO Fock diagonals.</div>						
+					</div>
+
+					<div class="footer">
+						<div>Feb 04, 2026</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>				
+				</section>			
+			</section>
+
+			<section>
+				<!-- Slide 8.1 -->	
+				<!-- Newton-Krylov Solver -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Newton-Krylov Solver</div>
+					<div class="math-content">						
+						<div class="math-title">The question is then whether there is a solver that is oblivious to the choice of gauge.</div>
+
+						<div class="math-title">We demonstrate the use of a Newton-Krylov solver 
+							(NK)<span class="superscript-citation">[3]</span> for solving systems of residual equations. 
+						Recall that we seek to solve the system</div>					
+					
+						<div class="math-equation">
+						\[
+						Z(\theta) = 0
+						\]
+						</div>				
+
+						<div class="math-explanation">where $Z(\cdot)$ is the residual map in AR basis. The corresponding Newton update 
+							is given by</div>	
+
+						<div class="math-equation">
+						\[
+						\theta^{(k+1)} = \theta^{(k)} - J^{-1}[Z(\theta^{(k)})] Z(\theta^{(k)})
+						\]
+						</div>
+					
+						<div class="math-explanation">where "$J$" is the Jacobian of the residual equations 
+							evaluated at $\theta^{(k)}$.</div>
+						
+						<div class="math-title">A direct inversion is computationally expensive and memory-inefficient. 
+							Instead, it is more customary to approximate the Jacobian action. Given a vector $v$, 
+							the Jacobian action is approximated by a finite-difference directional derivative</div>
+
+						<div class="math-equation">
+						\[
+						\boxed{						
+						\widetilde{J}(\theta)\, v \;\approx\; \frac{Z(\theta + \delta v) - Z(\theta)}{\delta}
+						}
+						\]
+						</div>
+	
+						
+						<div class="math-explanation">where $\delta$ is a small constant.</div>						
+					</div>
+
+					<div class="references-footer">
+					<p class="reference-entry">
+						[3] C. Yang, J. Brabec, L. Veis, D. B. Williams-Young, and K. Kowalski,
+						<em>Solving coupled cluster equations by the Newton–Krylov method</em>,
+						<span class="journal">Front. Chem.</span> <strong>8</strong>, 590184 (2020).
+					</p>
+					</div>			
+				</section>
+
+				<!-- Slide 8.2 -->
+				<!-- Newton-Krylov Solver -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Newton-Krylov Solver</div>
+					<div class="math-content">						
+						<div class="math-title">Let</div>
+	
+						<div class="math-equation">
+						\[
+						w = \theta^{(k+1)} - \theta^{(k)}
+						\]
+						</div>				
+						
+						
+						<div class="math-title">With this, the Newton equation can be written compactly as</div>
+						<div class="math-equation">
+						\[
+						\boxed{
+						\widetilde{J}[Z(\theta^{(k)})] w = - Z(\theta^{(k)})
+						}
+						\]
+						</div>
+	
+						
+						<div class="math-explanation">The key idea is to avoid explicitly updating the Jacobian approximation. 
+							Instead, the Jacobian-vector product $\widetilde{J}w$ is computed within the GMRES method. </div>						
+					</div>
+
+					<div class="references-footer">
+					<p class="reference-entry">
+						[3] C. Yang, J. Brabec, L. Veis, D. B. Williams-Young, and K. Kowalski,
+						<em>Solving coupled cluster equations by the Newton–Krylov method</em>,
+						<span class="journal">Front. Chem.</span> <strong>8</strong>, 590184 (2020).
+					</p>
+					</div>				
+				</section>
+
+				<!-- Slide 8.3 -->
+				<!-- Convergence - NK Solver -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Convergence - NK Solver </div>
+						<div style="display: flex; justify-content: space-around; align-items: flex-start; margin-top: 20px;">
+						<!-- Image 1 with Caption -->
+						<div style="text-align: center; width: 50%;">
+							<img src="images/Sanible/nk_newton_m15.png" alt="Localized orbital" style="width: 100%; border: 1px solid #9cc09b; 
+							border-radius: 10px;">
+						</div>
+				
+						<!-- Image 2 with Caption -->
+						<div style="text-align: center; width: 50%;">
+							<img src="images/Sanible/nk_gmres_m15.png" alt="Delocalized orbital" style="width: 100%; border: 1px solid #9cc09b; 
+							border-radius: 10px;">
+						</div>
+					</div>
+
+					<!-- Common caption for both images -->
+					<p style="font-size: 0.35em; color: #170202; text-align: center; margin-top: 0.4em;">
+						Figures 2–3: Convergence analysis of the Newton-krylov method
+					</p>
+
+					<div class="footer">
+						<div>Feb 04, 2026</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>				
+				</section>
+				
+				<!-- Slide 8.4 -->
+				<!-- Convergence - NK Solver -->
+				<section class="slide" data-background="rgb(209, 225, 214)">				
+					<div class="title">Convergence - NK Solver </div>
+					<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 4%; margin-top: 20px;">
+
+  				<!-- LEFT: MOCC TABLE -->
+					<div style="width: 48%;">
+						<table class="math-equation"
+							style="margin: 0 auto; font-size: 0.34em; line-height: 1.15; border-collapse: collapse;">
+								<caption style="caption-side: bottom; text-align: center; margin-top: 0.4em;">
+								Table 3: Newton–Krylov convergence and iteration counts for different restart 
+								parameters (\(m=10,15,20\)) for MOCC. 
+								<span style="white-space: nowrap;">\(\checkmark\)</span> denotes convergence 									
+								</caption>
+						<thead>
+							<tr>
+							<td><strong>Mol.</strong></td>
+							<td><strong>Basis</strong></td>
+							<td><strong>Conv.</strong></td>
+							<td colspan="2"><strong>m = 10</strong></td>
+							<td colspan="2"><strong>m = 15</strong></td>
+							<td colspan="2"><strong>m = 20</strong></td>
+							</tr>
+							<tr>
+							<td></td><td></td><td></td>
+							<td>New.</td><td>GM.</td>
+							<td>New.</td><td>GM.</td>
+							<td>New.</td><td>GM.</td>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr><td>H\(_2\)</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>4</td><td>40</td><td>3</td><td>45</td><td>3</td><td>60</td></tr>
+							<tr><td>H\(_2\)O</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>10</td><td>100</td><td>6</td><td>90</td><td>5</td><td>100</td></tr>
+							<tr><td>NH\(_3\)</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>10</td><td>100</td><td>6</td><td>90</td><td>5</td><td>100</td></tr>
+							<tr><td>CH\(_2\)</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>20</td><td>200</td><td>12</td><td>180</td><td>8</td><td>160</td></tr>
+							<tr><td>BeH\(_2\)</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>20</td><td>200</td><td>12</td><td>180</td><td>8</td><td>160</td></tr>
+							<tr><td>BH\(_3\)</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>9</td><td>90</td><td>9</td><td>90</td><td>9</td><td>90</td></tr>
+							<tr><td>CH\(_4\)</td><td>6-31G</td><td>\(\checkmark\)</td><td>6</td><td>60</td><td>4</td><td>60</td><td>3</td><td>60</td></tr>
+							<tr><td>C\(_2\)H\(_6\)</td><td>6-31G</td><td>\(\checkmark\)</td><td>6</td><td>60</td><td>4</td><td>60</td><td>4</td><td>80</td></tr>
+							<tr><td>C\(_3\)H\(_8\)</td><td>4-31G</td><td>\(\checkmark\)</td><td>7</td><td>70</td><td>5</td><td>75</td><td>4</td><td>80</td></tr>
+							<tr><td>C\(_4\)H\(_{10}\)</td><td>4-31G</td><td>\(\checkmark\)</td><td>7</td><td>70</td><td>5</td><td>75</td><td>4</td><td>80</td></tr>
+							<tr><td>C\(_5\)H\(_{12}\)</td><td>3-21G</td><td>\(\checkmark\)</td><td>7</td><td>70</td><td>5</td><td>75</td><td>4</td><td>80</td></tr>
+						</tbody>
+						</table>
+					</div>
+
+					<!-- RIGHT: AOCC TABLE + CAPTION -->
+					<div style="width: 48%;">
+						<table class="math-equation"
+							style="margin: 0 auto; font-size: 0.34em; line-height: 1.15; border-collapse: collapse;">
+								<caption style="caption-side: bottom; text-align: center; margin-top: 0.4em;">
+								Table 4: Newton–Krylov convergence and iteration counts for different restart 
+								parameters (\(m=10,15,20\)) for AOCC. 
+								<span style="white-space: nowrap;">\(\checkmark\)</span> denotes convergence 									
+								</caption>
+						<thead>
+							<tr>
+							<td><strong>Mol.</strong></td>
+							<td><strong>Basis</strong></td>
+							<td><strong>Conv.</strong></td>
+							<td colspan="2"><strong>m = 10</strong></td>
+							<td colspan="2"><strong>m = 15</strong></td>
+							<td colspan="2"><strong>m = 20</strong></td>
+							</tr>
+							<tr>
+							<td></td><td></td><td></td>
+							<td>New.</td><td>GM.</td>
+							<td>New.</td><td>GM.</td>
+							<td>New.</td><td>GM.</td>
+							</tr>
+						</thead>
+
+						<tbody>
+							<!-- SAME DATA -->
+							<tr><td>H\(_2\)</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>4</td><td>40</td><td>3</td><td>45</td><td>3</td><td>60</td></tr>
+							<tr><td>H\(_2\)O</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>10</td><td>100</td><td>6</td><td>90</td><td>5</td><td>100</td></tr>
+							<tr><td>NH\(_3\)</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>10</td><td>100</td><td>6</td><td>90</td><td>5</td><td>100</td></tr>
+							<tr><td>CH\(_2\)</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>20</td><td>200</td><td>12</td><td>180</td><td>8</td><td>160</td></tr>
+							<tr><td>BeH\(_2\)</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>20</td><td>200</td><td>12</td><td>180</td><td>8</td><td>160</td></tr>
+							<tr><td>BH\(_3\)</td><td>cc-pVTZ</td><td>\(\checkmark\)</td><td>9</td><td>90</td><td>9</td><td>90</td><td>9</td><td>90</td></tr>
+							<tr><td>CH\(_4\)</td><td>6-31G</td><td>\(\checkmark\)</td><td>6</td><td>60</td><td>4</td><td>60</td><td>3</td><td>60</td></tr>
+							<tr><td>C\(_2\)H\(_6\)</td><td>6-31G</td><td>\(\checkmark\)</td><td>6</td><td>60</td><td>4</td><td>60</td><td>4</td><td>80</td></tr>
+							<tr><td>C\(_3\)H\(_8\)</td><td>4-31G</td><td>\(\checkmark\)</td><td>7</td><td>70</td><td>5</td><td>75</td><td>4</td><td>80</td></tr>
+							<tr><td>C\(_4\)H\(_{10}\)</td><td>4-31G</td><td>\(\checkmark\)</td><td>7</td><td>70</td><td>5</td><td>75</td><td>4</td><td>80</td></tr>
+							<tr><td>C\(_5\)H\(_{12}\)</td><td>3-21G</td><td>\(\checkmark\)</td><td>7</td><td>70</td><td>5</td><td>75</td><td>4</td><td>80</td></tr>
+						</tbody>
+						</table>
+					</div>
+					</div>
+					<div class="footer">
+						<div>Feb 04, 2026</div>
+						<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+						<div>Department of Mathematics</div>
+					</div>	
+				</section>
+			</section>
+				
+			<!-- Slide 9 -->
+			<!-- Summary -->
+            <section class="slide" data-background="rgb(209, 225, 214)">
+                <div class="title">Summary</div>
+                <ol class="outline">
+					<li>An introduntion to CC theory and scaling of some CC methods</li>
+                    <li>CC theory in an arbitrary guage</li>								
+					
+					</li>	
+					<li>Fixed point map transformation and the problem when we are away from the
+							cannonical basis</li>
+					<li>Got the heuristic idea with the discussion of Orbital energies and unperturbed Hamiltonian</li>
+					<li>Alternative solver which is Newton-Krylov solver</li>		
+                </ol>
+ 				<div class="footer">
+					<div>Feb 04, 2026</div>
+					<img src="images/RPI-logo.webp" alt="Rensselaer Polytechnic Institute" class="logo">
+					<div>Department of Mathematics</div>
+				</div>	
+            </section>		
+
+			<!-- Slide 10 -->
+			<!-- References Slide -->
+			<section class="slide" data-background="rgb(209, 225, 214)">
+
+			<div class="title">That's for today</div>
+
+			<div style="text-align: center; margin-top: 3em; margin-bottom: 6em;">
+				<div style="font-size: 2.0em; color: #2c3e50;">
+				Any Questions?
+				</div>
+			</div>
+
+
+			<div class="math-content">
+				<div class="references-footer" style="position: relative; bottom: 60px; left: 40px; right: 40px;">
+				<p><strong class="references-label">References:</strong></p>
+
+				<p class="reference-entry">
+					[1] G. E. Scuseria and P. Y. Ayala,
+					<em>Linear scaling coupled cluster and perturbation theories in the atomic orbital basis</em>,
+					<span class="journal">J. Chem. Phys.</span> <strong>111</strong>, 8330–8343 (1999).
+				</p>
+
+				<p class="reference-entry">
+					[2] I. Shavitt and R. J. Bartlett,
+					<em>Many-Body Methods in Chemistry and Physics: MBPT and Coupled-Cluster Theory</em>,
+					Cambridge Molecular Science,
+					Cambridge University Press (2009).
+				</p>
+
+				<p class="reference-entry">
+					[3] C. Yang, J. Brabec, L. Veis, D. B. Williams-Young, and K. Kowalski,
+					<em>Solving coupled cluster equations by the Newton–Krylov method</em>,
+					<span class="journal">Front. Chem.</span> <strong>8</strong>, 590184 (2020).
+				</p>
+				</div>
+			</div>
+			</section>								
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+    <script src="plugin/math/math.js"></script>
+
+    <script>
+        Reveal.initialize({
+            // Display controls in the bottom right corner
+            controls: true,
+            
+            // Display a presentation progress bar
+            progress: true,
+            
+            // Display the page number of the current slide
+            slideNumber: true,
+            
+            // Push each slide change to the browser history
+            history: true,
+            
+            // Enable keyboard shortcuts for navigation
+            keyboard: true,
+            
+            // Enable the slide overview mode
+            overview: true,
+            
+            // Vertical centering of slides
+            center: true,
+            
+            // Enables touch navigation on devices with touch input
+            touch: true,
+            
+            // Transition style
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            
+            // Transition speed
+            transitionSpeed: 'default', // default/fast/slow
+            
+            // Transition style for full page slide backgrounds
+            backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+            
+            // The "normal" size of the presentation, aspect ratio will be preserved
+            width: 960,
+            height: 700,
+            
+            // Factor of the display size that should remain empty around the content
+            margin: 0.1,
+            
+            // Bounds for smallest/largest possible scale to apply to content
+            minScale: 0.2,
+            maxScale: 1.5,
+            
+            // PDF export options
+            pdfSeparateFragments: false,
+            
+            // Plugins with reveal.js
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX]
+        });
+    </script>
+</body>
+</html>

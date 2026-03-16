@@ -34,12 +34,12 @@
 			justify-content: center;
 			align-items: center;
 			text-align: center;
-			padding: 8rem;
+			padding: 4rem;
 			box-sizing: border-box;
 		}
 		
 		.reveal .title-slide .title {
-			font-size: 3.0rem;
+			font-size: 4.0rem;
 			margin-bottom: 4.5rem;
 			line-height: 1.0;
 			max-width: 900px;
@@ -47,27 +47,27 @@
 		}        
 		
 		.reveal .title-slide .presenter {
-			font-size: 2.3rem;
+			font-size: 3.0rem;
 			margin-bottom: 0.5rem;
 			color: var(--dark-text);
 		}
 		
 		.reveal .title-slide .co-authors {
-			font-size: 1.1rem;
+			font-size: 1.3rem;
 			margin-bottom: 0.5rem;
 			color: var(--dark-text);
 		}
 		
 		.reveal .title-slide .affiliation {
-			font-size: 1.1rem;
-			margin-bottom: 1rem;
+			font-size: 1.3rem;
+			margin-bottom: 0.5rem;
 			font-style: italic;
 			color: var(--dark-text);
 		}
 		
 		.reveal .title-slide .date {
-			font-size: 1rem;
-			margin-top: 2rem;
+			font-size: 1.5rem;
+			margin-top: 0.5rem;
 			color: var(--dark-text);
 		}
 		
@@ -251,7 +251,7 @@
 			<!-- Slide 1 -->
             <!-- Title Slide -->
             <section class="title-slide" data-background="#ffffff">
-                <div class="title">Fixed-Point Iteration in Local Correlation CC Algorithms</div>                
+                <div class="title">FP Iteration & NK Solvers in Local Correlation CC Algorithms</div>                
                 <div class="presenter">Chanaka Mapa Mudiyanselage</div>
                 <div class="co-authors">Kangbo Li and Fabian M. Faulstich</div>
                 <div class="affiliation">Department of Mathematical Sciences, RPI</div>
@@ -261,9 +261,9 @@
 			
 			<section>
 				<!-- Slide 2.1 -->
-				<!-- CC theory - Intro -->
+				<!-- CC theory - Introduction -->
 				<section class="slide" data-background="#ffffff">					
-					<div class="title">CC Theory - Intro</div>
+					<div class="title">CC theory - Introduction</div>
 					<div class="math-content">																		
 						<div class="math-equation fragment fade-in" data-fragment-index="1">
 							\[
@@ -278,7 +278,7 @@
 							T_1 = \sum_{i = 1}^{N_{\text{occ}}} \sum_{a = 1}^{N_{\text{vir}}} 
 							t_i^a a_a^\dagger a_i,\]
 							</span>
-							<span class = "fragment" data-fragment-index="3">
+							<span class = "fragment" data-fragment-index="2">
 							\[\quad T_2 = \frac{1}{4} \sum_{i, j = 1}^{N_{\text{occ}}} 
 							\sum_{a, b = 1}^{N_{\text{vir}}} t_{ij}^{ab} a_a^\dagger a_b^\dagger a_j a_i, ...
 							\]
@@ -286,7 +286,7 @@
 						</div>					
 
 						<div style="margin: 3rem 0;"></div>
-						<div class="math-equation fragment fade-in" data-fragment-index="4">
+						<div class="math-equation fragment fade-in" data-fragment-index="3">
 						\[
 						\begin{aligned}
 							\text{CC energy equation}\quad & E_{\text{CC}} = \langle \Psi_0 | e^{-T} H e^T | \Psi_0 \rangle \\[6pt]
@@ -395,7 +395,7 @@
 			
 			<section>
 				<!-- Slide 3.1 -->				
-				<!-- Fixed point map transformation -->
+				<!-- Fixed-Point (FP) Iteration Transformation -->
 				<section class="slide" data-background="#ffffff">				
 					<div class="title">Fixed-Point (FP) Iteration Transformation</div>
 					<div class="math-content">							
@@ -440,7 +440,7 @@
 							<!-- LEFT: Image -->
 							<div class="fragment fade-in" data-fragment-index="2"
 								style="width:75%; text-align:center;">
-								<img src="images/Sanible/convergence_fixed_point_C2H6_Ethane_6-31G.svg"
+								<img src="images/Sanible/convergence_fp_ao_only_C2H6_6-31g.svg"
 										width="100%"
 										height="500px"
 										>
@@ -518,9 +518,9 @@
 				</section>
 
 				<!-- Slide 3.3 -->
-				<!-- Level-Shifting -->
+				<!-- Level - Shifting -->
 				<section class="slide" data-background="#ffffff">				
-					<div class="title">Level-Shifting</div>
+					<div class="title">Level - Shifting</div>
 					<div class="math-content">							
 						<div class="math-equation fragment fade-in" data-fragment-index="1">							
 							\begin{equation}
@@ -537,6 +537,22 @@
 					<img src="images/Sanible/spectral_radius_C2H6_Ethane_6-31G.svg"
 						alt="Newton convergence"
 						style="width: 70%; ">
+						<!-- style="width: 80%; border: 1px solid #162315; border-radius: 10px;"> -->
+					</div>					
+				</div>						
+				</section>
+
+				<!-- Slide 3.4 -->
+				<!-- Convergence - Shifted FP Iteration -->
+				<section class="slide" data-background="#ffffff">				
+					<div class="title">Convergence - Shifted FP Iteration</div>
+
+
+					<div style="display: flex; justify-content: space-around; align-items: flex-start;">					
+					<div class="fragment" data-fragment-index="2" style="text-align: center; width: 100%;">
+					<img src="images/Sanible/convergence_fixed_point_C2H6_Ethane_6-31G.svg"
+						alt="Newton convergence"
+						style="width: 100%; ">
 						<!-- style="width: 80%; border: 1px solid #162315; border-radius: 10px;"> -->
 					</div>					
 				</div>						
@@ -617,20 +633,20 @@
 					</div>					
 
 					<div style="margin: 3rem 0;"></div>	
-					
+										
 					<div class="math-equation fragment" data-fragment-index="3" style="text-align: left;">
-					\[
-					\text{Eigenvalue gap} \quad
-					\lvert \lambda_{+} - \lambda_{-} \rvert \approx 20.000
-					\]
-					</div>	
-					
-					<div class="math-equation fragment" data-fragment-index="4" style="text-align: left;">
 					\[
 					\text{Diagonal gap} \quad
 					\lvert 1.000 - 1.001 \rvert = 0.001
 					\]
 					</div>
+
+					<div class="math-equation fragment" data-fragment-index="4" style="text-align: left;">
+					\[
+					\text{Eigenvalue gap} \quad
+					\lvert \lambda_{+} - \lambda_{-} \rvert \approx 20.000
+					\]
+					</div>	
 				</div>
 
 				</section>		
@@ -638,9 +654,9 @@
 
 			<section>
 				<!-- Slide 5.1 -->	
-				<!-- Newton-Krylov Solver -->
+				<!-- Newton-Krylov (NK) Solver -->
 				<section class="slide" data-background="#ffffff">
-				<div class="title">Newton-Krylov Solver[5]
+				<div class="title">Newton-Krylov (NK) Solver[5]
 				</div>
 
 				<div class="math-content">					
@@ -687,7 +703,7 @@
 				</div>			
 				<div style="display: flex; justify-content: space-around; align-items: flex-start;">					
 					<div class="fragment" data-fragment-index="2" style="text-align: center; width: 100%;">
-					<img src="images/Sanible/convergence_all_in_one_C2H6_6-31g.svg"
+					<img src="images/Sanible/convergence_newton_krylov_C2H6_Ethane_6-31G.svg"
 						alt="Newton convergence"
 						style="width: 80%; ">
 						<!-- style="width: 80%; border: 1px solid #162315; border-radius: 10px;"> -->
@@ -724,16 +740,16 @@
 					</thead>
 
 					<tbody>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">HF</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVDZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">45</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">N\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVDZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">45</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">H\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">45</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">He\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">45</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">H\(_2\)O</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">6</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">90</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">CH\(_4\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">6-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">60</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_2\)H\(_6\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">6-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">60</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_3\)H\(_8\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">5</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">75</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_4\)H\(_{10}\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">5</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">75</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_5\)H\(_{12}\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3-21G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">5</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">75</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">HF</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVDZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">67</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">N\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVDZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">12</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">118</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">H\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">41</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">He\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">7</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">29</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">H\(_2\)O</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">9</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">86</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">CH\(_4\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">6-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">7</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">45</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_2\)H\(_6\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">6-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">61</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_3\)H\(_8\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">61</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_4\)H\(_{10}\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">60</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_5\)H\(_{12}\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3-21G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">63</td></tr>
 					</tbody>
 					</table>
 				</div>
@@ -760,20 +776,36 @@
 					</thead>
 
 					<tbody>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">HF</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVDZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">45</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">N\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVDZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">45</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">H\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">45</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">He\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">45</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">H\(_2\)O</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">6</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">90</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">CH\(_4\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">6-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">60</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_2\)H\(_6\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">6-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">60</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_3\)H\(_8\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">5</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">75</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_4\)H\(_{10}\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">5</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">75</td></tr>
-						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_5\)H\(_{12}\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3-21G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">5</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">75</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">HF</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVDZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">67</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">N\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVDZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">12</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">118</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">H\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">41</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">He\(_2\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">7</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">29</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">H\(_2\)O</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">cc-pVTZ</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">9</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">86</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">CH\(_4\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">6-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">7</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">45</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_2\)H\(_6\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">6-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">61</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_3\)H\(_8\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">61</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_4\)H\(_{10}\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">4-31G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">60</td></tr>
+						<tr><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">C\(_5\)H\(_{12}\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">3-21G</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em; text-align: center;">\(\checkmark\)</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">8</td><td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">63</td></tr>
 					</tbody>
 					</table>
 				</div>
 
+				</div>
+				</section>
+
+				<!-- Slide 5.4 -->
+				<!-- Convergence - Both Solvers -->
+				<section class="slide" data-background="#ffffff">  
+				<div class="title" data-fragment-index="1">
+					Convergence – Both Solvers
+				</div>			
+				<div style="display: flex; justify-content: space-around; align-items: flex-start;">					
+					<div class="fragment" data-fragment-index="2" style="text-align: center; width: 100%;">
+					<img src="images/Sanible/convergence_all_in_one_C2H6_6-31g.svg"
+						alt="Newton convergence"
+						style="width: 80%; ">
+						<!-- style="width: 80%; border: 1px solid #162315; border-radius: 10px;"> -->
+					</div>					
 				</div>
 				</section>
 			</section>
@@ -930,6 +962,55 @@
 					
 
 				</section>
+			</section>
+			
+			<section>
+				<!-- Slide 8.1 -->
+				<!-- Backup - Pre-Conditioned MO NK Solver -->
+				<section class="slide" data-background="#ffffff">
+					<div class="title">Backup - Pre-Conditioned MO NK Solver</div>
+					<div class="math-content">
+												
+							<div class="math-title"> diag($\widetilde{A}$),
+							uppertriangular($\widetilde{A}$), and lowertriangular($\widetilde{A}$) 
+							are popular choices to pre-condition GMRES for linear system 
+							$$M^{-1}\widetilde{A}\widetilde{x} = M^{-1}\widetilde{b}$$ 
+							</div>
+							
+						<div style="margin-top: 1.0em;"></div>
+						<div style="margin-top: 1.0em;"></div>
+
+
+						<div class="math-title"> In CC theory $$Z_{ij}^{ab}(\theta) \approx
+						\Delta_{ij}^{ab}t_{ij}^{ab}$$ dominant (linear contribution) in 
+						residual equations. which implies that the Jacobian matrix 
+							has a leading diagonal structure,$$DZ(t)\approx
+							\Delta_{ij}^{ab}
+							\delta_{ik}\delta_{jl}\delta_{ac}\delta_{bd}$$
+							</div>
+				</section>
+
+				<!-- Slide 8.2 -->
+				<!-- Backup - Pre-Conditioned MO NK Solver 2 -->
+				<section class="slide" data-background="#ffffff">
+					<div class="title">Backup - Pre-Conditioned MO NK Solver 2</div>
+					<div class="math-content">
+												
+						<div class="math-title">However, it is well known that the off-diagonal 
+							couplings contributions are small, $$DZ(t) \approx \Delta_{ij}^{ab}$$
+							</div>
+							
+						<div style="margin-top: 1.0em;"></div>
+
+						<div class="math-title"> Therefore, it is natural to pick the pre-conditioner 
+							to be the energy denominator $$M^{-1} = ({\Delta_{ij}^{ab}})^{-1}$$ 
+							which lead to the preconditioned linear NK system,
+							$$    ({\Delta_{ij}^{ab}})^{-1}DZ(\theta^{(k)})\, w 
+							= - ({\Delta_{ij}^{ab}})^{-1}Z(\theta^{(k)}).$$
+							</div>
+				</section>
+
+				
 			</section>	
 			
 			

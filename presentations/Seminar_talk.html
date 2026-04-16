@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Frontier Seminar</title>
+    <title>My_talk</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/res4841et.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
@@ -241,6 +241,23 @@
 			.media-row { flex-direction: column; }
 			.media-item { max-width: 100%; }
 		}
+
+		/* Slater determinant step-by-step centered fragments */
+		.reveal .slater-sequence {
+			position: absolute;
+			min-height: 35vh;
+			width: 100%;
+		}
+
+		.reveal .slater-sequence .math-equation.fragment {
+			position: absolute;
+			top: 50%;
+			left: 45%;
+			width: 92%;
+			text-align: center;
+			transform: translate(-50%, -50%) !important;
+			transition: opacity 0.25s ease-in-out !important;
+		}
 		
 	</style>
 </head>
@@ -251,7 +268,7 @@
 			<!-- Slide 1 -->
             <!-- Title Slide -->
             <section class="title-slide" data-background="#ffffff">
-                <div class="title">FP Iteration & NK Solvers in Local Correlation CC Algorithms</div>                
+                <div class="title">Solving Coupled-Cluster Algorithms</div>                
                 <div class="presenter">Chanaka Mapa Mudiyanselage</div>
                 <div class="co-authors">Kangbo Li and Fabian M. Faulstich</div>
                 <div class="affiliation">Department of Mathematical Sciences, RPI</div>
@@ -273,7 +290,7 @@
 					<ol class="suboutline">
 						<li class="fragment">CC Theory in an Arbitrary Gauge</li>						
 						<li class="fragment">FP Iteration & Fock Diagonals</li>												
-						<li class="fragment">NK Solver</li>												
+						<li class="fragment">PNK Solver</li>												
 					</ol>                											
                     
 				</ol>
@@ -283,154 +300,60 @@
 				<!-- Classical and Quantum -->
 				<section class="slide" data-background="#ffffff">
 					<div class="title">Classical and Quantum</div>
-					<div class="math-content">
-						<div class="math-equation fragment fade-in" data-fragment-index="1">
+					<div class="math-content slater-sequence">
+						<div class="math-equation fragment current-visible" data-fragment-index="1" style="text-align: center;">
 							In classical mechanics
-						</div>
-
-						<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center">
 							\[
 							F = m \frac{d^2x}{dt^2} = ma
 							\]
 						</div>
-						<div class="vspace" style="height: 10px;"></div>
-						<div class="math-equation fragment fade-in" data-fragment-index="1">
+						<div class="math-equation fragment current-visible" data-fragment-index="2" style="text-align: center;">
 							In quantum mechanics
-						</div>
-						<div class="math-equation fragment" data-fragment-index="1" style="text-align: center;">
 							\[
-							\iota \hbar \frac{\partial}{\partial t} \Psi(x,t) 
+							\iota \hbar \frac{\partial}{\partial t} \Psi(x,t)
 							=
-							\frac{-\hbar^2}{2m}\frac{\partial^2}{\partial x^2} \Psi(x,t) + V(x,t) 
+							\frac{-\hbar^2}{2m}\frac{\partial^2}{\partial x^2} \Psi(x,t) + V(x,t)
 							\]
 						</div>
 					</div>
 				</section>			
 
 				<section class="slide" data-background="#ffffff">
-					<div class="title">Separable Solutions</div>
-					<div class="math-content">
-						<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;">
+					<div class="title">Time-Independent SE</div>
+					<div class="math-content slater-sequence">
+						<div class="math-equation fragment current-visible" data-fragment-index="1" style="text-align: center;">
+							Separable ansatz
 							\[
 							\Psi(x,t) = \psi(x) \phi(t)
-							\]
+							\]	
 						</div>
-						<div class="math-equation fragment fade-in" data-fragment-index="1">
-							For time-independent $V$
+						<div class="math-equation fragment current-visible" data-fragment-index="2" style="text-align: center;">
+							General solution as a superposition of stationary states
 							\[
-							\iota \hbar \frac{1}{\phi(t)} \frac{d}{d t} \phi(t) 
-							= E = 							
-							\frac{-\hbar^2}{2m} \frac{1}{\psi(x)} \frac{d^2}{d x^2} \psi(x) + V(x) 
+							\Psi(x,t) = \sum_{n=1}^{\infty} c_n \psi_n(x)
+							e^{\frac{- i E_n}{\hbar}t}
 							\]
-						</div>						
-					</div>
-				</section>
-
-				<section class="slide" data-background="#ffffff">
-					<div class="title">What's so great?</div>
-					<div class="math-content">
-						<div class="math-equation fragment fade-in" data-fragment-index="1">
-						Two physical. They are, 			
 						</div>
-						<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;">
-							<ul style="display:inline-block; text-align:left; margin: 0; padding-left: 0.2em;">
-								<li>Stationary states</li>
-								<li>States of definite energy</li>
-							</ul>
-						</div>
-						<div class="math-equation fragment fade-in" data-fragment-index="1">
-						One mathematical 
-						\[
-						\Psi(x,t) = \sum_{n=1}^{\infty} c_n \psi_n(x) 
-						e^{\frac{- \iota E_n}{\hbar}t}
-						\]
-						</div>						
-					</div>
-				</section>
-
-				<section class="slide" data-background="#ffffff">
-					<div class="title">Time Independent SE</div>
-					<div class="math-content">
-						<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;">
+						<div class="math-equation fragment current-visible" data-fragment-index="3" style="text-align: center;">
 							\[
-							\frac{-\hbar^2}{2m}\frac{d^2}{d x^2} \psi(x) + V(x) 
-							= E \psi(x)							 
+							\frac{-\hbar^2}{2m}\frac{d^2}{d x^2} \psi(x) + V(x)
+							= E \psi(x)
 							\]
-						</div>
-						<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;">
 							\[
-							H \psi(x)  
-							= E \psi(x)							 
+							H \psi(x) = E \psi(x)
 							\]
 						</div>
-					</div>
-				</section>
-
-				<section class="slide" data-background="#ffffff">
-					<div class="title">In Many-Body Problems</div>
-					<div class="math-content">
-						<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;">
-						\[
-						\hat{H}
-						\psi(\mathbf{R_1}, \mathbf{R_2}, \cdots ,\mathbf{r_1}, \mathbf{r_1}, \cdots)
-						= E
-						\psi(\mathbf{R_1}, \mathbf{R_2}, \cdots ,\mathbf{r_1}, \mathbf{r_1}, \cdots)
-						\]
-						</div>
-						<div class="vspace" style="height: 10px;"></div>
-						<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;font-size:60%;">
-						\[
-						\begin{aligned}
-						H
-						&= - \sum_{i=1}^{N_{\rm elec}} \frac{1}{2} \Delta_{\mathbf{r}_i}
-						- \sum_{i=1}^{N_{\rm elec}} 
-						\sum_{j=1}^{N_{\rm nuc}} \frac{Z_j}{\lVert \mathbf{r}_i - \mathbf{R}_j \rVert}
-						+ \frac{1}{2} \sum_{i=1}^N \sum_{\substack{j=1 \\ j\neq i}}^{N_{\rm elec}} \frac{1}{\lVert \mathbf{r}_i - \mathbf{r}_j \rVert} \\
-						&\quad 
-						- \sum_{i=1}^{N_{\rm nuc}} \frac{1}{2M_i} \Delta_{\mathbf{R}_i}
-						+ \frac{1}{2} \sum_{i=1}^{N_{\rm nuc}} \sum_{\substack{j=1 \\ j\neq i}}^{N_{\rm nuc}} \frac{Z_i Z_j}{\lVert \mathbf{R}_i - \mathbf{R}_j \rVert}
-						\end{aligned}
-						\]
-						</div>
-					</div>
-				</section>
-
-				<section class="slide" data-background="#ffffff">
-					<div class="title">Born-Oppenheimer Approximation</div>
-					<div class="math-content">
-						<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;font-size:60%;">
+						<div class="math-equation fragment current-visible" data-fragment-index="4" style="text-align: center;">
+							In many-body problems
 							\[
-							\begin{aligned}
-							H
-							&= - \sum_{i=1}^{N_{\rm elec}} \frac{1}{2} \Delta_{\mathbf{r}_i}
-							- \sum_{i=1}^{N_{\rm elec}} 
-							\sum_{j=1}^{N_{\rm nuc}} \frac{Z_j}{\lVert \mathbf{r}_i - \mathbf{R}_j \rVert}
-							+ \frac{1}{2} \sum_{i=1}^N \sum_{\substack{j=1 \\ j\neq i}}^{N_{\rm elec}} \frac{1}{\lVert \mathbf{r}_i - \mathbf{r}_j \rVert} \\
-							&\quad 
-							- \xcancel{\sum_{i=1}^{N_{\rm nuc}} \frac{1}{2M_i} \Delta_{\mathbf{R}_i}}
-							+ \xcancel{\frac{1}{2} \sum_{i=1}^{N_{\rm nuc}} \sum_{\substack{j=1 \\ j\neq i}}^{N_{\rm nuc}} \frac{Z_i Z_j}{\lVert \mathbf{R}_i - \mathbf{R}_j \rVert}}
-							\end{aligned}
+							\hat{H}
+							\psi(\mathbf{R_1}, \mathbf{R_2}, \cdots ,\mathbf{r_1}, \mathbf{r_1}, \cdots)
+							= E
+							\psi(\mathbf{R_1}, \mathbf{R_2}, \cdots ,\mathbf{r_1}, \mathbf{r_1}, \cdots)
 							\]
 						</div>
-						<div class="vspace" style="height: 10px;"></div>
-						<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;">
-						\[
-						\hat{H}
-						\psi(\mathbf{r_1}, \mathbf{r_1}, \cdots)
-						= E
-						\psi(\mathbf{r_1}, \mathbf{r_1}, \cdots)
-						\]
-						</div>
-						<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;">
-						\[
-						\hat{H}
-						|\psi \rangle
-						= E
-						|\psi \rangle
-						\]
-						</div>
 					</div>
-				</section>				
+				</section>									
 
 				<!-- Ethanol -->
 				<section class="slide" data-background="#ffffff">
@@ -448,7 +371,7 @@
 							</div>
 						</div>
 						<!-- Right content (video + formula + breakdown) -->
-						<div class="fragment" data-fragment-index="6" style="width: 52%; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+						<div class="fragment" data-fragment-index="1" style="width: 52%; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1rem;">
 							<!-- Ethanol formula above video -->
 							<div style="font-size: 2.2rem; margin-bottom: 0.5rem;">
 								\( \mathrm{C_2H_5OH} \)
@@ -458,7 +381,7 @@
 								<source src="../images/MY_Fontier_Seiminar_talk/Videos/Ethanol.mp4" type="video/mp4">
 							</video>
 							<!-- Atom breakdown below video -->
-							<div class="fragment" data-fragment-index="7" style="font-size: 1.3rem; margin-top: 0.7rem; text-align: center; width: 100%;">
+							<div class="fragment" data-fragment-index="2" style="font-size: 1.3rem; margin-top: 0.7rem; text-align: center; width: 100%;">
 								2-C (2×6e), 6-H (6×1e), 1-O (8e)<br>
 								9 nuclei + 26e = 35 atoms
 							</div>
@@ -474,59 +397,117 @@
 						</div>
 					</div>
 				</section>
+			</section>
+			
+			<section>
+							
+				<section class="slide" data-background="#ffffff">
+					<div class="title">Slater Determinant</div>
+					<div class="math-content slater-sequence">
+						<div class="math-equation fragment current-visible" data-fragment-index="1">
+							John C. Slater in 1929.
+							<br>
+							<img src="../images/MY_Fontier_Seiminar_talk/images/John_Slater.jpeg" alt="John C. Slater" style="height: 310px; width: auto; border-radius: 10px; margin-top: 10px;">
+						</div>
+						<div class="math-equation fragment current-visible" data-fragment-index="2">
+							If we define a two-electron system as
+							\[
+							\Phi(\mathbf{r}_1, \mathbf{r}_2) = \phi_1(\mathbf{r}_1) \phi_2(\mathbf{r}_2)
+							\]
+						</div>
+						<div class="math-equation fragment current-visible" data-fragment-index="3" style="font-size: 70%;">
+							This product form is not anti-symmetric
+							\[
+							\Phi(\mathbf{r}_2, \mathbf{r}_1) = \phi_1(\mathbf{r}_2) \phi_2(\mathbf{r}_1) \neq -\Phi(\mathbf{r}_1, \mathbf{r}_2)
+							\]
+						</div>
+						<div class="math-equation fragment current-visible" data-fragment-index="4" style="font-size: 75%;">
+							Slater determinant (anti-symmetric)
+							\[
+							|\Psi \rangle = \frac{1}{\sqrt{2}}
+							\begin{vmatrix}
+							\phi_1(\mathbf{r}_1) & \phi_2(\mathbf{r}_1) \\
+							\phi_1(\mathbf{r}_2) & \phi_2(\mathbf{r}_2)
+							\end{vmatrix}
+							\]
+						</div>
+						<div class="math-equation fragment current-visible" data-fragment-index="5" style="font-size: 75%;">
+							Pauli exclusion principle
+							\[
+							\begin{vmatrix}
+							\phi_1(\mathbf{r}_1) & \phi_1(\mathbf{r}_1) \\
+							\phi_1(\mathbf{r}_2) & \phi_1(\mathbf{r}_2)
+							\end{vmatrix} = 0
+							\]
+						</div>
+						<div class="math-equation fragment current-visible" data-fragment-index="6" style="font-size: 70%;">
+							General Slater determinant
+							\[
+							\Psi(\mathbf{r}_1,\dots,\mathbf{r}_N)=\frac{1}{\sqrt{N!}}
+							\begin{vmatrix}
+							\phi_1(\mathbf{r}_1) & \phi_2(\mathbf{r}_1) & \cdots & \phi_N(\mathbf{r}_1) \\
+							\phi_1(\mathbf{r}_2) & \phi_2(\mathbf{r}_2) & \cdots & \phi_N(\mathbf{r}_2) \\
+							\vdots & \vdots & \ddots & \vdots \\
+							\phi_1(\mathbf{r}_N) & \phi_2(\mathbf{r}_N) & \cdots & \phi_N(\mathbf{r}_N)
+							\end{vmatrix}
+							\]
+						</div>
+						<div class="math-equation fragment current-visible" data-fragment-index="7" style="font-size: 70%;">
+							Convenient notation
+							\[
+							\Psi(\mathbf{r}_1,\dots,\mathbf{r}_N)=|\phi_1(1)\phi_2(2)\cdots\phi_N(N)\rangle
+							\]
+						</div>
+					</div>
+				</section>
 
+				<section class="slide" data-background="#ffffff">
+					<div class="title">Hartree-Fock Method</div>
+					<div class="math-content slater-sequence">
+						<div class="math-equation fragment current-visible" data-fragment-index="1">
+							Douglas Hartree (1928) and Vladimir Fock (1930)
+							<div style="display:flex; justify-content:center; gap:24px; margin-top:-35px; align-items:flex-start;">
+								<div style="text-align:center;">
+									<img src="../images/MY_Fontier_Seiminar_talk/images/Hatree.jpeg" alt="Douglas Hartree" style="height: 260px; width: auto; border-radius: 10px;">
+									<div style="font-size: 0.55em; margin-top: 6px;">Douglas Hartree</div>
+								</div>
+								<div style="text-align:center;">
+									<img src="../images/MY_Fontier_Seiminar_talk/images/Vladimir_Fock.jpg" alt="Vladimir Fock" style="height: 260px; width: auto; border-radius: 10px;">
+									<div style="font-size: 0.55em; margin-top: 6px;">Vladimir Fock</div>
+								</div>
+							</div>
+						</div>
+						<div class="math-equation fragment current-visible" data-fragment-index="2">
+							Mean-field idea
+							\[
+							|\Psi_{\rm HF}\rangle \approx |\phi_1\phi_2\cdots\phi_N\rangle
+							\]
+							<img src="../images/MY_Fontier_Seiminar_talk/HF_photo.svg" alt="Hartree-Fock mean-field" style="height: 300px; width: auto; border-radius: 0px; margin-top: 10px;">
+						</div>
+						<div class="math-equation fragment current-visible" data-fragment-index="3" style="font-size: 70%;">
+							\[
+							\hat{F}\,\phi_i = \varepsilon_i\,\phi_i
+							\]
+							\[
+							\hat{F}_{pq}
+							= h_{pq}+\sum_{r=1}^{N_{\mathrm{b}}}\sum_{s=1}^{N_{\mathrm{b}}}\rho_{rs}\big[(pq|rs)-(pr|qs)\big]
+							\]
+							Cost is $\mathcal{O}(N^4)$							
+						</div>
+						<div class="math-equation fragment current-visible" data-fragment-index="4" style="font-size: 75%;">
+							Self-consistent field (SCF)
+							\[
+							\rho^{(0)} \rightarrow \hat{F}[\rho] \rightarrow \{\phi_i\} \rightarrow \rho^{(1)} \rightarrow \cdots
+							\]
+						</div>
+						<div class="math-equation fragment current-visible" data-fragment-index="5" style="font-size: 150%;">
+							What is HF is missing?
+						</div>
+					</div>
+				</section>
 			</section>
 
 			<section>
-				<!-- Suitable candidate methods -->			
-				<section class="slide" data-background="#ffffff">
-					<div class="title">Methods - Categorized Based on Correlation Type</div>
-					<ol class="outline">
-						<li class="fragment">Weakly - HF</li>
-						<li class="fragment">Dynamically
-							<ol class="suboutline">
-								<li class="fragment">MPBT</li>
-								<li class="fragment">CISD-methods</li>
-								<li class="fragment"><strong>CC-methods</strong></li>															
-							</ol>
-						</li>					
-						<li class="fragment">Statically
-							<ol class="suboutline">
-								<li class="fragment">DMRG</li>
-								<li class="fragment">CASCF</li>																
-							</ol>
-						</li>
-					</ol>
-				</section>
-
-				<!-- Dynamic Correlation -->
-				<section class="slide" data-background="#ffffff">									 				
-					<div class="title">Dynamic Correlation</div>	
-						<ol class="outline">
-						<li class="fragment">Correlation effects
-							<ol class="suboutline">
-								<li class="fragment">Arises from "instantaneous" electron-electron interactions<sup class="superscript-citation">[1]</sup>.</li>
-								<li class="fragment">This is in the post HF-methods (i.e to improve the HF-solution).</li>
-								<li class="fragment">The energetic correction to the HF-energy referred to the correlation energy.</li>							
-							</ol>
-						</li>					
-						<li class="fragment">What is HF is missing?
-							<div class="math-content">
-								<div class="math-explanation fragment">The HF is a mean field approximation, where we assume each electron moves in an average potential created by the  other electrons. However, in reality, </div>
-							</div>
-							<ol class="suboutline">
-								<li class="fragment">Electrons avoid each other dynamically. This is called the dynamical correlation.</li>
-								<li class="fragment">When electrons occupy near de-generate orbitals there is a static correlation.</li>							
-							</ol>
-						</li>	
-						</ol>
-						
-					<!-- References section - Modified version -->
-					<div class="references-footer">    
-						<p class="reference-entry">[1] F. Neese, "Local Correlation Methods: From Theory to Implementation", <em>ESQC Lecture</em> (2022). <span style="color: #555; font-size: 0.9em;">https://www.esqc.org/lectures/ESQC22-Neese-Local-Correlation.pdf</span></p>
-					</div>						
-				</section>
-
 				<!-- Slide 5.2 -->
 				<!-- Hatree-Fock Photo -->
 				<section class="slide" data-background="#ffffff">  
@@ -534,7 +515,7 @@
 					Hatree-Fock Photo
 				</div>			
 				<div style="display: flex; justify-content: space-around; align-items: flex-start;">					
-					<div class="fragment" data-fragment-index="2" style="text-align: center; width: 100%;">
+					<div class="fragment" data-fragment-index="1" style="text-align: center; width: 100%;">
 					<img src="../images/MY_Fontier_Seiminar_talk/HF_photo.svg"
 						alt="Newton convergence"
 						style="width: 40%; ">
@@ -542,196 +523,125 @@
 					</div>					
 				</div>
 				<div class="math-content">
-					<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;">
+					<div class="math-equation fragment fade-in" data-fragment-index="2" style="text-align: center;">
 					\[
-					| \Psi \rangle
-					= | \phi(1)\phi(2)\cdots\phi(n) \rangle
+					|\Psi_{\mathrm{HF}}\rangle
+					= | \Psi_0 \rangle
+					= |\phi_1(1)\phi_2(2)\cdots\phi_{12}(12)\rangle
 					\]
 					</div>						
 				</div>
 				</section>
 
-				<!-- Correlated Photo - Single Excitations -->
+				<!-- Correlated Photos - Singles, Doubles, Triples -->
 				<section class="slide" data-background="#ffffff">  
 				<div class="title" data-fragment-index="1">
-					Correlated Photo - Single Excitations
-				</div>			
-				<div style="display: flex; flex-direction: column; align-items: center; gap: 0.35rem; width: 100%;">
-					<div style="display: flex; justify-content: center; align-items: flex-start; gap: 0.2rem; width: 100%;">
-					<div class="fragment" data-fragment-index="2" style="text-align: center; width: 48%;">
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_10.svg"
-							alt="Correlated photo 10"
-							style="height: 9vh; width: auto; max-width: 100%;">
-					</div>
-					<div class="fragment" data-fragment-index="2" style="text-align: center; width: 48%;">
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_12.svg"
-							alt="Correlated photo 12"
-							style="height: 9vh; width: auto; max-width: 100%;">
-					</div>
-					</div>
-					<div class="fragment" data-fragment-index="2" style="text-align: center; width: 48%;">
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_11.svg"
-							alt="Correlated photo 11"
-							style="height: 9vh; width: auto; max-width: 100%;">
-					</div>					
+					Correlated Photos
 				</div>
-				<div class="math-content">
-					<div class="math-equation fragment fade-in" data-fragment-index="1" style="text-align: center;">
-					\[
-					| \Psi \rangle
-					= | \phi(1)'\phi(2)'\cdots\phi(n)' \rangle
-					\]
-					</div>						
-				</div>
-				</section>
-
-				<!-- Correlated Photo - Double Excitations -->
-				<section class="slide" data-background="#ffffff">  
-				<div class="title" data-fragment-index="1">
-					Correlated Photo - Double Excitations
-				</div>
-				<div style="display: flex; flex-direction: column; align-items: center; gap: 0.35rem; width: 100%;">
-					<div style="display: flex; justify-content: center; align-items: flex-start; gap: 0.5rem; width: 100%;">
-						<div class="fragment" data-fragment-index="2" style="text-align: center; width: 48%;">
-							<img src="../images/MY_Fontier_Seiminar_talk/Corr_10_11.svg"
-								alt="Correlated photo 10 and 11"
-								style="height: 29vh; width: auto; max-width: 100%;">
-						</div>
-						<div class="fragment" data-fragment-index="2" style="text-align: center; width: 48%;">
-							<img src="../images/MY_Fontier_Seiminar_talk/Corr_10_12.svg"
-								alt="Correlated photo 10 and 12"
-								style="height: 29vh; width: auto; max-width: 100%;">
-						</div>
-					</div>
-					<div class="fragment" data-fragment-index="2" style="text-align: center; width: 48%;">
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_11-12.svg"
-							alt="Correlated photo 11 and 12"
-							style="height: 29vh; width: auto; max-width: 100%;">
-					</div>
-				</div>
-				</section>
-
-				<!-- Correlated Photo - Triple Excitation -->
-				<section class="slide" data-background="#ffffff">  
-				<div class="title" data-fragment-index="1">
-					Correlated Photo - Triple Excitation
-				</div>
-				<div style="display: flex; justify-content: center; align-items: center; width: 100%;">
-					<div class="fragment" data-fragment-index="2" style="text-align: center; width: 100%;">
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_10_11_12.svg"
-							alt="Correlated photo 10 11 and 12"
-							style="height: 60vh; width: auto; max-width: 100%;">
-					</div>
-				</div>
-				</section>
-
-				<!-- Correlated Wave Function -->
-				<section class="slide" data-background="#ffffff">
-					<div class="title">Correlated Wave Function</div>
-					<div class="fragment" data-fragment-index="1" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.35rem 0.6rem; width: 100%; margin-top: 0.3rem;">
-						<img src="../images/MY_Fontier_Seiminar_talk/HF_photo.svg" alt="HF photo" style="height: 12vh; width: auto; max-width: 100%;">
-						<span style="font-size: 2.0rem; line-height: 1;">+</span>
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_10.svg" alt="Correlated photo 10" style="height: 12vh; width: auto; max-width: 100%;">
-						<span style="font-size: 2.0rem; line-height: 1;">+</span>
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_11.svg" alt="Correlated photo 11" style="height: 12vh; width: auto; max-width: 100%;">
-						<span style="font-size: 2.0rem; line-height: 1;">+</span>
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_12.svg" alt="Correlated photo 12" style="height: 12vh; width: auto; max-width: 100%;">
-						<span style="font-size: 2.0rem; line-height: 1;">+</span>
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_10_11.svg" alt="Correlated photo 10 and 11" style="height: 12vh; width: auto; max-width: 100%;">
-						<span style="font-size: 2.0rem; line-height: 1;">+</span>
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_10_12.svg" alt="Correlated photo 10 and 12" style="height: 12vh; width: auto; max-width: 100%;">
-						<span style="font-size: 2.0rem; line-height: 1;">+</span>
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_11-12.svg" alt="Correlated photo 11 and 12" style="height: 12vh; width: auto; max-width: 100%;">
-						<span style="font-size: 2.0rem; line-height: 1;">+</span>
-						<img src="../images/MY_Fontier_Seiminar_talk/Corr_10_11_12.svg" alt="Correlated photo 10 11 and 12" style="height: 12vh; width: auto; max-width: 100%;">
-					</div>
-				</section>
-
-
-				
-				<!-- Analogy about correlation -->
-				<section class="slide" data-background="rgb(209, 225, 214)">									 				
-					<div class="title">Analogy about correlation</div>							
-						<div class="math-content">
-							<div class="math-explanation fragment">Imagine taking a photo of a crowded room where people avoid standing too close,</div>
-						</div>
-						<ol class="suboutline">
-							<li class="fragment"><strong>HF photo:</strong> Shows people evenly spaced (average view), but some appear unnaturally close</li>
-							<li class="fragment"><strong>Correction (Correlation effect) photo:</strong> Add photos where some people step aside (excitations) to subtract the unrealistic crowding.</li>
-							<li class="fragment"><strong>Final (ground state or exact state) photo:</strong> The combination of these photos gives the true arrangement </li>							
-						</ol>
-						
-						<div style="margin-top: 1.0em;"></div>
-    
-						<div class="math-content fragment">
-							<div class="math-title fragment">Mathematically,</div>
-							<div class="math-equation fragment">
-								\[
-								E_{\text{exact}} = E_{\text{HF}} + E_{\text{Corr}} 
-								\]
+				<div class="math-content slater-sequence">
+					<div class="math-equation fragment current-visible" data-fragment-index="1" style="text-align: center;">
+						<div style="display:flex; justify-content:center; align-items:center; gap:20px; margin-bottom:10px;">
+							<div style="text-align:center;">
+								<div style="font-size:0.65em;">HF reference</div>
+								<img src="../images/MY_Fontier_Seiminar_talk/HF_photo.svg"
+									alt="HF reference photo"
+									style="height: 190px; width: auto; max-width: 100%;">
 							</div>
-							<div class="math-explanation fragment">Note that, $E_{\text{HF}}$ is always negative. It is an overestimation.</div>
-						</div>
-				</section>	
-				
-				<!-- Why we need to take the correlation in to the account? -->
-				<section class="slide" data-background="rgb(209, 225, 214)">									 				
-					<div class="title">Why correlation is important?</div>	
-						<ol class="outline">
-						<li class="fragment">HF wave function
-						<div class="math-content">
-							<div class="math-explanation fragment">In HF, we assume the wave function is well described by single slater determinant.</div>
-							<div class="math-equation fragment" style="font-size: 1.2em;">
-								\[
-								| \Psi_{\text{HF}} \rangle = | \phi_1 \phi_2 \cdots \phi_N \rangle 
-								\]							
+							<div style="font-size:1.1em;">\(\rightarrow\)</div>
+							<div style="text-align:center;">
+								<div style="font-size:0.65em;">Single excitation</div>
+								<img src="../images/MY_Fontier_Seiminar_talk/Corr_10.svg"
+									alt="Representative single excitation"
+									style="height: 190px; width: auto; max-width: 100%;">
 							</div>
-							<div class="math-explanation fragment">where $\phi_i$ are the occupied molecular orbitals. This is single configuration of electrons in orbitals.</div>	
 						</div>
-						</li>												
-						<li class="fragment">Correlated wave function
-						<div class="math-content">
-							<div class="math-explanation fragment">In reality, the wave function is of the form,</div>
-							<div class="math-equation fragment" style="font-size: 1.2em;">
-								\[
-								| \Psi_{\text{Corr}} \rangle = C_0 | \phi_1 \phi_2 \cdots \phi_N \rangle + C_1 | \phi'_1 \phi'_2 \cdots \phi'_N \rangle + \cdots
-								\]							
+						\[
+						|\Phi_{10}^{a}\rangle
+						\quad\text{(Single excitation)}
+						\]
+					</div>
+					<div class="math-equation fragment current-visible" data-fragment-index="2" style="text-align: center;">
+						<div style="display:flex; justify-content:center; align-items:center; gap:20px; margin-bottom:10px;">
+							<div style="text-align:center;">
+								<div style="font-size:0.65em;">HF reference</div>
+								<img src="../images/MY_Fontier_Seiminar_talk/HF_photo.svg"
+									alt="HF reference photo"
+									style="height: 190px; width: auto; max-width: 100%;">
 							</div>
-							<div class="math-explanation fragment">where $\phi'_i$ is an alternative configuration. HF ignores these terms and cause <strong>errors. This is the reason why we need to take correlation into the account.</strong></div>	
+							<div style="font-size:1.1em;">\(\rightarrow\)</div>
+							<div style="text-align:center;">
+								<div style="font-size:0.65em;">Double excitation</div>
+								<img src="../images/MY_Fontier_Seiminar_talk/Corr_10_11.svg"
+									alt="Representative double excitation"
+									style="height: 220px; width: auto; max-width: 100%;">
+							</div>
 						</div>
-						</li>
-				</section>			
-			</section>	
-			
-			
+						\[
+						|\Phi_{10,11}^{a,b}\rangle
+						\quad\text{(Double excitation)}
+						\]
+					</div>
+					<div class="math-equation fragment current-visible" data-fragment-index="3" style="text-align: center;">
+						<div style="display:flex; justify-content:center; align-items:center; gap:20px; margin-bottom:10px;">
+							<div style="text-align:center;">
+								<div style="font-size:0.65em;">HF reference</div>
+								<img src="../images/MY_Fontier_Seiminar_talk/HF_photo.svg"
+									alt="HF reference photo"
+									style="height: 200px; width: auto; max-width: 100%;">
+							</div>
+							<div style="font-size:1.1em;">\(\rightarrow\)</div>
+							<div style="text-align:center;">
+								<div style="font-size:0.65em;">Triple excitation</div>
+								<img src="../images/MY_Fontier_Seiminar_talk/Corr_10_11_12.svg"
+									alt="Representative triple excitation"
+									style="height: 240px; width: auto; max-width: 100%;">
+							</div>
+						</div>
+						\[
+						|\Phi_{10,11,12}^{a,b,c}\rangle
+						\quad\text{(Triple excitation)}
+						\]
+					</div>
+					<div class="math-equation fragment current-visible" data-fragment-index="4" style="text-align: center; font-size: 1.6rem;">
+						<div>Wave function = reference + correlation</div>
+						\[
+						|\Psi\rangle = |\Psi_0\rangle + |\Psi_{\mathrm{corr}}\rangle
+						\]
+						\[
+						|\Psi_{\mathrm{corr}}\rangle
+						= c_1|\Phi_{10}^{a}\rangle + \cdots
+						+ c_2|\Phi_{10,11}^{a,b}\rangle + \cdots
+						+ c_3|\Phi_{10,11,12}^{a,b,c}\rangle + + \cdots
+						\]
+					</div>
+				</div>
+				</section>				
+			</section>
+
 			<section>
 				<!-- Slide 2.1 -->
 				<!-- CC theory - Introduction -->
 				<section class="slide" data-background="#ffffff">					
 					<div class="title">CC theory - Introduction</div>
-					<div class="math-content">																		
-						<div class="math-equation fragment fade-in" data-fragment-index="1">
+					<div class="math-content slater-sequence">
+						<div class="math-equation fragment current-visible" data-fragment-index="1" style="text-align: center;">
 							\[
 							| \Psi_{\text{CC}} \rangle = e^T | \Psi_0 \rangle
 							\]
 						</div>
-
-						<div style="margin: 3rem 0;"></div>					
-						<div class="math-equation" style="display:flex; gap:18px; align-items:center; justify-content:center;">
-							<span class = "fragment" data-fragment-index="2">
+						<div class="math-equation fragment current-visible" data-fragment-index="2" style="display:flex; gap:18px; align-items:center; justify-content:center;">
+							<span>
 							\[
 							T_1 = \sum_{i = 1}^{N_{\text{occ}}} \sum_{a = 1}^{N_{\text{vir}}} 
 							t_i^a a_a^\dagger a_i,\]
 							</span>
-							<span class = "fragment" data-fragment-index="2">
+							<span>
 							\[\quad T_2 = \frac{1}{4} \sum_{i, j = 1}^{N_{\text{occ}}} 
 							\sum_{a, b = 1}^{N_{\text{vir}}} t_{ij}^{ab} a_a^\dagger a_b^\dagger a_j a_i, ...
 							\]
 							</span>							
 						</div>					
-
-						<div style="margin: 3rem 0;"></div>
-						<div class="math-equation fragment fade-in" data-fragment-index="3">
+						<div class="math-equation fragment current-visible" data-fragment-index="3" style="text-align: center;">
 						\[
 						\begin{aligned}
 							\text{CC energy equation}\quad & E_{\text{CC}} = \langle \Psi_0 | e^{-T} H e^T | \Psi_0 \rangle \\[6pt]
@@ -741,94 +651,24 @@
 						</div>						
 					</div>						
 				</section>	
-				
-				<!-- CCSD energy equations -->
-				<section class="slide" data-background="#ffffff">				
-					<div class="title">CCSD Energy quations</div>
-					<div class="math-content">
-						<!-- CC Ansatz -->
-						<div class="math-equation fragment fade-in">
-							\[ E_{\text{CCSD}} = \langle \Psi_0 |e^{-T_{SD}} H e^{T_{SD}} | \Psi_0 \rangle \]
-						</div>
-						<div class="math-equation fragment fade-in">
-						$2^{\text{nd}}$ quantized Hamiltonian
-						</div>
-						<div class="math-equation fragment fade-in">								
-							\[								
-							H = \sum_{pq} h_{p}^{q} \, a_{p}^{\dagger} a_{q} 
-							+ \frac{1}{4} \sum_{pqrs} \langle pq || rs \rangle \, a_{p}^{\dagger} a_{q}^{\dagger} a_{s} a_{r}
-							\]		
-						</div>
-						<div class="math-equation fragment">
-							\[
-							\begin{aligned} 							
-							E_{\text{corr}} = \sum_{ia} h_i^a \, t_i^a 
-							+ \frac{1}{4} \sum_{ijab} \langle ij || ab \rangle \, t_{ij}^{ab} 
-							+ \frac{1}{2} \sum_{ijab} \langle ij || ab \rangle \, t_i^a \, t_j^b
-							\end{aligned}
-							\]
-						</div>									
-					</div>
-				</section>
-
-				<!-- CCSD singles amp equations -->
-				<section class="slide" data-background="#ffffff">					
-						<div class="title">CCSD Singles Amplitude Equations</div>
-						<div class="math-content">							
-							<div class="math-equation fragment fade-in">
-								\[ R_i^a = \langle \Psi_i^a | e^{-T_{SD}} H e^{T_{SD}} | \Psi_0 \rangle = 0 \]								
-							</div>
-							<div class="math-equation fade-in">
-								\[
-								\begin{aligned}
-								R_i^a = & \; h_a^i \nonumber \\
-								& + \sum_b h_a^b \, t_i^b - \sum_j h_j^i \, t_j^a \nonumber \\
-								& + \sum_{jb} \langle aj || ib \rangle \, t_j^b \nonumber \\
-								& + \sum_{jbc} \langle aj || bc \rangle \, t_{ij}^{bc} - \sum_{jkb} \langle jk || ib \rangle \, t_{jk}^{ab} \nonumber \\
-								& + \frac{1}{2} \sum_{jkbc} \langle jk || bc \rangle \, t_i^b \, t_{jk}^{ac} - \sum_{jkbc} \langle jk || bc \rangle \, t_j^a \, t_{ik}^{bc} \nonumber \\
-								& + \sum_{jbc} \langle aj || bc \rangle \, t_j^b \, t_i^c - \sum_{jkb} \langle jk || ib \rangle \, t_j^a \, t_k^b
-								\end{aligned}
-								\]
-							</div>									
-						</div>
-					</section>
-
-					<!-- CCSD doubles amp equations -->
-					<section class="slide" data-background="#ffffff">						
-						<div class="title">CCSD Doubles Amplitude Equations</div>
-						<div class="math-content">								
-							<div class="math-equation fragment">								
-								\[ R_{ij}^{ab} = \langle \Psi_{ij}^{ab} | e^{-T_{SD}} H e^{T_{SD}}| \Psi_0 \rangle = 0 \]
-							</div>
-							<div class="math-equation fade-in">
-								\[
-								\begin{aligned}
-								R_{ij}^{ab} = & \; \langle ab || ij \rangle \nonumber \\
-								& + \sum_c \Big( h_a^c \, t_{ij}^{cb} - h_c^i \, t_{ij}^{ab} \Big) 
-								+ \sum_c \Big( h_b^c \, t_{ij}^{ac} - h_c^j \, t_{ij}^{ab} \Big) \nonumber \\
-								& + \frac{1}{2} \sum_{kl} \langle kl || ij \rangle \, t_{kl}^{ab} 
-								+ \frac{1}{2} \sum_{cd} \langle ab || cd \rangle \, t_{ij}^{cd} \nonumber \\
-								& + \mathcal{P}(ab) \sum_{kc} \langle ak || ic \rangle \, t_{jk}^{bc} 
-								- \mathcal{P}(ij) \sum_{kc} \langle kb || ij \rangle \, t_{ik}^{ac} \nonumber \\
-								& + \mathcal{P}(ij)\mathcal{P}(ab) \sum_{kc} \langle ak || ic \rangle \, t_j^b \, t_k^c \nonumber \\
-								& + \frac{1}{2} \sum_{klcd} \langle kl || cd \rangle \, t_{ij}^{cd} \, t_{kl}^{ab} \nonumber \\
-								& + \mathcal{P}(ab) \sum_{klcd} \langle kl || cd \rangle \, t_{ik}^{ac} \, t_{jl}^{bd} \nonumber \\
-								& - \mathcal{P}(ij) \sum_{klcd} \langle kl || cd \rangle \, t_{ik}^{ab} \, t_{jl}^{cd}
-								\end{aligned}
-								\]
-							</div>									
-						</div>
-					</section>				
 			
-
-			</section>
 
 				<!-- Slide 2.2 -->
 				<!-- CC Theory - Scaling -->
 				<section class="slide" data-background="#ffffff">
 					<div class="title">CC Theory - Scaling</div>
-						<div class="math-content">
-							<br>
+					<div class="math-content">
+						<div class="math-equation fragment current-visible" data-fragment-index="1" style="text-align: center;margin-top: 5.0em;">
+							Particle-particle ladder term
+							\[
+							\frac{1}{2}\sum_{cd}\langle ab||cd\rangle\,t_{ij}^{cd}
+							\]
+							\[
+							\mathrm{Cost} = O\!\left(N_{\mathrm{occ}}^2 N_{\mathrm{vir}}^4\right) \approx\mathcal{O}(N_{\mathrm{b}}^6)
+							\]
+						</div>
+
+						<div class="fragment fade-in-then-out" data-fragment-index="2" style="margin-top: -7.0em;">
 							<table class="math-equation" style="margin: 0 auto; border-collapse: collapse; text-align: center;">
 								<tbody>
 									<tr>
@@ -836,23 +676,53 @@
 										<td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">Scaling</td>
 									</tr>
 									<tr>
-										<td class="fragment" data-fragment-index="1" style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">CCSD</td>
-										<td class="fragment" data-fragment-index="1" style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">\(\mathcal{O}(N^6)\)</td>
+										<td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">CCSD</td>
+										<td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">\(\mathcal{O}(N^6)\)</td>
 									</tr>
 									<tr>
-										<td class="fragment" data-fragment-index="2" style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">CCSD(T)</td>
-										<td class="fragment" data-fragment-index="2" style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">\(\mathcal{O}(N^7)\)</td>
+										<td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">CCSD(T)</td>
+										<td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">\(\mathcal{O}(N^7)\)</td>
 									</tr>
 									<tr>
-										<td class="fragment" data-fragment-index="3" style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">CCSDT</td>
-										<td class="fragment" data-fragment-index="3" style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">\(\mathcal{O}(N^8)\)</td>
+										<td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">CCSDT</td>
+										<td style="border: 1px solid #221e1e; padding: 0.35em 0.8em;">\(\mathcal{O}(N^8)\)</td>
 									</tr>
 								</tbody>
 							</table>
-							<div class="fragment" data-fragment-index="2" style="margin-top: 3rem; font-style: italic; font-size: 1.5rem; text-align: center;">
+							<div style="margin-top: 3rem; font-style: italic; font-size: 1.5rem; text-align: center;">
 								CCSD(T) - Gold Standard of Quantum Chemistry
 							</div>
+						</div>
+						<div class="math-equation fragment fade-in-then-out" data-fragment-index="3" style="text-align: center; margin-top: -5em; font-size: 1em;">
+							How do we reduce the scaling?
+						</div>
+					</div>
 				</section>	
+
+				<section class="slide" data-background="#ffffff">
+					<div class="title">Localization by rotation</div>
+					<div style="width:100%; height:68vh; display:flex; justify-content:center; align-items:stretch;">
+						<div style="display:flex; justify-content:center; align-items:stretch; gap:1rem; width:100%; max-width:92vw; margin:0 auto; height:100%;">
+							<div style="width:44%; display:flex; flex-direction:column; gap:0.7rem; height:100%;">
+								<div style="text-align:center;">
+									<img src="../images/MY_Fontier_Seiminar_talk/images/Localized_MOs.png" alt="Localized orbitals" style="width:100%; height:30vh; object-fit:contain; display:block; margin:0 auto;">
+									<div style="font-size:1.2rem; margin-top:0.15rem; line-height:1.05;">Localized</div>
+								</div>
+								<div style="text-align:center;">
+									<img src="../images/MY_Fontier_Seiminar_talk/images/Delocalized_MOs.png" alt="Delocalized orbitals" style="width:100%; height:30vh; object-fit:contain; display:block; margin:0 auto;">
+									<div style="font-size:1.2rem; margin-top:0.15rem; line-height:1.05;">Delocalized</div>
+								</div>
+							</div>
+							<div style="text-align:center; width:56%; display:flex; flex-direction:column; justify-content:center; height:100%;">
+								<video autoplay muted playsinline loop preload="metadata" style="width:100%; height:100%; object-fit:contain; background:transparent;">
+									<source src="../images/MY_Fontier_Seiminar_talk/Videos/Orb_rotation.mp4" type="video/mp4">
+								</video>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				</section>
 
 				<section class="slide" data-background="#ffffff">		
 				<div style="text-align: center; margin-top: 4em; margin-bottom: 6em;">

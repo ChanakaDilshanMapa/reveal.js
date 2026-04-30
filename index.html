@@ -3,152 +3,49 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presentation Hub</title>
+    <title>Redirecting to Presentation</title>
     <style>
-        :root {
-            --bg-1: #f7fbff;
-            --bg-2: #eef4ff;
-            --text: #0f172a;
-            --muted: #475569;
-            --card: #ffffff;
-            --line: #dbe6ff;
-            --accent: #1d4ed8;
-            --accent-soft: #dbeafe;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
         body {
             margin: 0;
             min-height: 100vh;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text);
-            background: radial-gradient(circle at 10% 0%, #ffffff 0%, var(--bg-1) 38%, var(--bg-2) 100%);
-            padding: 40px 20px;
-        }
-
-        .container {
-            max-width: 940px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-            letter-spacing: 0.02em;
-        }
-
-        .subtitle {
-            margin: 10px 0 30px;
-            color: var(--muted);
-            font-size: 1rem;
-        }
-
-        .presentations {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 14px;
+            place-items: center;
+            padding: 24px;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            color: #0f172a;
+            background: #f8fafc;
         }
 
-        .presentation-card {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 16px;
-            transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
-            box-shadow: 0 4px 14px rgba(2, 6, 23, 0.05);
+        .message {
+            text-align: center;
+            max-width: 520px;
         }
 
-        .presentation-card:hover,
-        .presentation-card:focus-visible {
-            transform: translateY(-2px);
-            border-color: #93c5fd;
-            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.14);
-            outline: none;
-        }
-
-        .presentation-card h2 {
-            margin: 0 0 8px;
-            color: var(--accent);
-            font-size: 1.1rem;
-        }
-
-        .presentation-card p {
-            margin: 0;
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
-
-        .badge {
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 0.78rem;
-            color: #1e3a8a;
-            background: var(--accent-soft);
-            border-radius: 999px;
-            padding: 4px 9px;
+        a {
+            color: #1d4ed8;
         }
     </style>
+    <script>
+        // Keep all available presentations listed here. Only one should be active.
+        // const target = "presentations/APS.html";
+        // const target = "presentations/ARCC.html";
+        // const target = "presentations/Frontier_Seminar_Intro.html";
+        const target = "presentations/PNNL_Interview.html";
+        // const target = "presentations/PNOs.html";
+        // const target = "presentations/Sanible.html";
+        // const target = "presentations/Seminar_talk.html";
+        // const target = "presentations/index_backup.html";
+
+        window.location.replace(target);
+    </script>
 </head>
 <body>
-    <main class="container">
-        <h1>Presentation Hub</h1>
-        <p class="subtitle">Open this single page link and choose any presentation below.</p>
-
-        <div class="presentations">
-            <a href="presentations/APS.html" class="presentation-card">
-                <h2>APS</h2>
-                <p>Launch APS presentation</p>
-                <span class="badge">Open</span>
-            </a>
-
-            <a href="presentations/ARCC.html" class="presentation-card">
-                <h2>ARCC</h2>
-                <p>Launch ARCC presentation</p>
-                <span class="badge">Open</span>
-            </a>
-
-            <a href="presentations/Frontier_Seminar_Intro.html" class="presentation-card">
-                <h2>Frontier Seminar Intro</h2>
-                <p>Launch Frontier Seminar Intro presentation</p>
-                <span class="badge">Open</span>
-            </a>
-
-            <a href="presentations/PNNL_Interview.html" class="presentation-card">
-                <h2>PNNL Interview</h2>
-                <p>Launch PNNL Interview presentation</p>
-                <span class="badge">Open</span>
-            </a>
-
-            <a href="presentations/PNOs.html" class="presentation-card">
-                <h2>PNOs</h2>
-                <p>Launch PNOs presentation</p>
-                <span class="badge">Open</span>
-            </a>
-
-            <a href="presentations/Sanible.html" class="presentation-card">
-                <h2>Sanible</h2>
-                <p>Launch Sanible presentation</p>
-                <span class="badge">Open</span>
-            </a>
-
-            <a href="presentations/Seminar_talk.html" class="presentation-card">
-                <h2>My Frontier Talk</h2>
-                <p>Launch Seminar Talk presentation</p>
-                <span class="badge">Open</span>
-            </a>
-
-            <a href="presentations/index_backup.html" class="presentation-card">
-                <h2>Index Backup</h2>
-                <p>Open backup presentation index</p>
-                <span class="badge">Open</span>
-            </a>
-        </div>
+    <main class="message">
+        <h1>Redirecting to PNNL Interview...</h1>
+        <p>
+            If redirect does not start, open
+            <a href="presentations/PNNL_Interview.html">PNNL Interview presentation</a>.
+        </p>
     </main>
 </body>
 </html>

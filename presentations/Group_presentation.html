@@ -1,0 +1,926 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Group_presentation</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/res4841et.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/black.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/monokai.min.css">
+    
+	<style>
+		:root {
+			--rpi-burgundy: #8b0000;
+			--light-bg: #f5f5f5;
+			--dark-text: #333;
+			--math-font-size: 0.6em;
+		}
+		
+		.reveal {
+			font-family: 'STIX Two Text', serif;
+			background-color: var(--light-bg);
+			color: var(--dark-text);
+		}
+		
+		/* Title slide */
+		.reveal .title-slide {
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			padding: 4rem;
+			box-sizing: border-box;
+		}
+		
+		.reveal .title-slide .title {
+			font-size: 4.0rem;
+			margin-bottom: 4.5rem;
+			line-height: 1.0;
+			max-width: 900px;
+			color: var(--dark-text);
+		}        
+		
+		.reveal .title-slide .presenter {
+			font-size: 3.0rem;
+			margin-bottom: 0.5rem;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .co-authors {
+			font-size: 1.3rem;
+			margin-bottom: 0.5rem;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .affiliation {
+			font-size: 1.3rem;
+			margin-bottom: 0.5rem;
+			font-style: italic;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .date {
+			font-size: 1.5rem;
+			margin-top: 0.5rem;
+			color: var(--dark-text);
+		}
+		
+		.reveal .title-slide .logo {
+			max-height: 100px;
+			margin-top: 4rem;
+		}
+		
+		/* Content slides */
+		.reveal .slide {
+			width: 100%;
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			text-align: left;
+			padding: 2rem;
+			box-sizing: border-box;
+		}
+		
+		.reveal .slide .title {
+			text-align: left;
+			font-weight: 100;
+			margin-bottom: 0.5em;
+			border-bottom: 1px solid #221e1e;
+			padding-bottom: 0.0em;
+		}
+
+		.reveal .slide .subtitle {
+			text-align: left;
+			font-weight: 60;
+			margin-bottom: 1.2em;			
+		}
+		
+		.reveal .slide .outline {
+			font-size: 0.8em;
+			line-height: 1.6;
+		}
+		
+		.reveal .outline li {
+			margin-bottom: 1.0rem;
+		}
+	
+		.reveal .slide .suboutline {
+			font-size: 1.2rem;
+			line-height: 1.6;
+		}
+	
+		.reveal .slide .suboutline li {
+			margin-bottom: 0.5rem;
+		}
+		
+		
+		/* Math content styles */
+		.reveal .math-content {
+			width: 100%;
+			margin: 0 auto;
+		}
+
+		.reveal .math-content .math-block {
+        margin-bottom: 1.5rem;
+        }
+
+		.reveal .math-content .math-title {
+        margin-bottom: 0.0rem;
+		font-size: 2.0rem;    
+    	}
+								
+		.reveal .math-content .math-equation {
+			text-align: left;
+			margin: 1rem 0;
+			font-family: 'STIX Two Math';
+			font-size: 1.8rem;
+		}
+
+		.reveal .math-content .math-equation-small {
+			text-align: left;
+			margin: 1rem 0;
+			font-family: 'STIX Two Math';
+			font-size: 0.4em;
+		}
+		
+		.reveal .math-content .math-explanation {
+			margin-left: 2rem;
+			margin-bottom: 1rem;
+			font-size: 1.75rem;
+		}
+		
+		.reveal .slide-number {
+		}
+		
+		.reveal .footer {
+			position: fixed;
+			left: 20px;
+			right: 20px;
+			bottom: -12px !important;
+			display: grid;
+			grid-template-columns: 1fr auto 1fr;
+			align-items: start;
+			row-gap: 0;
+			font-size: 0.8rem;
+			color: #555;
+			border-top: 1px solid #221e1e;
+			padding-top: 0px;
+			z-index: 1000;
+		}
+
+		.reveal .footer > :first-child { justify-self: start; }
+		.reveal .footer > :nth-child(2) { justify-self: center; align-self: end; transform: translateY(0px); }
+		.reveal .footer > :last-child { justify-self: end; }
+		
+		.reveal .footer .logo {
+			height: 60px;
+			display: block;
+			margin-bottom: 0;
+		}
+		
+		/* Remove top margins to reduce gap under separator */
+		.reveal .footer > * { margin-top: 0 !important;}
+
+		/* Style for the references footer */
+		.references-footer {
+			position: relative;
+			left: 20px;
+			right: 20px;
+			bottom: -6px;
+			font-size: 1.5rem !important;  /* Smaller than current 0.5em */
+			line-height: 1.3;
+			border-top: 1px solid #221e1e;
+			padding-top: 0px;
+			z-index: 1000;
+		}
+
+		/* Tighten spacing between separator and first reference line */
+		.references-footer .reference-entry { margin-top: 0 !important; }
+
+		/* Superscript style for citation numbers */
+		.superscript-citation {
+			font-size: 0.7em;    /* Slightly smaller than surrounding text */
+			vertical-align: super;
+			line-height: 0;      /* Prevents line spacing issues */
+			margin-left: 2px;    /* Small space before citation */
+		}
+
+		/* Make the "References:" label smaller */
+		.references-label {
+			font-size: 0.9em;    /* Relative to the 0.4em parent */
+		}
+
+		/* Optional: Make the reference text more compact */
+		.reference-entry {
+			margin-bottom: 8px !important;
+		}
+
+		/* Two-column media layout */
+		.media-row {
+			display: flex;
+			gap: 2rem;
+			align-items: flex-start;
+			justify-content: center;
+		}
+
+		.media-item { flex: 1; max-width: 60%; }
+
+		.media-caption { text-align: center; font-size: 2.0rem; margin-top: 0.5rem; }
+
+		.media-item video { width: 100%; height: auto; border: 1px solid #ddd; border-radius: 10px; background: #162315; }
+
+		@media (max-width: 900px) {
+			.media-row { flex-direction: column; }
+			.media-item { max-width: 100%; }
+		}
+
+		reveal .slater-sequence {
+			position: absolute;
+			min-height: 35vh;
+			width: 100%;
+			left: 50%;
+			transform: translateX(-50%);
+			max-width: 960px;
+		}
+
+		.reveal .slater-sequence .math-equation.fragment {
+			position: absolute;
+			top: 30%;
+			left: 50%;
+			width: 92%;
+			text-align: center;
+			transform: translate(-50%, -50%) !important;
+			transition: opacity 0.25s ease-in-out !important;
+		}
+
+		.reveal .algorithm-slide .algorithm {
+			width: 100%;
+			font-size: 0.75em;
+			line-height: 1.35;
+		}
+
+		.reveal .algorithm-slide .algorithm-requirements {
+			margin: 0 0 1em;
+		}
+
+		.reveal .algorithm-slide ol {
+			margin: 0;
+			padding-left: 1.5em;
+		}
+
+		.reveal .algorithm-slide li {
+			margin: 0.45em 0;
+		}
+
+		.reveal .algorithm-slide .algorithm-loop {
+			margin-top: 0.4em;
+		}
+
+		.reveal .gmres-slide .gmres-content {
+			width: 90%;
+			font-size: 0.8em;
+			line-height: 1.35;
+		}
+
+		.reveal .gmres-slide .gmres-equation {
+			margin: 1.2em 0;
+			text-align: center;
+			font-size: 1.15em;
+		}
+
+		.reveal .gmres-slide li {
+			margin: 0.7em 0;
+		}
+		
+	</style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+			<!-- Slide 1 -->
+            <!-- Title Slide -->
+            <section class="title-slide" data-background="#ffffff">
+                <div class="title">Group Presentation</div>                
+                <div class="presenter">Chanaka Mapa Mudiyanselage</div>
+                <!-- <div class="co-authors">Kangbo Li and Fabian M. Faulstich</div> -->
+                <div class="affiliation">Department of Mathematical Sciences, RPI</div>
+                <div class="date">October 09, 2026</div>
+                <img src="../images/Sanible/RPI_Logo_Fibonacci_1.png" alt="Rensselaer Polytechnic Institute" class="logo">
+            </section>	
+			
+			<!-- Outline Slide -->
+            <section class="slide" data-background="#ffffff">
+                <div class="title">Presentation Outline</div>
+                <ol class="outline">                											
+                    <li class="fragment">PNK speed up in MO basis</li> 
+                    <li class="fragment">Git branching and merging problem</li>                   
+				</ol>
+            </section>
+			
+			<section>
+				<!-- Slide 1.1 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">GMRES</div>
+					<div class="gmres-content">
+						<div class="gmres-equation">
+							\[
+							Ax=b
+							\]
+						</div>
+
+						<div class="gmres-equation">
+							\[
+							\boxed{x^\star \approx
+							\underset{x\in\mathcal{K}_m}{\operatorname{argmin}}
+							\|Ax-b\|_2}
+							\qquad \text{Krylov subspace}
+							\]
+						</div>
+
+						<div class="gmres-equation">
+							\[
+							\begin{aligned}
+							&\texttt{function gmres(mvp, rhs)}\\
+							&\qquad \vdots\\
+							&\qquad \texttt{return } x^\star
+							\quad \text{(approximate solution)}
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>
+				
+				<!-- Slide 1.2 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Newton's Method</div>
+					<div class="gmres-content">
+						<div class="gmres-equation">
+							\[
+							f(x)=0
+							\]
+						</div>
+
+						<div class="gmres-equation">
+							\[
+							x^{(k+1)}=x^{(k)}- J^{-1}[f(x^{(k)})] f(x^{(k)})
+							\]
+						</div>
+
+						<div class="gmres-equation">
+							\[
+							\boxed{
+							J[f(x^{(k)})] \Delta x^{(k)}=-f(x^{(k)})
+							}
+							\]
+						</div>
+					</div>
+				</section>
+							
+				<!-- Slide 1.3 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">JVP via Finite Diffrence</div>
+					<div class="gmres-content">
+						<div class="gmres-equation">
+							\[
+							J[f(x^{(k)})]\,v
+							\approx
+							\underbrace{
+							\frac{f(x^{(k)}+\delta v)-f(x^{(k)})}{\delta}
+							}_{f_{\mathrm{diff}}(v)}
+							\]
+						</div>
+
+						<div class="gmres-equation">
+							\[
+							\begin{aligned}
+							\mathrm{rhs} &= -f(x^{(k)})\\[6pt]
+							\Delta x^{(k)} &= \operatorname{gmres}(f_{\mathrm{diff}},\mathrm{rhs})
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>	
+
+				<!-- Slide 1.4 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Newton–Krylov Algorithm</div>
+					<div class="gmres-content">
+						<div class="gmres-equation">
+							\[
+							\begin{aligned}
+							&\texttt{function newton_krylov}(f_{\mathrm{diff}}, x_0)\\[4pt]
+							&\qquad k \gets 0\\
+							&\qquad \textbf{while not converged:}\\
+							&\qquad\quad \Delta x^{(k)}
+							\gets \operatorname{gmres}(f_{\mathrm{diff}},-f(x^{(k)}))\\
+							&\qquad\quad x^{(k+1)}
+							\gets x^{(k)}+\Delta x^{(k)}\\
+							&\qquad\quad k \gets k+1\\[4pt]
+							&\qquad \textbf{return } x^{(k)}
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<section>
+			<!-- Slide 1.5 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Preconditioning</div>
+					<div class="gmres-content">
+						<div class="gmres-equation">
+							\[
+							Ax=b
+							\]
+						</div>
+
+						<div class="gmres-equation">
+							\[
+							\underbrace{M^{-1}A}_{\widetilde{A}}x
+							=
+							\underbrace{M^{-1}b}_{\widetilde{b}}
+							\]
+						</div>
+
+						<p>
+							<strong>Goal:</strong> Improve GMRES convergence by solving an equivalent, better-conditioned system.
+						</p>
+					</div>
+				</section>
+
+				<!-- Slide 1.7 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Preconditioned Newton–Krylov Algorithm</div>
+					<div class="gmres-content">
+						<div class="gmres-equation">
+							\[
+							\begin{aligned}
+							&\texttt{function pnk}(f_{\mathrm{diff}},M^{-1},x_0)\\[4pt]
+							&\quad k \gets 0\\
+							&\quad \textbf{while not converged:}\\
+							&\qquad \Delta x^{(k)}
+							\gets \operatorname{gmres}
+							\left(M^{-1}f_{\mathrm{diff}},-M^{-1}f(x^{(k)})\right)\\
+							&\qquad x^{(k+1)} \gets x^{(k)}+\Delta x^{(k)}\\
+							&\qquad k \gets k+1\\[4pt]
+							&\quad \textbf{return } x^{(k)}
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<!-- Slide 1.8 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Applying the Preconditioner</div>
+					<div class="gmres-content">
+						<p>
+							When $M^{-1}$ is not explicitly available, but its action is known,
+							use GMRES to compute the preconditioned vector.
+						</p>
+
+						<div class="gmres-equation">
+							\[
+							Mz=v
+							\]
+						</div>
+
+						<div class="gmres-equation">
+							\[
+							\boxed{z=\operatorname{gmres}(w\mapsto Mw,\;v)}
+							\]
+						</div>
+
+						<p>
+							<strong>Output:</strong> $z\approx M^{-1}v$
+						</p>
+					</div>
+				</section>
+
+
+				<!-- Slide 1.7 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Preconditioned Newton–Krylov Algorithm</div>
+					<div class="gmres-content">
+						<div class="gmres-equation">
+							\[
+							\begin{aligned}
+							&\texttt{function pnk}(f_{\mathrm{diff}},x_0)\\[4pt]
+							&\quad k \gets 0\\
+							&\quad \textbf{while not converged:}\\
+							&\qquad z \gets \operatorname{gmres}(w\mapsto Mw,-f(x^{(k)}))\\
+							&\qquad \Delta x^{(k)}
+							\gets \operatorname{gmres}
+							\left(v\mapsto M^{-1}f_{\mathrm{diff}}(v),z\right)\\
+							&\qquad x^{(k+1)} \gets x^{(k)}+\Delta x^{(k)}\\
+							&\qquad k \gets k+1\\[4pt]
+							&\quad \textbf{return } x^{(k)}
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<!-- Slide 1.7 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Newton–Krylov Algorithm for CC</div>
+					<div class="gmres-content">
+						<div class="gmres-equation">
+							\[
+							\begin{aligned}
+							&\texttt{function newton_krylov}(r_{\mathrm{diff}}, \theta_0)\\[4pt]
+							&\qquad k \gets 0\\
+							&\qquad \textbf{while not converged:}\\
+							&\qquad\quad \Delta \theta^{(k)}
+							\gets \operatorname{gmres}(r_{\mathrm{diff}},-r(\theta^{(k)}))\\
+							&\qquad\quad \theta^{(k+1)}
+							\gets \theta^{(k)}+\Delta \theta^{(k)}\\
+							&\qquad\quad k \gets k+1\\[4pt]
+							&\qquad \textbf{return } \theta^{(k)}
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>	
+
+				<!-- Slide 1.9 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">CCSD Preconditioner: Vector Action</div>
+					<div class="gmres-content">
+						<p>Preconditioner action derived in this work for CCSD:</p>
+
+						<div class="math-equation" style="font-size: 80%;">
+							**Singles**
+							\[
+							2\left(
+							{}^{v}F^{\lambda}_{\alpha}\theta^{\alpha}_{\mu}
+							-
+							{}^{o}F^{\alpha}_{\mu}\theta^{\lambda}_{\alpha}
+							\right)
+							\]
+						</div>
+
+						<div class="math-equation" style="font-size: 80%;">
+							**Doubles**
+							\[
+							\begin{aligned}
+							4\Big(
+							&{}^{v}F^{\lambda}_{\alpha}\theta^{\alpha\sigma}_{\mu\nu}
+							+ {}^{v}F^{\sigma}_{\alpha}\theta^{\alpha\lambda}_{\mu\nu}
+							- {}^{o}F^{\alpha}_{\mu}\theta^{\lambda\sigma}_{\alpha\nu}
+							- {}^{o}F^{\alpha}_{\nu}\theta^{\lambda\sigma}_{\mu\alpha}
+							\Big)
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>
+
+				<!-- Slide 1.7 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Preconditioned Newton–Krylov for CCSD</div>
+					<div class="gmres-content">
+						<div class="gmres-equation" style="font-size: 75%;">
+							\[
+							\begin{aligned}
+							&\texttt{function precond_app}
+							(F_{\mathrm{AO}},\operatorname{dims}(\theta))\\
+							&\quad \text{Apply the CCSD preconditioner to the input vector}\\
+							&\quad \textbf{return } \text{precond_vec}
+							\end{aligned}
+							\]
+						</div>
+
+						<div class="gmres-equation" style="font-size: 75%;">
+							\[
+							\begin{aligned}
+							&\texttt{function pnk}(r_{\mathrm{diff}},F_{\mathrm{AO}},\theta_0)\\
+							&\quad k \gets 0\\
+							&\quad \textbf{while } \|r(\theta^{(k)})\|>\epsilon_{\mathrm{tol}}:\\
+							&\qquad b \gets -r(\theta^{(k)})\\
+							&\qquad \text{precond_rhs} \gets
+							\operatorname{gmres}\big(
+							\texttt{precond_app}(F_{\mathrm{AO}},\operatorname{dims}(\theta)),
+							b\big)\\
+							&\qquad \Delta\theta^{(k)} \gets
+							\operatorname{gmres}\big(
+							v\mapsto
+							\operatorname{gmres}(
+							\texttt{precond_app}(F_{\mathrm{AO}},\operatorname{dims}(\theta)),
+							r_{\mathrm{diff}}(v)),
+							\text{precond_rhs}\big)\\
+							&\qquad \theta^{(k+1)}
+							\gets \theta^{(k)}+\Delta\theta^{(k)}\\
+							&\qquad k \gets k+1\\
+							&\quad \textbf{return } \theta^{(k)}
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<!-- Slide 1.7 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">CCSD Energy Denominators</div>
+					<div class="gmres-content">
+						<div class="gmres-equation">
+							\[
+							D_i^a = \varepsilon_i-\varepsilon_a,
+							\qquad
+							D_{ij}^{ab}
+							= \varepsilon_i+\varepsilon_j-\varepsilon_a-\varepsilon_b
+							\]
+						</div>
+						<div class="gmres-equation">
+							\[
+							\begin{aligned}
+							\bigl(D^{-1}r\bigr)_i^a
+							&= \frac{r_i^a}{D_i^a},\\[6pt]
+							\bigl(D^{-1}r\bigr)_{ij}^{ab}
+							&= \frac{r_{ij}^{ab}}{D_{ij}^{ab}}.
+							\end{aligned}
+							\]
+						</div>
+						<div class="gmres-equation" style="font-size: 85%;">
+							\[
+							\begin{aligned}
+							\text{Singles cost: }&\mathcal{O}(n_o n_v)\\
+							\text{Doubles cost: }&\mathcal{O}(n_o^2 n_v^2)\\[4pt]
+							\text{Total cost: }&\mathcal{O}(n_o^2 n_v^2)
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>
+
+				<!-- Slide 1.7 -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Preconditioned Newton–Krylov Algorithm</div>
+					<div class="gmres-content">
+						<div class="gmres-equation">
+							\[
+							\begin{aligned}
+							&\texttt{function pnk}(f_{\mathrm{diff}},x_0)\\[4pt]
+							&\quad k \gets 0\\
+							&\quad \textbf{while not converged:}\\
+							&\qquad z \gets -D^{-1}f(x^{(k)})\\
+							&\qquad \Delta x^{(k)}
+							\gets \operatorname{gmres}
+							\left(v\mapsto D^{-1}f_{\mathrm{diff}}(v),z\right)\\
+							&\qquad x^{(k+1)} \gets x^{(k)}+\Delta x^{(k)}\\
+							&\qquad k \gets k+1\\[4pt]
+							&\quad \textbf{return } x^{(k)}
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>
+
+				<!-- Slide: Performance of the Diagonal Preconditioner -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Performance of the Diagonal Preconditioner</div>
+					<div class="gmres-content">
+						<div class="gmres-equation" style="font-size: 85%;">
+							\[
+							\begin{array}{lrr}
+							\hline
+							\textbf{Method} & \textbf{Iterations} & \textbf{Time/iter.}\\
+							\hline
+							\text{PNK (original)} & 63 & 113\,\text{s}\\
+							\text{PNK (diagonal)} & 27 & 51\,\text{s}\\
+							\text{DIIS} & 26 & 43\,\text{s}\\
+							\hline
+							\end{array}
+							\]
+						</div>
+						<div class="gmres-equation" style="font-size: 85%;">
+							\[
+							\begin{aligned}
+							\text{PNK speedup} &\approx 2.6\times\\
+							\text{Total time reduction} &\approx 80\%
+							\end{aligned}
+							\]
+						</div>
+						<div style="font-size: 0.75em; text-align: center;">
+							Open-shell radon1 benchmark
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<!-- Slide 1: The Problem -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Git Branch Recovery: The Problem</div>
+					<div class="gmres-content">
+						<div class="gmres-equation" style="font-size: 85%;">
+							\[
+							\begin{aligned}
+							&\textbf{3 months ago:}\\
+							&\texttt{solvers} \longrightarrow \texttt{main}\\
+							&\texttt{solvers} \text{ deleted remotely}\\[8pt]
+							&\textbf{3 months later:}\\
+							&\text{Local copy contains old code + new edits}\\
+							&\text{Remote } \texttt{main} \text{ has new collaborators' commits}
+							\end{aligned}
+							\]
+						</div>
+						<div class="gmres-equation" style="font-size: 80%;">
+							\[
+							\boxed{
+							\begin{array}{c}
+							\text{Local changes to preserve}\\
+							+\\
+							\text{Latest remote code to incorporate}
+							\end{array}}
+							\]
+						</div>
+					</div>
+				</section>
+
+
+				<!-- Slide 2: Diverged Histories -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">The Two Versions Had Diverged</div>
+					<div class="gmres-content">
+						<div class="gmres-equation" style="font-size: 80%;">
+							\[
+							\begin{array}{ll}
+							\textbf{Remote main:} & A \to B \to C \to D \to E\\[4pt]
+							\textbf{Old local:} & A \to B \to C \to X \to Y
+							\end{array}
+							\]
+						</div>
+						<div class="gmres-equation" style="font-size: 80%;">
+							\[
+							\begin{aligned}
+							D,E &: \text{Collaborators' updates}\\
+							X,Y &: \text{My local changes}
+							\end{aligned}
+							\]
+						</div>
+						<div class="gmres-equation" style="font-size: 80%;">
+							\[
+							\boxed{\text{Neither version contained all the desired changes}}
+							\]
+						</div>
+					</div>
+				</section>
+
+
+				<!-- Slide 3: Recovery Strategy -->
+				<section class="slide gmres-slide" data-background="#ffffff">
+					<div class="title">Recovery Strategy</div>
+					<div class="gmres-content">
+						<div class="gmres-equation" style="font-size: 80%;">
+							\[
+							\begin{aligned}
+							&\text{Fork the latest repository}\\
+							&\Downarrow\\[3pt]
+							&\text{Clone the fork}\\
+							&\Downarrow\\[3pt]
+							&\text{Create a new } \texttt{solvers} \text{ branch}\\
+							&\Downarrow\\[3pt]
+							&\text{Manually diff the modified files}\\
+							&\Downarrow\\[3pt]
+							&\text{Apply only the intended changes}\\
+							&\Downarrow\\[3pt]
+							&\text{Commit and push}
+							\end{aligned}
+							\]
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<section class="slide" data-background="#ffffff">		
+
+				<div style="text-align: center; margin-top: 5em; margin-bottom: 6em;">
+					<div style="font-size: 3.0em; color: #2c3e50;">
+					Thank you!
+				</div>
+				</section>
+			</section>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/notes/notes.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/markdown/markdown.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/highlight/highlight.min.js"></script>
+	<script src="../plugin/math/math.js"></script>
+
+    <script>
+		Reveal.initialize({
+            // Display controls in the bottom right corner
+            controls: true,
+            
+            // Display a presentation progress bar
+            progress: true,
+            
+            // Display the page number of the current slide
+            slideNumber: true,
+            
+            // Push each slide change to the browser history
+            history: true,
+            
+            // Enable keyboard shortcuts for navigation
+            keyboard: true,
+            
+            // Enable the slide overview mode
+            overview: true,
+            
+            // Vertical centering of slides
+            center: true,
+            
+            // Enables touch navigation on devices with touch input
+            touch: true,
+            
+            // Transition style
+            transition: 'slide', // none/fade/slide/convex/concave/zoom
+            
+            // Transition speed
+            transitionSpeed: 'default', // default/fast/slow
+            
+            // Transition style for full page slide backgrounds
+            backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+            
+            // The "normal" size of the presentation, aspect ratio will be preserved
+            width: 960,
+            height: 700,
+            
+            // Factor of the display size that should remain empty around the content
+            margin: 0.1,
+            
+            // Bounds for smallest/largest possible scale to apply to content
+            minScale: 0.2,
+            maxScale: 1.5,
+            
+            // PDF export options
+            pdfSeparateFragments: false,
+            
+			// MathJax 3 configuration for broad LaTeX command support
+			mathjax3: {
+				mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js',
+				loader: {
+					load: [
+						'[tex]/ams',
+						'[tex]/newcommand',
+						'[tex]/mathtools',
+						'[tex]/physics',
+						'[tex]/mhchem',
+						'[tex]/braket',
+						'[tex]/cancel',
+						'[tex]/bbox',
+						'[tex]/noerrors',
+						'[tex]/noundefined'
+					]
+				},
+				tex: {
+					inlineMath: [['$', '$'], ['\\(', '\\)']],
+					displayMath: [['$$', '$$'], ['\\[', '\\]']],
+					processEscapes: true,
+					packages: {
+						'[+]': [
+							'ams',
+							'newcommand',
+							'mathtools',
+							'physics',
+							'mhchem',
+							'braket',
+							'cancel',
+							'bbox',
+							'noerrors',
+							'noundefined'
+						]
+					}
+				},
+				options: {
+					skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+				}
+			},
+
+			// Plugins with reveal.js
+			plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.MathJax3 ]
+        });
+    </script>
+</body>
+</html>
